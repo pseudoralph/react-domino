@@ -4,11 +4,12 @@ import { STYLES } from './assets/styling';
 
 function Player(props) {
   const { name, isComputer } = props;
+  const icon = isComputer ? '🤖' : '🧔🏻';
 
   return (
     <div style={STYLES.player} className="player">
-      Player works!<p>Name: {name}</p>
-      <p>isComputer: {isComputer ? 'yes' : 'no'}</p>
+      <p style={STYLES.player.icon}>{icon}</p>
+      <p>Name: {name}</p>
     </div>
   );
 }

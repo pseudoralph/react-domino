@@ -7,7 +7,7 @@ function PlayBoard() {
     <div style={STYLES.board} className="board">
       <PlayerStatus />
       <div>
-        <h3>PlayBoard works!</h3>
+        <h3 style={{ textAlign: 'center' }}>PlayBoard works!</h3>
       </div>
     </div>
   );
