@@ -12,7 +12,6 @@ import { STYLES } from './assets/styling';
 function Game() {
   return (
     <div style={STYLES.game}>
-      <PlayerStatus />
       <PlayBoard />
       <Hand />
     </div>

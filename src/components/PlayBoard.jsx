@@ -1,10 +1,14 @@
 import React from 'react';
 import { STYLES } from './assets/styling';
+import PlayerStatus from './PlayerStatus';
 
 function PlayBoard() {
   return (
     <div style={STYLES.board} className="board">
-      <h3>PlayBoard works!</h3>
+      <PlayerStatus />
+      <div>
+        <h3>PlayBoard works!</h3>
+      </div>
     </div>
   );
 }
