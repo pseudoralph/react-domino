@@ -1,7 +1,11 @@
 import React from 'react';
 
 function PlayBoard() {
-  return <div>PlayBoard works!</div>;
+  return (
+    <div>
+      <h3>PlayBoard works!</h3>
+    </div>
+  );
 }
 
 export default PlayBoard;
