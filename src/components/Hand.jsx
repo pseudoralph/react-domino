@@ -1,24 +1,37 @@
 import React from 'react';
 import Ficha from './Ficha';
 import { STYLES } from './assets/styling';
+import { buildFichaSet } from './buildFichaSet';
 
-const buildFichaSet = (dots = 9) => {
-  let builtSet = [];
-
-  for (let bottom = dots; bottom >= 0; bottom--) {
-    for (let i = 0; i <= bottom; i++) {
-      builtSet.push([i, bottom]);
-    }
-  }
-
-  return builtSet;
+const getRandomFicha = set => {
+  return Math.floor(Math.random() * Math.floor(set.length));
 };
+
+let fichaSet = buildFichaSet();
+let randomlyBuiltFichaSet = [];
+
+randomlyBuiltFichaSet.push(...fichaSet.splice(getRandomFicha(fichaSet), 1));
+randomlyBuiltFichaSet.push(...fichaSet.splice(getRandomFicha(fichaSet), 1));
+randomlyBuiltFichaSet.push(...fichaSet.splice(getRandomFicha(fichaSet), 1));
+randomlyBuiltFichaSet.push(...fichaSet.splice(getRandomFicha(fichaSet), 1));
+randomlyBuiltFichaSet.push(...fichaSet.splice(getRandomFicha(fichaSet), 1));
+randomlyBuiltFichaSet.push(...fichaSet.splice(getRandomFicha(fichaSet), 1));
+randomlyBuiltFichaSet.push(...fichaSet.splice(getRandomFicha(fichaSet), 1));
+randomlyBuiltFichaSet.push(...fichaSet.splice(getRandomFicha(fichaSet), 1));
+randomlyBuiltFichaSet.push(...fichaSet.splice(getRandomFicha(fichaSet), 1));
+randomlyBuiltFichaSet.push(...fichaSet.splice(getRandomFicha(fichaSet), 1));
+
+console.log(randomlyBuiltFichaSet);
+console.log(fichaSet);
 
 function Hand() {
   return (
     <div style={STYLES.activePlayersHand} className="activePlayersHand">
-      <h3>Hand works!</h3>
-      <Ficha value={[1, 1]} />
+      <div style={STYLES.activePlayersHand.fichas}>
+        {randomlyBuiltFichaSet.map(ficha => (
+          <Ficha value={ficha} />
+        ))}
+      </div>
     </div>
   );
 }

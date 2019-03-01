@@ -24,14 +24,19 @@ export const STYLES = {
     textAlign: 'center'
   },
   activePlayersHand: {
+    fichas: { display: 'table', margin: '0 auto' },
+    ficha: {
+      margin: '.5em',
+      display: 'inline-block',
+      padding: '.33em',
+      background: 'ivory',
+      border: '1px solid black',
+      borderRadius: '5px'
+    },
     backgroundImage:
       'linear-gradient(to right, rgb(173, 208, 173) , rgb(153, 185, 153), rgb(173, 208, 173))',
     width: '100%',
     gridRowStart: 'hand',
     gridRowEnd: 'hand'
-  },
-  ficha: {
-    display: 'inline-block',
-    background: 'ivory'
   }
 };
