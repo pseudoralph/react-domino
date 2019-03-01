@@ -6,7 +6,10 @@ function PlayBoard() {
   return (
     <div style={STYLES.board} className="board">
       <PlayerStatus />
-      <div>
+      <div
+        onDragEnter={() => console.log('something dropped')}
+        style={STYLES.board.playable}
+      >
         <h3 style={{ textAlign: 'center' }}>PlayBoard works!</h3>
       </div>
     </div>

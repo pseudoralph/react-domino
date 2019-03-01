@@ -2,16 +2,30 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { STYLES } from './assets/styling';
 
-function Ficha(props) {
-  const { value } = props;
+class Ficha extends React.Component {
+  constructor(props) {
+    super(props);
+  }
 
-  return (
-    <div style={STYLES.activePlayersHand.ficha} className="ficha">
-      <p style={{ margin: 0 }}>{value[0]}</p>
-      <hr />
-      <p style={{ margin: 0 }}>{value[1]}</p>
-    </div>
-  );
+  handleDrag(e) {
+    console.log(this.props.value);
+  }
+
+  render() {
+    const { value } = this.props;
+    return (
+      <div
+        draggable
+        onDragStart={() => this.handleDrag(event)}
+        style={STYLES.activePlayersHand.ficha}
+        className="ficha"
+      >
+        <p style={{ margin: 0 }}>{value[0]}</p>
+        <hr />
+        <p style={{ margin: 0 }}>{value[1]}</p>
+      </div>
+    );
+  }
 }
 
 Ficha.propTypes = {

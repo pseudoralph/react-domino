@@ -8,6 +8,11 @@ export const STYLES = {
     height: '100vh'
   },
   board: {
+    playable: {
+      border: '1px solid black',
+      height: '100%',
+      boxSizing: 'border-box'
+    },
     gridRowStart: 'board',
     gridRowEnd: 'board'
   },
