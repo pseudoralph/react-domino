@@ -19,11 +19,11 @@ This project is that domino game.
 - app.jsx
   - < Game />
     - < PlayBoard />
-      - < PlayerStatus />
-        - < Player />
-      - < Hand />
-        - < Ficha />
-          - < Face />
+    - < PlayerStatus />
+      - < Player />
+    - < Hand />
+      - < Ficha />
+        - < Face />
 
 ## Setup
 
