@@ -3,16 +3,17 @@ import PlayBoard from './PlayBoard';
 import PlayerStatus from './PlayerStatus';
 import Hand from './Hand';
 
+import { STYLES } from './assets/styling';
+
 // REDUX STATE GOES HERE
 //
 // PLAYER'S HAND: { ...ETC  }
 
 function Game() {
   return (
-    <div>
-      <h1>Game Works</h1>
-      <PlayBoard />
+    <div style={STYLES.game}>
       <PlayerStatus />
+      <PlayBoard />
       <Hand />
     </div>
   );
