@@ -7,6 +7,10 @@ import { buildFichaSet } from './buildFichaSet';
 
 // REDUX STATE GOES HERE
 
+const handleFichaTransfer = payload => {
+  console.log(payload);
+};
+
 const getFichas = () => {
   const getRandom = set => {
     return Math.floor(Math.random() * Math.floor(set.length));
@@ -26,7 +30,10 @@ function Game() {
   return (
     <div style={STYLES.game}>
       <PlayBoard />
-      <Hand fichas={getFichas().myFichas} />
+      <Hand
+        handleFichaTransfer={handleFichaTransfer}
+        fichas={getFichas().myFichas}
+      />
     </div>
   );
 }

@@ -9,7 +9,11 @@ function Hand(props) {
     <div style={STYLES.activePlayersHand} className="activePlayersHand">
       <div style={STYLES.activePlayersHand.fichas}>
         {fichas.map((ficha, i) => (
-          <Ficha value={ficha} key={i} />
+          <Ficha
+            onFichaTransfer={props.handleFichaTransfer}
+            value={ficha}
+            key={i}
+          />
         ))}
       </div>
     </div>
@@ -17,7 +21,8 @@ function Hand(props) {
 }
 
 Hand.propTypes = {
-  fichas: PropTypes.array.isRequired
+  fichas: PropTypes.array.isRequired,
+  handleFichaTransfer: PropTypes.func.isRequired
 };
 
 export default Hand;

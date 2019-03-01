@@ -5,10 +5,14 @@ import { STYLES } from './assets/styling';
 class Ficha extends React.Component {
   constructor(props) {
     super(props);
+
+    console.log(props);
   }
 
-  handleDrag(e) {
-    console.log(this.props.value);
+  handleDrag() {
+    event.dataTransfer.setData('ficha', this.props.value);
+
+    this.props.onFichaTransfer(this.props.value);
   }
 
   render() {
@@ -29,7 +33,8 @@ class Ficha extends React.Component {
 }
 
 Ficha.propTypes = {
-  value: PropTypes.array.isRequired
+  value: PropTypes.array.isRequired,
+  onFichaTransfer: PropTypes.func.isRequired
 };
 
 export default Ficha;
