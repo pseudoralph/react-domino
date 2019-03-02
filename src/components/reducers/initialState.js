@@ -1,4 +1,5 @@
 import chunk from 'lodash.chunk';
+import { v4 } from 'uuid';
 import { buildFichaSet } from '../buildFichaSet';
 
 const getRandom = set => {
@@ -22,12 +23,27 @@ const initialState = () => {
   return {
     fichasInPlay: {},
     playersFichas: {
-      p1: diviedFichas[0],
-      p2: diviedFichas[1],
-      p3: diviedFichas[2],
-      p4: diviedFichas[3]
+      p1: diviedFichas[0].map(ficha => {
+        return { value: ficha, fichaId: v4() };
+      }),
+      p2: diviedFichas[1].map(ficha => {
+        return { value: ficha, fichaId: v4() };
+      }),
+      p3: diviedFichas[2].map(ficha => {
+        return { value: ficha, fichaId: v4() };
+      }),
+      p4: diviedFichas[3].map(ficha => {
+        return { value: ficha, fichaId: v4() };
+      })
     },
-    unplayedFichas: [...diviedFichas[4], ...diviedFichas[5]]
+    unplayedFichas: [
+      ...diviedFichas[4].map(ficha => {
+        return { value: ficha, fichaId: v4() };
+      }),
+      ...diviedFichas[5].map(ficha => {
+        return { value: ficha, fichaId: v4() };
+      })
+    ]
   };
 };
 

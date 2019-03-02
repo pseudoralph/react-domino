@@ -4,7 +4,7 @@ import { STYLES } from './assets/styling';
 
 function handleDrop(event) {
   let ficha = event.dataTransfer.getData('ficha');
-  console.log('dropped: ', ficha); //eslint-disable-line no-console
+  console.log('ficha id: ', ficha); //eslint-disable-line no-console
 }
 
 function PlayBoard() {

@@ -9,8 +9,12 @@ function Hand(props) {
   return (
     <div style={STYLES.activePlayersHand} className="activePlayersHand">
       <div style={STYLES.activePlayersHand.fichas}>
-        {fichas.map((ficha, i) => (
-          <Ficha value={ficha} key={i} />
+        {fichas.map(ficha => (
+          <Ficha
+            value={ficha.value}
+            fichaId={ficha.fichaId}
+            key={ficha.fichaId}
+          />
         ))}
       </div>
     </div>

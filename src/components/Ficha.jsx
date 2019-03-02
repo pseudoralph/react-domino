@@ -8,7 +8,7 @@ class Ficha extends React.Component {
   }
 
   handleDrag(event) {
-    event.dataTransfer.setData('ficha', this.props.value);
+    event.dataTransfer.setData('ficha', this.props.fichaId);
   }
 
   render() {
@@ -29,7 +29,8 @@ class Ficha extends React.Component {
 }
 
 Ficha.propTypes = {
-  value: PropTypes.array.isRequired
+  value: PropTypes.array.isRequired,
+  fichaId: PropTypes.string.isRequired
 };
 
 export default Ficha;
