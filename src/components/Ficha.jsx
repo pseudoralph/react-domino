@@ -17,7 +17,7 @@ class Ficha extends React.Component {
       <div
         draggable
         onDragStart={event => this.handleDrag(event)}
-        style={STYLES.activePlayersHand.ficha}
+        style={{ ...STYLES.activePlayersHand.ficha, cursor: 'pointer' }}
         className="ficha"
       >
         <p style={{ margin: 0 }}>{value[0]}</p>

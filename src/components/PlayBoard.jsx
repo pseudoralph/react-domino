@@ -1,10 +1,10 @@
 import React from 'react';
-import { STYLES } from './assets/styling';
 import PlayerStatus from './PlayerStatus';
+import { STYLES } from './assets/styling';
 
 function handleDrop(event) {
   let ficha = event.dataTransfer.getData('ficha');
-  console.log('dropped: ', ficha);
+  console.log('dropped: ', ficha); //eslint-disable-line no-console
 }
 
 function PlayBoard() {

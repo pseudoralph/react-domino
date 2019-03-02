@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Ficha from './Ficha';
 import { STYLES } from './assets/styling';
+import { connect } from 'react-redux';
 
 function Hand(props) {
   const { fichas } = props;
@@ -20,4 +21,8 @@ Hand.propTypes = {
   fichas: PropTypes.array.isRequired
 };
 
-export default Hand;
+const propsFromState = state => {
+  return { fichas: state.playersFichas.p1 };
+};
+
+export default connect(propsFromState)(Hand);
