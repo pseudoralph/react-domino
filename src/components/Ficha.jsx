@@ -8,7 +8,6 @@ class Ficha extends React.Component {
   }
 
   handleDrag(event) {
-    console.log(this.props.value, event); // eslint-disable-line no-console
     event.dataTransfer.setData('ficha', this.props.value);
   }
 
