@@ -8,7 +8,7 @@ class Ficha extends React.Component {
   }
 
   handleDrag(event) {
-    console.log(event);
+    console.log(this.props.value, event); // eslint-disable-line no-console
     event.dataTransfer.setData('ficha', this.props.value);
   }
 
@@ -30,8 +30,7 @@ class Ficha extends React.Component {
 }
 
 Ficha.propTypes = {
-  value: PropTypes.array.isRequired,
-  onFichaTransfer: PropTypes.func.isRequired
+  value: PropTypes.array.isRequired
 };
 
 export default Ficha;
