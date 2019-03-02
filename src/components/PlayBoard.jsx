@@ -2,17 +2,32 @@ import React from 'react';
 import { STYLES } from './assets/styling';
 import PlayerStatus from './PlayerStatus';
 
-function dragon() {
+function handleOnDrop(event) {
   // event.preventDefault();
+  console.log(event);
+}
 
-  console.log(event.dataTransfer.getData('ficha'));
+function handleDragOver(event) {
+  event.stopPropagation();
+  return false;
+  console.log('hi');
+  // event.stopPropagation();
 }
 
 function PlayBoard() {
   return (
-    <div style={STYLES.board} className="board">
+    <div
+      style={STYLES.board}
+      className="board"
+      onDragOver={event => {
+        handleDragOver(event);
+      }}
+      onDrop={event => {
+        handleOnDrop(event);
+      }}
+    >
       <PlayerStatus />
-      <div onDragEnter={() => dragon(event)} style={STYLES.board.playable}>
+      <div style={STYLES.board.playable}>
         <h3 style={{ textAlign: 'center' }}>PlayBoard works!</h3>
       </div>
     </div>

@@ -5,14 +5,11 @@ import { STYLES } from './assets/styling';
 class Ficha extends React.Component {
   constructor(props) {
     super(props);
-
-    console.log(props);
   }
 
-  handleDrag() {
+  handleDrag(event) {
+    console.log(event);
     event.dataTransfer.setData('ficha', this.props.value);
-
-    this.props.onFichaTransfer(this.props.value);
   }
 
   render() {
@@ -20,7 +17,7 @@ class Ficha extends React.Component {
     return (
       <div
         draggable
-        onDragStart={() => this.handleDrag(event)}
+        onDragStart={event => this.handleDrag(event)}
         style={STYLES.activePlayersHand.ficha}
         className="ficha"
       >

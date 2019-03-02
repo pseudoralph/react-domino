@@ -8,7 +8,7 @@ import { buildFichaSet } from './buildFichaSet';
 // REDUX STATE GOES HERE
 
 const handleFichaTransfer = payload => {
-  console.log(payload);
+  // console.log(payload);
 };
 
 const getFichas = () => {
