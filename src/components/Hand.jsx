@@ -14,6 +14,7 @@ function Hand(props) {
             value={ficha.value}
             fichaId={ficha.fichaId}
             key={ficha.fichaId}
+            player={'p1'}
           />
         ))}
       </div>

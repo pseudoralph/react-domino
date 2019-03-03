@@ -21,7 +21,7 @@ const initialState = () => {
   const diviedFichas = chunk(sortedFichas(), 10);
 
   return {
-    fichasInPlay: {},
+    fichasInPlay: [],
     playersFichas: {
       p1: diviedFichas[0].map(ficha => {
         return { value: ficha, fichaId: v4() };

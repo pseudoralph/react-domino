@@ -10,10 +10,8 @@ import { STYLES } from './assets/styling';
 
 const store = createStore(reducers);
 store.subscribe(() => {
-  console.log(store.getStore()); //eslint-disable-line no-console
+  console.log(store.getState()); //eslint-disable-line no-console
 });
-
-function validateMove() {} //eslint-disable-line no-unused-vars
 
 function Game() {
   return (

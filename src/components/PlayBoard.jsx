@@ -1,19 +1,29 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+
 import PlayerStatus from './PlayerStatus';
 import { STYLES } from './assets/styling';
+import { connect } from 'react-redux';
 
-function handleDrop(event) {
-  let ficha = event.dataTransfer.getData('ficha');
-  console.log('ficha id: ', ficha); //eslint-disable-line no-console
+function handleDrop(event, dispatch) {
+  let ficha = JSON.parse(event.dataTransfer.getData('ficha'));
+
+  dispatch({
+    type: 'MAKE_MOVE',
+    fichaToMove: ficha.fichaId,
+    player: ficha.player
+  });
 }
 
-function PlayBoard() {
+function PlayBoard(props) {
+  const { dispatch } = props;
+
   return (
     <div
       style={STYLES.board}
       className="board"
       onDrop={event => {
-        handleDrop(event);
+        handleDrop(event, dispatch);
       }}
       onDragOver={event => {
         event.preventDefault();
@@ -27,4 +37,12 @@ function PlayBoard() {
   );
 }
 
-export default PlayBoard;
+PlayBoard.propTypes = {
+  dispatch: PropTypes.func.isRequired
+};
+
+const propsFromState = state => {
+  return { fichasInPlay: state.fichasInPlay };
+};
+
+export default connect(propsFromState)(PlayBoard);
