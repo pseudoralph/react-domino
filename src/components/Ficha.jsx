@@ -7,7 +7,6 @@ function handleDrag(event, ficha) {
 }
 
 function Ficha(props) {
-  // console.log(props);
   const { value, fichaId, player } = props;
   return (
     <div

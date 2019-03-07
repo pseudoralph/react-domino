@@ -8,6 +8,8 @@ import { connect } from 'react-redux';
 function handleDrop(event, dispatch) {
   let ficha = JSON.parse(event.dataTransfer.getData('ficha'));
 
+  console.log(ficha);
+
   dispatch({
     type: 'MAKE_MOVE',
     fichaToMove: ficha.fichaId,
