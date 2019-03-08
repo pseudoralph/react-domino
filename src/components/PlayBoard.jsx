@@ -18,7 +18,7 @@ function handleDrop(event, dispatch) {
 }
 
 function PlayBoard(props) {
-  const { dispatch } = props;
+  const { dispatch, gameId } = props;
 
   return (
     <div
@@ -33,14 +33,15 @@ function PlayBoard(props) {
     >
       <PlayerStatus />
       <div style={STYLES.board.playable}>
-        <h3 style={{ textAlign: 'center' }}>PlayBoard works!</h3>
+        <p style={{ textAlign: 'center' }}>gameId: {gameId}</p>
       </div>
     </div>
   );
 }
 
 PlayBoard.propTypes = {
-  dispatch: PropTypes.func.isRequired
+  dispatch: PropTypes.func.isRequired,
+  gameId: PropTypes.string.isRequired
 };
 
 const propsFromState = state => {

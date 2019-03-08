@@ -8,7 +8,7 @@ import rootReducer from './reducers';
 const combinedReducers = combineReducers(rootReducer);
 const store = createStore(combinedReducers, applyMiddleware(thunkMiddleware));
 
-store.subscribe(() => console.log(store.getState())); //eslint-disable-line no-console
+// store.subscribe(() => console.log(store.getState())); //eslint-disable-line no-console
 
 function Game() {
   return (

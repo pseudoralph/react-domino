@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { startGame } from './actions';
+
+import { startGame, setGameId } from './actions';
 import { STYLES } from './assets/styling';
 
 import PlayBoard from './PlayBoard';
@@ -15,26 +16,33 @@ class GameLoader extends React.Component {
     super(props);
 
     this.state = {
-      gameId: null
+      gameId: null,
+      player: null
     };
 
     this.handleHostGame = this.handleHostGame.bind(this);
+    this.handleJoinGame = this.handleJoinGame.bind(this);
+
+    this.dispatch = this.props.dispatch;
   }
 
-  testCreateBoard(dispatch, gameId) {
+  testCreateBoard(gameId) {
     console.log('test create board'); //eslint-disable-line no-console
-    dispatch(startGame(gameId));
+    this.dispatch(startGame(gameId));
   }
 
   handleHostGame() {
-    const gameCode = randomWords(3).join('-');
-    console.log(gameCode);
-    this.setState({ gameId: 'test-game' });
+    // const gameId = randomWords(3).join('-');
+    const gameId = 'test-game';
+    // this.dispatch(setGameId('test-game'));
+    this.setState({ gameId, player: 'p1' });
+    this.dispatch(startGame(gameId));
   }
 
   handleJoinGame(joinCode) {
-    console.log('joining grame...'); //eslint-disable-line no-console
-    console.log(joinCode.current.value); //eslint-disable-line no-console
+    // const gameId = joinCode.current.value;
+    const gameId = 'test-game';
+    this.setState({ gameId, player: 'p2' });
   }
 
   handleToggleInputBox(hiddenInput) {
@@ -47,16 +55,16 @@ class GameLoader extends React.Component {
     const joinCode = React.createRef();
     const hiddenInput = React.createRef();
 
-    const { dispatch } = this.props;
-    const { gameId } = this.state;
+    // const { dispatch } = this.props;
+    const { gameId, player } = this.state;
 
     if (gameId) {
       return (
         <div style={STYLES.game}>
           <PlayBoard gameId={gameId} />
-          <Hand gameId={gameId} />
+          <Hand gameId={gameId} player={player} />
           <div style={{ position: 'fixed', right: '3px' }}>
-            <button onClick={() => this.testCreateBoard(dispatch, gameId)}>
+            <button onClick={() => this.testCreateBoard(gameId)}>
               test: create board
             </button>
           </div>

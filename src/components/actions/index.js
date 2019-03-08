@@ -24,20 +24,7 @@ export const loadAllPlayer = (players, gameId) => ({
   gameId
 });
 
-// export const sendNewFichas = (fichas, gameId) => ({
-//   type: types.SEND_NEW_FICHAS,
-//   unusedFichas: fichas,
-//   gameId
-// });
-
-export const refreshHand = (ficha, player) => ({
-  type: types.REFRESH_HAND,
-  ficha,
-  player
-});
-
-export const watchHand = gameId => {
-  const player = 'p1';
+export const watchHand = (gameId, player) => {
   return dispatch => {
     firebase
       .database()
@@ -47,3 +34,9 @@ export const watchHand = gameId => {
       });
   };
 };
+
+export const refreshHand = (ficha, player) => ({
+  type: types.REFRESH_HAND,
+  ficha,
+  player
+});
