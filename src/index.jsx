@@ -1,15 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { HashRouter } from 'react-router-dom';
+import Game from './components/Game';
 
-import App from './components/App';
+// import App from './components/App';
 
-ReactDOM.render(
-  <HashRouter>
-    <App />
-  </HashRouter>,
-  document.getElementById('react-app-root')
-);
+ReactDOM.render(<Game />, document.getElementById('react-app-root'));
 
 /*eslint-disable */
 if (module.hot) {

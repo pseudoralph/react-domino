@@ -8,67 +8,83 @@ import Hand from './Hand';
 
 import { connect } from 'react-redux';
 
-// import randomWords from 'random-words';
+import randomWords from 'random-words';
 
-function testCreateBoard(dispatch, gameId) {
-  console.log('test create board'); //eslint-disable-line no-console
-  dispatch(startGame(gameId));
-}
+class GameLoader extends React.Component {
+  constructor(props) {
+    super(props);
 
-function handleHostGame() {
-  console.log('hosting game...');
-}
+    this.state = {
+      gameId: null
+    };
 
-function handleJoinGame(joinCode) {
-  console.log('joining grame...');
-  console.log(joinCode.current.value);
-}
+    this.handleHostGame = this.handleHostGame.bind(this);
+  }
 
-function handleToggleInputBox(hiddenInput) {
-  hiddenInput.current.style.display === 'block'
-    ? (hiddenInput.current.style.display = 'none')
-    : (hiddenInput.current.style.display = 'block');
-}
+  testCreateBoard(dispatch, gameId) {
+    console.log('test create board'); //eslint-disable-line no-console
+    dispatch(startGame(gameId));
+  }
 
-function GameLoader(props) {
-  const joinCode = React.createRef();
-  const hiddenInput = React.createRef();
+  handleHostGame() {
+    const gameCode = randomWords(3).join('-');
+    console.log(gameCode);
+    this.setState({ gameId: 'test-game' });
+  }
 
-  const { dispatch, gameId } = props;
+  handleJoinGame(joinCode) {
+    console.log('joining grame...'); //eslint-disable-line no-console
+    console.log(joinCode.current.value); //eslint-disable-line no-console
+  }
 
-  if (false) {
-    return (
-      <div style={STYLES.game}>
-        <PlayBoard gameId={'test-game'} /> <Hand gameId={'test-game'} />
-      </div>
-    );
-  } else {
-    return (
-      <div>
-        <div>
-          <button onClick={handleHostGame}>Host Game</button>
-          <button onClick={() => handleToggleInputBox(hiddenInput)}>
-            Join Game
-          </button>
-          <div ref={hiddenInput} style={{ display: 'none' }}>
-            <input ref={joinCode} type="text" />
-            <button onClick={() => handleJoinGame(joinCode)}>Join</button>
+  handleToggleInputBox(hiddenInput) {
+    hiddenInput.current.style.display === 'block'
+      ? (hiddenInput.current.style.display = 'none')
+      : (hiddenInput.current.style.display = 'block');
+  }
+
+  render() {
+    const joinCode = React.createRef();
+    const hiddenInput = React.createRef();
+
+    const { dispatch } = this.props;
+    const { gameId } = this.state;
+
+    if (gameId) {
+      return (
+        <div style={STYLES.game}>
+          <PlayBoard gameId={gameId} />
+          <Hand gameId={gameId} />
+          <div style={{ position: 'fixed', right: '3px' }}>
+            <button onClick={() => this.testCreateBoard(dispatch, gameId)}>
+              test: create board
+            </button>
           </div>
         </div>
-
-        <div style={{ position: 'fixed', right: '3px' }}>
-          <button onClick={() => testCreateBoard(dispatch, gameId)}>
-            test: create board
-          </button>
+      );
+    } else {
+      return (
+        <div style={STYLES.game}>
+          <div>
+            <button onClick={this.handleHostGame}>Host Game</button>
+            <button onClick={() => this.handleToggleInputBox(hiddenInput)}>
+              Join Game
+            </button>
+            <div ref={hiddenInput} style={{ display: 'none' }}>
+              <input ref={joinCode} type="text" />
+              <button onClick={() => this.handleJoinGame(joinCode)}>
+                Join
+              </button>
+            </div>
+          </div>
         </div>
-      </div>
-    );
+      );
+    }
   }
 }
 
 GameLoader.propTypes = {
-  dispatch: PropTypes.func,
-  gameId: PropTypes.string.isRequired
+  dispatch: PropTypes.func
 };
 
 export default connect()(GameLoader);
