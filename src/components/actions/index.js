@@ -32,6 +32,12 @@ export const sendNewFichas = (fichas, gameId) => ({
   gameId
 });
 
+export const refreshHand = (ficha, player) => ({
+  type: types.REFRESH_HAND,
+  ficha,
+  player
+});
+
 export const watchHand = gameId => {
   const player = 'p1';
   return dispatch => {
@@ -39,7 +45,7 @@ export const watchHand = gameId => {
       .database()
       .ref(`${gameId}/players/${player}`)
       .on('child_added', data => {
-        console.log(data.val()); //eslint-disable-line no-console
+        dispatch(refreshHand(data.val(), player));
       });
   };
 };

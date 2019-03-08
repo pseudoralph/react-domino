@@ -11,7 +11,7 @@ class Hand extends React.Component {
   constructor(props) {
     super(props);
 
-    console.log(props);
+    console.log('hand prosp: ', props);
   }
 
   componentWillMount() {

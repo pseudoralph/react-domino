@@ -16,7 +16,9 @@ const uniqueGameId = 'test-game';
 const combinedReducers = combineReducers(rootReducer);
 const store = createStore(combinedReducers, applyMiddleware(thunkMiddleware));
 
-console.log(store.getState());
+store.subscribe(() => console.log(store.getState())); //eslint-disable-line no-console
+
+// console.log(store.getState());
 
 function Game() {
   return (
