@@ -8,7 +8,7 @@ import { connect } from 'react-redux';
 function handleDrop(event, dispatch) {
   let ficha = JSON.parse(event.dataTransfer.getData('ficha'));
 
-  console.log(ficha);
+  console.log(ficha); //eslint-disable-line no-console
 
   dispatch({
     type: 'MAKE_MOVE',

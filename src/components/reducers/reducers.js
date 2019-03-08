@@ -1,8 +1,8 @@
-import constants from '../constants';
 import clonedeep from 'lodash.clonedeep';
 import initialState from './initialState';
+import constants from '../constants';
 
-const { types, firebaseConf } = constants;
+const { types } = constants;
 
 const reducer = (state = initialState(), action) => {
   const { fichaToMove, player } = action;
@@ -20,8 +20,13 @@ const reducer = (state = initialState(), action) => {
 
       return newState;
 
+    case types.UPDATE_HAND:
+      console.log(action); //eslint-disable-line no-console
+
+      return state;
+
     case types.SEND_NEW_FICHAS:
-      console.log('[REDUCER]');
+      console.log(action); //eslint-disable-line no-console
       return state;
 
     default:

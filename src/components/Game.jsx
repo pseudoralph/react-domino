@@ -9,7 +9,7 @@ import Hand from './Hand';
 
 import { STYLES } from './assets/styling';
 
-import randomWords from 'random-words';
+// import randomWords from 'random-words';
 
 const uniqueGameId = 'test-game';
 // const game = firebase.database().ref(uniqueGameId);
@@ -24,8 +24,8 @@ function Game() {
       <Provider store={store}>
         <GameLoader gameId={uniqueGameId} />
 
-        <PlayBoard />
-        <Hand />
+        <PlayBoard gameId={uniqueGameId} />
+        <Hand gameId={uniqueGameId} />
       </Provider>
     </div>
   );

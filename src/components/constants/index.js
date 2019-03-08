@@ -1,11 +1,11 @@
 import * as types from './actionTypes';
 import firebaseConf from './firebaseConf';
-import randomizedFichas from './randomizedFichas';
+import gameStart from './gameStart';
 
-const CONSTANTS = {
+const constants = {
   types,
   firebaseConf,
-  ranomSet: randomizedFichas()
+  gameStart: gameStart()
 };
 
-export default CONSTANTS;
+export default constants;

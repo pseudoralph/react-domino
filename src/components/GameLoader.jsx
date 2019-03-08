@@ -4,8 +4,8 @@ import { startGame } from './actions';
 
 import { connect } from 'react-redux';
 
-function handleTestClick(dispatch, gameId) {
-  console.log('game loader button');
+function testCreateBoard(dispatch, gameId) {
+  console.log('test create board'); //eslint-disable-line no-console
   dispatch(startGame(gameId));
 }
 
@@ -14,7 +14,9 @@ function GameLoader(props) {
 
   return (
     <div style={{ position: 'fixed', right: '3px' }}>
-      <button onClick={() => handleTestClick(dispatch, gameId)}>test</button>
+      <button onClick={() => testCreateBoard(dispatch, gameId)}>
+        test: create board
+      </button>
     </div>
   );
 }
