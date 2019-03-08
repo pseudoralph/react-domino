@@ -25,12 +25,12 @@ function Game() {
     <div style={STYLES.game}>
       <Provider store={store}>
         <GameLoader gameId={uniqueGameId} />
-
-        <PlayBoard gameId={uniqueGameId} />
-        <Hand gameId={uniqueGameId} />
       </Provider>
     </div>
   );
 }
 
 export default Game;
+
+// <PlayBoard gameId={uniqueGameId} />
+// <Hand gameId={uniqueGameId} />
