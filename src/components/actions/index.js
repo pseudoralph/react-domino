@@ -6,31 +6,29 @@ const { firebaseConf, types, gameStart } = c;
 firebase.initializeApp(firebaseConf);
 
 export const startGame = gameId => {
-  const randomizedFichas = gameStart;
+  const newGameStart = gameStart;
 
   firebase
     .database()
     .ref(`${gameId}`)
-    .set(randomizedFichas);
+    .set(newGameStart);
 
   return dispatch => {
-    dispatch(sendNewFichas(randomizedFichas, gameId));
+    dispatch(loadAllPlayer(newGameStart.players, gameId));
   };
 };
 
-// export const addPlayer = (gameId, playerId) => {
-//   console.log('no players to add');
-// firebase
-//   .database()
-//   .ref(`${gameId}/players/${playerId}`)
-//   .set([1, 2, 3, 4, 5, 6]);
-// };
-
-export const sendNewFichas = (fichas, gameId) => ({
-  type: types.SEND_NEW_FICHAS,
-  unusedFichas: fichas,
+export const loadAllPlayer = (players, gameId) => ({
+  type: types.LOAD_ALL_PLAYERS,
+  players,
   gameId
 });
+
+// export const sendNewFichas = (fichas, gameId) => ({
+//   type: types.SEND_NEW_FICHAS,
+//   unusedFichas: fichas,
+//   gameId
+// });
 
 export const refreshHand = (ficha, player) => ({
   type: types.REFRESH_HAND,

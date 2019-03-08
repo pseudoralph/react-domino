@@ -21,6 +21,7 @@ const gameStart = () => {
   const diviedFichas = chunk(sortedFichas(), 10);
 
   return {
+    firebase: true,
     fichasInPlay: [],
     players: {
       p1: diviedFichas[0].map(ficha => {

@@ -6,13 +6,14 @@ const players = (state = initialState().playersFichas, action) => {
   let newState = clonedeep(state);
 
   switch (action.type) {
-    case types.MAKE_MOVE:
-      // console.log(action);
+    case types.LOAD_ALL_PLAYERS:
+      return action.players;
 
+    case types.MAKE_MOVE:
+      console.log(action);
       return state;
 
     case types.REFRESH_HAND:
-      console.log(state);
       newState[action.player]
         ? newState[action.player].push(action.ficha)
         : (newState[action.player] = [action.ficha]);
