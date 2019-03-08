@@ -12,15 +12,11 @@ import { STYLES } from './assets/styling';
 // import randomWords from 'random-words';
 
 const uniqueGameId = 'test-game';
-// const game = firebase.database().ref(uniqueGameId);
 
 const combinedReducers = combineReducers(rootReducer);
-
 const store = createStore(combinedReducers, applyMiddleware(thunkMiddleware));
 
 console.log(store.getState());
-
-store.subscribe(() => console.log(store.getState())); //eslint-disable-line no-console
 
 function Game() {
   return (

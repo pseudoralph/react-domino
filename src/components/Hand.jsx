@@ -10,6 +10,8 @@ import { connect } from 'react-redux';
 class Hand extends React.Component {
   constructor(props) {
     super(props);
+
+    console.log(props);
   }
 
   componentWillMount() {
@@ -36,13 +38,13 @@ class Hand extends React.Component {
 }
 
 Hand.propTypes = {
-  fichas: PropTypes.array.isRequired,
-  dispatch: PropTypes.func.isRequired,
-  gameId: PropTypes.string.isRequired
+  fichas: PropTypes.array,
+  dispatch: PropTypes.func,
+  gameId: PropTypes.string
 };
 
 const propsFromState = state => {
-  return { fichas: state.playersFichas.p1 };
+  return { fichas: state.players.p1 };
 };
 
 export default connect(propsFromState)(Hand);
