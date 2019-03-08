@@ -1,10 +1,16 @@
+// import { combineReducers } from 'redux';
+
 import clonedeep from 'lodash.clonedeep';
 import initialState from './initialState';
 import constants from '../constants';
 
 const { types } = constants;
 
-const reducer = (state = initialState(), action) => {
+// const rootReducer = combineReducers({
+//   fichasInPlay: startReducer
+// });
+
+const rootReducer = (state = initialState(), action) => {
   const { fichaToMove, player } = action;
   let newState = clonedeep(state);
 
@@ -34,4 +40,4 @@ const reducer = (state = initialState(), action) => {
   }
 };
 
-export default reducer;
+export default rootReducer;
