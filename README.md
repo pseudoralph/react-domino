@@ -14,16 +14,19 @@ This project is that domino game.
 
 ## Hierarchical overview
 
-![Project UI/components hierachy](https://github.com/pseudoralph/domino-planning/blob/master/assets/ui-sketch.jpg)
+![Project UI-1](https://github.com/pseudoralph/domino-planning/blob/master/assets/ui-2.jpg)
+![Project UI-2](https://github.com/pseudoralph/domino-planning/blob/master/assets/ui.jpeg)
+![State representation](https://github.com/pseudoralph/domino-planning/blob/master/assets/state.jpeg)
+![Components Tree](https://github.com/pseudoralph/domino-planning/blob/master/assets/component_tree.jpeg)
 
-- app.jsx
-  - < Game />
-    - < PlayBoard />
-      - < PlayerStatus />
-        - < Player />
-    - < Hand />
-      - < Ficha />
-        - < Face />
+- GameLoader
+  - Game
+    - PlayBoard
+      - PlayerStatus
+        - Player
+    - Hand
+      - Ficha
+        - Face
 
 ## Setup
 
@@ -38,9 +41,15 @@ JS, React 16.8
 
 ## Objectives
 
-- [ ] Commit history depicts a full day's work.
+- [x] Includes visual representation of the capstone's planned layout/appearance.
 
-- [ ] Progress has been made toward creating a cohesive app that fulfills goals outlined in the project proposal.
+- [x] Includes visual of project's component tree.
+
+- [x] Project was submitted by the Friday deadline.
+
+- [x] Project demonstrates an understanding of all React concepts. If prompted, you can discuss your code with an instructor using the correct terminology.
+
+- [x] Lists all planned state, details how state will be structured and lifted.
 
 ### License
 
