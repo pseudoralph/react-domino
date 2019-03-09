@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { startGame } from './actions';
+import { startGame, grabFichas } from './actions';
 import { STYLES } from './assets/styling';
 
 import PlayBoard from './PlayBoard';
@@ -26,22 +26,19 @@ class GameLoader extends React.Component {
     this.dispatch = this.props.dispatch;
   }
 
-  testCreateBoard(gameId) {
-    console.log('test create board'); //eslint-disable-line no-console
-    this.dispatch(startGame(gameId));
-  }
-
   handleHostGame() {
     // const gameId = randomWords(3).join('-');
     const gameId = 'test-game';
     this.setState({ gameId, player: 'p1' });
     this.dispatch(startGame(gameId));
+    this.dispatch(grabFichas(gameId, 'p1'));
   }
 
   handleJoinGame(joinCode) {
     // const gameId = joinCode.current.value;
     const gameId = 'test-game';
     this.setState({ gameId, player: 'p2' });
+    this.dispatch(grabFichas(gameId, 'p2'));
   }
 
   handleToggleInputBox(hiddenInput) {
@@ -61,11 +58,6 @@ class GameLoader extends React.Component {
         <div style={STYLES.game}>
           <PlayBoard gameId={gameId} />
           <Hand gameId={gameId} player={player} />
-          <div style={{ position: 'fixed', right: '3px' }}>
-            <button onClick={() => this.testCreateBoard(gameId)}>
-              test: create board
-            </button>
-          </div>
         </div>
       );
     } else {

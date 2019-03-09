@@ -10,8 +10,6 @@ import { connect } from 'react-redux';
 class Hand extends React.Component {
   constructor(props) {
     super(props);
-
-    // console.log('hand props: ', props);
   }
 
   componentWillMount() {
@@ -21,11 +19,11 @@ class Hand extends React.Component {
   render() {
     const { fichas, player } = this.props;
 
-    console.log(fichas);
+    console.log(this.props);
     return (
       <div style={STYLES.activePlayersHand} className="activePlayersHand">
         <div style={STYLES.activePlayersHand.fichas}>
-          {fichas.map(ficha => (
+          {Object.values(fichas).map(ficha => (
             <Ficha
               value={ficha.value}
               fichaId={ficha.fichaId}
@@ -41,13 +39,13 @@ class Hand extends React.Component {
 
 Hand.propTypes = {
   dispatch: PropTypes.func,
-  fichas: PropTypes.array,
+  fichas: PropTypes.object,
   gameId: PropTypes.string,
   player: PropTypes.string
 };
 
 const propsFromState = (state, props) => {
-  return { fichas: state.players[props.player] };
+  return { fichas: state.players[props.player], ...state };
 };
 
 export default connect(propsFromState)(Hand);
