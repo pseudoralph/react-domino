@@ -94,12 +94,12 @@ export const addFichasToPlayerState = (gameId, player, fichas) => ({
 
 export const watchHand = (gameId, player) => {
   return dispatch => {
-    console.log('whatchHand returned: ', player, gameId);
+    console.log('whatchHand [action] returned: ', player, gameId); //eslint-disable-line no-console
     firebase
       .database()
       .ref(`${gameId}/players/${player}`)
       .on('child_changed', data => {
-        console.log('hi');
+        console.log('child_change event occured in firebase callback'); //eslint-disable-line no-console
         dispatch(refreshHand(data.val(), player));
       });
   };
@@ -111,21 +111,13 @@ export const refreshHand = (ficha, player) => ({
   player
 });
 
-// export const loadAllPlayer = (players, gameId) => ({
-//   type: types.LOAD_ALL_PLAYERS,
-//   players,
-//   gameId
-// });
-
 export const makeMove = () => {
-  console.log('ok');
+  console.log('makeMove [action] received'); //eslint-disable-line no-console
 
-  firebase
-    .database()
-    .ref('test-game/players/p1')
-    .update('hji');
+  // firebase
+  //   .database()
+  //   .ref('test-game/players/p1')
+  //   .update('hji');
 
-  return dispatch => ({
-    type: types.MAKE_MOVE
-  });
+  return () => true;
 };

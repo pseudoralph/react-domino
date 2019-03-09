@@ -13,14 +13,11 @@ class Hand extends React.Component {
   }
 
   componentWillMount() {
-    console.log('component mounted');
     this.props.dispatch(watchHand(this.props.gameId, this.props.player));
   }
 
   render() {
     const { fichas, player } = this.props;
-
-    console.log(this.props);
     return (
       <div style={STYLES.activePlayersHand} className="activePlayersHand">
         <div style={STYLES.activePlayersHand.fichas}>

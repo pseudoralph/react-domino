@@ -8,12 +8,8 @@ const players = (state = { p1: {}, p2: {} }, action) => {
     case types.LOAD_PLAYER:
       return { [action.player]: action.fichas };
 
-    case types.MAKE_MOVE:
-      console.log(action);
-      return state;
-
     case types.REFRESH_HAND:
-      console.log(action);
+      console.log(action); //eslint-disable-line no-console
 
       // newState[action.player].length
       //   ? newState[action.player].push(action.ficha)
