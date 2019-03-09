@@ -1,4 +1,3 @@
 export const START_GAME = 'START_GAME';
-export const LOAD_PLAYER = 'LOAD_PLAYER';
+export const REFRESH_FICHAS = 'REFRESH_FICHAS';
 export const MAKE_MOVE = 'MAKE_MOVE';
-export const REFRESH_HAND = 'REFRESH_HAND';

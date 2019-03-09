@@ -58,7 +58,7 @@ export const readyPlayer = (gameId, player, uplayedFichas) => {
       addFichasToPlayerDb(gameId, player, reconstructObject(playersFichas))
     );
     dispatch(
-      addFichasToPlayerState(gameId, player, reconstructObject(playersFichas))
+      refreshPlayersFichas(gameId, player, reconstructObject(playersFichas))
     );
   };
 };
@@ -81,8 +81,8 @@ export const addFichasToPlayerDb = (gameId, player, fichas) => {
   };
 };
 
-export const addFichasToPlayerState = (gameId, player, fichas) => ({
-  type: types.LOAD_PLAYER,
+export const refreshPlayersFichas = (gameId, player, fichas) => ({
+  type: types.REFRESH_FICHAS,
   gameId,
   player,
   fichas
@@ -92,25 +92,30 @@ export const addFichasToPlayerState = (gameId, player, fichas) => ({
 
 export const watchHand = (gameId, player) => {
   return dispatch => {
-    console.log('whatchHand [action] returned: ', player, gameId); //eslint-disable-line no-console
     firebase
       .database()
       .ref(`${gameId}/player/${player}`)
       .on('child_removed', data => {
-        console.log('child_change event occured in firebase callback'); //eslint-disable-line no-console
-        dispatch(refreshHand(data.val(), player));
+        console.log(data.val()); //eslint-disable-line no-console
+        dispatch(getPlayersFichasFromDb(player, gameId));
       });
   };
 };
 
-export const refreshHand = (ficha, player) => ({
-  type: types.REFRESH_HAND,
-  ficha,
-  player
-});
+export const getPlayersFichasFromDb = (player, gameId) => {
+  return dispatch => {
+    firebase
+      .database()
+      .ref(`${gameId}/player/${player}`)
+      .once('value')
+      .then(data => {
+        dispatch(refreshPlayersFichas(gameId, player, data.val()));
+      });
+  };
+};
 
 export const makeMove = ficha => {
-  console.log('[action]: ', ficha); //eslint-disable-line no-console
+  console.log('makeMove [action]: ', ficha); //eslint-disable-line no-console
   const { fichaId, player, gameId } = ficha;
 
   return () => {

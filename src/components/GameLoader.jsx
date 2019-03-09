@@ -9,7 +9,7 @@ import Hand from './Hand';
 
 import { connect } from 'react-redux';
 
-import randomWords from 'random-words';
+import randomWords from 'random-words'; //eslint-disable-line no-unused-vars
 
 class GameLoader extends React.Component {
   constructor(props) {
@@ -36,6 +36,7 @@ class GameLoader extends React.Component {
 
   handleJoinGame(joinCode) {
     // const gameId = joinCode.current.value;
+    console.log(joinCode); //eslint-disable-line no-console
     const gameId = 'test-game';
     this.setState({ gameId, player: 'p2' });
     this.dispatch(grabFichas(gameId, 'p2'));
