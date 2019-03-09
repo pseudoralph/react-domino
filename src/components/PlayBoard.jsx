@@ -7,10 +7,7 @@ import { connect } from 'react-redux';
 
 function handleDrop(event, dispatch) {
   let ficha = JSON.parse(event.dataTransfer.getData('ficha'));
-
-  console.log(ficha); //eslint-disable-line no-console
-
-  dispatch(makeMove());
+  dispatch(makeMove(ficha));
 }
 
 function PlayBoard(props) {

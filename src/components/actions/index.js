@@ -97,8 +97,8 @@ export const watchHand = (gameId, player) => {
     console.log('whatchHand [action] returned: ', player, gameId); //eslint-disable-line no-console
     firebase
       .database()
-      .ref(`${gameId}/players/${player}`)
-      .on('child_changed', data => {
+      .ref(`${gameId}/player/${player}`)
+      .on('child_removed', data => {
         console.log('child_change event occured in firebase callback'); //eslint-disable-line no-console
         dispatch(refreshHand(data.val(), player));
       });
@@ -111,8 +111,16 @@ export const refreshHand = (ficha, player) => ({
   player
 });
 
-export const makeMove = () => {
-  console.log('makeMove [action] received'); //eslint-disable-line no-console
+export const makeMove = ficha => {
+  console.log('[action]: ', ficha); //eslint-disable-line no-console
+  const { fichaId, player, gameId } = ficha;
+
+  return () => {
+    firebase
+      .database()
+      .ref(`${gameId}/player/${player}/${fichaId}`)
+      .remove();
+  };
 
   // firebase
   //   .database()

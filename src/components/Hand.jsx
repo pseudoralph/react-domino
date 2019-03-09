@@ -17,7 +17,7 @@ class Hand extends React.Component {
   }
 
   render() {
-    const { fichas, player } = this.props;
+    const { fichas, player, gameId } = this.props;
     return (
       <div style={STYLES.activePlayersHand} className="activePlayersHand">
         <div style={STYLES.activePlayersHand.fichas}>
@@ -27,6 +27,7 @@ class Hand extends React.Component {
               fichaId={ficha.fichaId}
               key={ficha.fichaId}
               player={player}
+              gameId={gameId}
             />
           ))}
         </div>
