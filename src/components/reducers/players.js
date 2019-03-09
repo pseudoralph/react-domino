@@ -13,13 +13,11 @@ const players = (state = { p1: {}, p2: {} }, action) => {
       return state;
 
     case types.REFRESH_HAND:
-      // console.log(newState[action.player].length);
-      // console.log(action.ficha.value);
-      console.log('first: ', state);
+      console.log(action);
 
-      newState[action.player].length
-        ? newState[action.player].push(action.ficha)
-        : (newState[action.player] = [action.ficha]);
+      // newState[action.player].length
+      //   ? newState[action.player].push(action.ficha)
+      //   : (newState[action.player] = [action.ficha]);
       return newState;
 
     default:

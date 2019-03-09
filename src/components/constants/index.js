@@ -5,7 +5,7 @@ import gameStart from './gameStart';
 const constants = {
   types,
   firebaseConf,
-  gameStart: gameStart()
+  gameStart
 };
 
 export default constants;

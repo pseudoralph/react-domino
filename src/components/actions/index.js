@@ -1,14 +1,24 @@
 import firebase from 'firebase';
 import c from '../constants';
-import { sortedFichas } from '../constants/gameStart';
+// import { sortedFichas } from '../constants/gameStart';
 import { v4 } from 'uuid';
 
 const { firebaseConf, types, gameStart } = c;
 
 firebase.initializeApp(firebaseConf);
 
+/// HELPER THAT CONVERTS ARRAYS BACK TO OBJECTS ///
+const reconstructObject = inputArray => {
+  const outputObject = {};
+  inputArray.forEach(ficha => {
+    outputObject[ficha.fichaId] = ficha;
+  });
+  return outputObject;
+};
+
+/// PLAYER INIT STARTS HERE ///
 export const startGame = gameId => {
-  const randomizedFichas = sortedFichas();
+  const randomizedFichas = gameStart();
   const readySet = {};
 
   randomizedFichas.forEach(ficha => {
@@ -80,13 +90,15 @@ export const addFichasToPlayerState = (gameId, player, fichas) => ({
   fichas
 });
 
+/// PLAYER INIT STOPS HERE ///
+
 export const watchHand = (gameId, player) => {
   return dispatch => {
     console.log('whatchHand returned: ', player, gameId);
     firebase
       .database()
       .ref(`${gameId}/players/${player}`)
-      .on('child_added', data => {
+      .on('child_changed', data => {
         console.log('hi');
         dispatch(refreshHand(data.val(), player));
       });
@@ -99,60 +111,11 @@ export const refreshHand = (ficha, player) => ({
   player
 });
 
-// export const startGame = gameId => {
-//   const p1 = gameStart.players.p1; //.map(ficha => ficha.value);
-//   const p2 = gameStart.players.p2; //.map(ficha => ficha.value);
-//   const unplayed = [
-//     ...gameStart.players.p3,
-//     ...gameStart.players.p4,
-//     ...gameStart.unplayedFichas
-//   ];
-//   let updateP1 = {};
-//   let updateP2 = {};
-
-//   p1.map(item => {
-//     let dbKey = firebase
-//       .database()
-//       .ref(`${gameId}/players`)
-//       .child('p1')
-//       .push().key;
-
-//     updateP1[dbKey] = { ...item, fichaId: dbKey };
-//   });
-
-//   p2.map(item => {
-//     let dbKey = firebase
-//       .database()
-//       .ref(`${gameId}/players`)
-//       .child('p2')
-//       .push().key;
-
-//     updateP2[dbKey] = { ...item, fichaId: dbKey };
-//   });
-
-//   firebase
-//     .database()
-//     .ref(`${gameId}/players/p1`)
-//     .update(updateP1);
-
-//   firebase
-//     .database()
-//     .ref(`${gameId}/players/p2`)
-//     .update(updateP2);
-
-//   // return () => true;
-
-//   return dispatch => {
-//     dispatch(loadAllPlayer({ p1: updateP1 }, gameId));
-//     // dispatch(loadAllPlayer({ p2: updateP2 }, gameId));
-//   };
-// };
-
-export const loadAllPlayer = (players, gameId) => ({
-  type: types.LOAD_ALL_PLAYERS,
-  players,
-  gameId
-});
+// export const loadAllPlayer = (players, gameId) => ({
+//   type: types.LOAD_ALL_PLAYERS,
+//   players,
+//   gameId
+// });
 
 export const makeMove = () => {
   console.log('ok');
@@ -165,13 +128,4 @@ export const makeMove = () => {
   return dispatch => ({
     type: types.MAKE_MOVE
   });
-};
-
-const reconstructObject = inputArray => {
-  // helper to reconstruct
-  const outputObject = {};
-  inputArray.forEach(ficha => {
-    outputObject[ficha.fichaId] = ficha;
-  });
-  return outputObject;
 };

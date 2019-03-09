@@ -1,7 +1,6 @@
-import initialState from './initialState';
 import types from '../constants';
 
-const fichasInPlay = (state = initialState().fichasInPlay, action) => {
+const fichasInPlay = (state = {}, action) => {
   return state;
 };
 
