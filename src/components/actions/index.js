@@ -1,6 +1,7 @@
-import firebase from 'firebase';
+import * as firebase from 'firebase/app';
+import 'firebase/auth';
+import 'firebase/database';
 import c from '../constants';
-// import { sortedFichas } from '../constants/gameStart';
 import { v4 } from 'uuid';
 
 const { firebaseConf, types, gameStart } = c;

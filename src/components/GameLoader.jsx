@@ -35,9 +35,10 @@ class GameLoader extends React.Component {
   }
 
   handleJoinGame(joinCode) {
-    // const gameId = joinCode.current.value;
-    console.log(joinCode); //eslint-disable-line no-console
-    const gameId = 'test-game';
+    const gameId = joinCode.current.value
+      ? joinCode.current.value
+      : 'test-game';
+
     this.setState({ gameId, player: 'p2' });
     this.dispatch(grabFichas(gameId, 'p2'));
   }
