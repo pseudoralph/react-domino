@@ -18,17 +18,17 @@ const reconstructObject = inputArray => {
 
 /// PLAYER INIT STARTS HERE ///
 export const startGame = gameId => {
-  const randomizedFichas = gameStart();
+  const uplayedFichas = gameStart();
   const readySet = {};
 
-  randomizedFichas.forEach(ficha => {
+  uplayedFichas.forEach(ficha => {
     const fichaId = v4();
     readySet[fichaId] = { value: ficha, fichaId };
   });
   return () => {
     firebase
       .database()
-      .ref(`${gameId}/randomizedFichas`)
+      .ref(`${gameId}/uplayedFichas`)
       .set(readySet);
   };
 };
@@ -37,7 +37,7 @@ export const grabFichas = (gameId, player) => {
   return dispatch => {
     firebase
       .database()
-      .ref(`${gameId}/randomizedFichas`)
+      .ref(`${gameId}/uplayedFichas`)
       .once('value')
       .then(data => {
         dispatch(readyPlayer(gameId, player, data.val()));
@@ -45,17 +45,15 @@ export const grabFichas = (gameId, player) => {
   };
 };
 
-export const readyPlayer = (gameId, player, randomizedFichas) => {
+export const readyPlayer = (gameId, player, uplayedFichas) => {
   const pullAt = require('lodash.pullat');
   let deckArray = [];
 
-  Object.keys(randomizedFichas).map(ficha =>
-    deckArray.push(randomizedFichas[ficha])
-  );
+  Object.keys(uplayedFichas).map(ficha => deckArray.push(uplayedFichas[ficha]));
   var playersFichas = pullAt(deckArray, [...Array(10).keys()]);
 
   return dispatch => {
-    dispatch(updateRandomizedFichas(gameId, reconstructObject(deckArray)));
+    dispatch(updateUnplayedFichas(gameId, reconstructObject(deckArray)));
     dispatch(
       addFichasToPlayerDb(gameId, player, reconstructObject(playersFichas))
     );
@@ -65,11 +63,11 @@ export const readyPlayer = (gameId, player, randomizedFichas) => {
   };
 };
 
-export const updateRandomizedFichas = (gameId, fichas) => {
+export const updateUnplayedFichas = (gameId, fichas) => {
   return () => {
     firebase
       .database()
-      .ref(`${gameId}/randomizedFichas`)
+      .ref(`${gameId}/uplayedFichas`)
       .set(fichas);
   };
 };
@@ -121,11 +119,4 @@ export const makeMove = ficha => {
       .ref(`${gameId}/player/${player}/${fichaId}`)
       .remove();
   };
-
-  // firebase
-  //   .database()
-  //   .ref('test-game/players/p1')
-  //   .update('hji');
-
-  return () => true;
 };
