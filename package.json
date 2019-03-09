@@ -16,6 +16,7 @@
     "firebase": "5.8.6",
     "lodash.chunk": "4.2.0",
     "lodash.clonedeep": "4.5.0",
+    "lodash.pullat": "^4.6.0",
     "prop-types": "15.7.1",
     "random-words": "^1.1.0",
     "react": "16.8.1",

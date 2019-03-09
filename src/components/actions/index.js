@@ -1,67 +1,103 @@
 import firebase from 'firebase';
 import c from '../constants';
 import { sortedFichas } from '../constants/gameStart';
+import { v4 } from 'uuid';
 
 const { firebaseConf, types, gameStart } = c;
 
 firebase.initializeApp(firebaseConf);
 
-export const moveFichasToSlice = (gameId, player, randomizedFichas) => {
-  Object.values(randomizedFichas).map(fichas => {
-    const fichasId = [];
+export const startGame = gameId => {
+  const randomizedFichas = sortedFichas();
+  const readySet = {};
 
-    Object.keys(fichas).map(id => fichasId.push(id));
-
-    console.log(fichasId.length);
-    // delete fichas[fichasId[0]];
+  randomizedFichas.forEach(ficha => {
+    const fichaId = v4();
+    readySet[fichaId] = { value: ficha, fichaId };
   });
-
-  // console.log(fichasId);
-  // const playerFichas = Object.values.map()
-
-  // let fichaKeys = Object.keys(randomizedFichas);
-  // console.log(fichaKeys);
-
-  //   var randomProperty = function (obj) {
-  //     var keys = Object.keys(obj)
-  //     return obj[keys[ keys.length * Math.random() << 0]];
-  // };
-
-  return () => true;
+  return () => {
+    firebase
+      .database()
+      .ref(`${gameId}/randomizedFichas`)
+      .set(readySet);
+  };
 };
 
 export const grabFichas = (gameId, player) => {
   return dispatch => {
     firebase
       .database()
-      .ref(gameId)
+      .ref(`${gameId}/randomizedFichas`)
       .once('value')
       .then(data => {
-        dispatch(moveFichasToSlice(gameId, player, data.val()));
+        dispatch(readyPlayer(gameId, player, data.val()));
       });
   };
 };
 
-export const startGame = gameId => {
-  let firebaseableFichas = {};
+export const readyPlayer = (gameId, player, randomizedFichas) => {
+  const pullAt = require('lodash.pullat');
+  let deckArray = [];
 
-  sortedFichas().map(value => {
-    let dbKey = firebase
-      .database()
-      .ref(gameId)
-      .child(`randomizedFichas`)
-      .push().key;
+  Object.keys(randomizedFichas).map(ficha =>
+    deckArray.push(randomizedFichas[ficha])
+  );
+  var playersFichas = pullAt(deckArray, [...Array(10).keys()]);
 
-    firebaseableFichas[dbKey] = { value, fichaId: dbKey };
-  });
-
-  firebase
-    .database()
-    .ref(`${gameId}/randomizedFichas`)
-    .update(firebaseableFichas);
-
-  return () => true;
+  return dispatch => {
+    dispatch(updateRandomizedFichas(gameId, reconstructObject(deckArray)));
+    dispatch(
+      addFichasToPlayerDb(gameId, player, reconstructObject(playersFichas))
+    );
+    dispatch(
+      addFichasToPlayerState(gameId, player, reconstructObject(playersFichas))
+    );
+  };
 };
+
+export const updateRandomizedFichas = (gameId, fichas) => {
+  return () => {
+    firebase
+      .database()
+      .ref(`${gameId}/randomizedFichas`)
+      .set(fichas);
+  };
+};
+
+export const addFichasToPlayerDb = (gameId, player, fichas) => {
+  return () => {
+    firebase
+      .database()
+      .ref(`${gameId}/player/${player}`)
+      .set(fichas);
+  };
+};
+
+export const addFichasToPlayerState = (gameId, player, fichas) => ({
+  type: types.LOAD_PLAYER,
+  gameId,
+  player,
+  fichas
+});
+
+export const watchHand = (gameId, player) => {
+  return dispatch => {
+    console.log('whatchHand returned: ', player, gameId);
+    firebase
+      .database()
+      .ref(`${gameId}/players/${player}`)
+      .on('child_added', data => {
+        console.log('hi');
+        dispatch(refreshHand(data.val(), player));
+      });
+  };
+};
+
+export const refreshHand = (ficha, player) => ({
+  type: types.REFRESH_HAND,
+  ficha,
+  player
+});
 
 // export const startGame = gameId => {
 //   const p1 = gameStart.players.p1; //.map(ficha => ficha.value);
@@ -131,20 +167,11 @@ export const makeMove = () => {
   });
 };
 
-export const watchHand = (gameId, player) => {
-  console.log(player);
-  return dispatch => {
-    firebase
-      .database()
-      .ref(`${gameId}/players/${player}`)
-      .on('child_changed', data => {
-        dispatch(refreshHand(data.val(), player));
-      });
-  };
+const reconstructObject = inputArray => {
+  // helper to reconstruct
+  const outputObject = {};
+  inputArray.forEach(ficha => {
+    outputObject[ficha.fichaId] = ficha;
+  });
+  return outputObject;
 };
-
-export const refreshHand = (ficha, player) => ({
-  type: types.REFRESH_HAND,
-  ficha,
-  player
-});

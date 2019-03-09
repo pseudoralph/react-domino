@@ -13,6 +13,7 @@ class Hand extends React.Component {
   }
 
   componentWillMount() {
+    console.log('hi there now');
     this.props.dispatch(watchHand(this.props.gameId, this.props.player));
   }
 
