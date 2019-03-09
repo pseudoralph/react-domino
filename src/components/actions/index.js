@@ -24,12 +24,25 @@ export const loadAllPlayer = (players, gameId) => ({
   gameId
 });
 
+export const makeMove = () => {
+  console.log('ok');
+
+  firebase
+    .database()
+    .ref(`test-game/players/p1`)
+    .update('hji');
+
+  return dispatch => ({
+    type: types.MAKE_MOVE
+  });
+};
+
 export const watchHand = (gameId, player) => {
   return dispatch => {
     firebase
       .database()
       .ref(`${gameId}/players/${player}`)
-      .on('child_added', data => {
+      .on('child_changed', data => {
         dispatch(refreshHand(data.val(), player));
       });
   };

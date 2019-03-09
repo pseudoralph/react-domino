@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-
+import { makeMove } from './actions';
 import PlayerStatus from './PlayerStatus';
 import { STYLES } from './assets/styling';
 import { connect } from 'react-redux';
@@ -10,11 +10,7 @@ function handleDrop(event, dispatch) {
 
   console.log(ficha); //eslint-disable-line no-console
 
-  dispatch({
-    type: 'MAKE_MOVE',
-    fichaToMove: ficha.fichaId,
-    player: ficha.player
-  });
+  dispatch(makeMove());
 }
 
 function PlayBoard(props) {

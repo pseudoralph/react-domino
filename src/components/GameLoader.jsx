@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { startGame, setGameId } from './actions';
+import { startGame } from './actions';
 import { STYLES } from './assets/styling';
 
 import PlayBoard from './PlayBoard';
@@ -34,7 +34,6 @@ class GameLoader extends React.Component {
   handleHostGame() {
     // const gameId = randomWords(3).join('-');
     const gameId = 'test-game';
-    // this.dispatch(setGameId('test-game'));
     this.setState({ gameId, player: 'p1' });
     this.dispatch(startGame(gameId));
   }
@@ -55,7 +54,6 @@ class GameLoader extends React.Component {
     const joinCode = React.createRef();
     const hiddenInput = React.createRef();
 
-    // const { dispatch } = this.props;
     const { gameId, player } = this.state;
 
     if (gameId) {

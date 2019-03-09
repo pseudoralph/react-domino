@@ -15,11 +15,13 @@ class Hand extends React.Component {
   }
 
   componentWillMount() {
-    // this.props.dispatch(watchHand(this.props.gameId, this.props.player));
+    this.props.dispatch(watchHand(this.props.gameId, this.props.player));
   }
 
   render() {
     const { fichas, player } = this.props;
+
+    console.log(fichas);
     return (
       <div style={STYLES.activePlayersHand} className="activePlayersHand">
         <div style={STYLES.activePlayersHand.fichas}>
@@ -38,14 +40,14 @@ class Hand extends React.Component {
 }
 
 Hand.propTypes = {
+  dispatch: PropTypes.func,
   fichas: PropTypes.array,
-  dispatch: PropTypes.func.isRequired,
-  gameId: PropTypes.string.isRequired,
-  player: PropTypes.string.isRequired
+  gameId: PropTypes.string,
+  player: PropTypes.string
 };
 
-const propsFromState = state => {
-  return { fichas: state.players.p2, ...state };
+const propsFromState = (state, props) => {
+  return { fichas: state.players[props.player] };
 };
 
 export default connect(propsFromState)(Hand);
