@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import Face from './Face';
 import { STYLES } from './assets/styling';
 
 function handleDrag(event, ficha) {
@@ -14,12 +15,13 @@ function Ficha(props) {
       onDragStart={event =>
         handleDrag(event, { fichaId, player, value, gameId })
       }
-      style={{ ...STYLES.activePlayersHand.ficha, cursor: 'pointer' }}
+      style={STYLES.activePlayersHand.ficha}
       className="ficha"
     >
-      <p style={{ margin: 0 }}>{value[0]}</p>
-      <hr />
-      <p style={{ margin: 0 }}>{value[1]}</p>
+      <Face value={props.value} />
+      <hr style={STYLES.activePlayersHand.line} />
+
+      <Face value={props.value} />
     </div>
   );
 }
