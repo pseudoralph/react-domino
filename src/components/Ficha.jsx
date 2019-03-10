@@ -18,10 +18,9 @@ function Ficha(props) {
       style={STYLES.activePlayersHand.ficha}
       className="ficha"
     >
-      <Face value={props.value} />
+      <Face value={props.value[0]} />
       <hr style={STYLES.activePlayersHand.line} />
-
-      <Face value={props.value} />
+      <Face value={props.value[1]} />
     </div>
   );
 }

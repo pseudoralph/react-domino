@@ -9,7 +9,7 @@ export const STYLES = {
   },
   board: {
     playable: {
-      border: '1px solid #b6b6b638;',
+      border: '1px solid #b6b6b638',
       height: '100%',
       boxSizing: 'border-box'
     },
@@ -42,10 +42,8 @@ export const STYLES = {
       borderLeft: '1px solid #7a7a7a'
     },
     face: {
-      // margin: '10px',
       padding: '10px',
       width: '50px',
-      display: 'grid',
       gridTemplateColumns: 'repeat(3,1 fr)',
       gridTemplateRows: 'repeat(3, 1 fr)',
       gridColumnGap: '5px',
@@ -53,12 +51,9 @@ export const STYLES = {
       display: 'inline-grid',
       cursor: 'pointer'
     },
-    dots: {
-      boxShadow: 'inset 0px 0px 14px 2px #000000',
+    dot: {
       height: '13px',
-      width: '13px',
-      // background: 'radial-gradient(#000000, #868686)',
-      borderRadius: '100%'
+      width: '13px'
     },
     line: {
       margin: '0 5px'
