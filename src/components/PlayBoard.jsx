@@ -4,32 +4,45 @@ import { makeMove } from './actions';
 import PlayerStatus from './PlayerStatus';
 import { STYLES } from './assets/styling';
 import { connect } from 'react-redux';
+import { watchBoard } from './actions';
 
-function handleDrop(event, dispatch) {
-  let ficha = JSON.parse(event.dataTransfer.getData('ficha'));
-  dispatch(makeMove(ficha));
-}
+class PlayBoard extends React.Component {
+  constructor(props) {
+    super(props);
+  }
 
-function PlayBoard(props) {
-  const { dispatch, gameId } = props;
+  componentWillMount() {
+    this.props.dispatch(watchBoard(this.props.gameId));
+  }
 
-  return (
-    <div
-      style={STYLES.board}
-      className="board"
-      onDrop={event => {
-        handleDrop(event, dispatch);
-      }}
-      onDragOver={event => {
-        event.preventDefault();
-      }}
-    >
-      <PlayerStatus />
-      <div style={STYLES.board.playable}>
-        <p style={{ textAlign: 'center' }}>gameId: {gameId}</p>
+  handleDrop(event, dispatch) {
+    let ficha = JSON.parse(event.dataTransfer.getData('ficha'));
+    dispatch(makeMove(ficha));
+  }
+
+  render() {
+    const { dispatch, gameId } = this.props;
+
+    return (
+      <div
+        style={STYLES.board}
+        className="board"
+        onDrop={event => {
+          this.handleDrop(event, dispatch);
+        }}
+        onDragOver={event => {
+          event.preventDefault();
+        }}
+      >
+        <PlayerStatus />
+        <div style={STYLES.board.playable}>
+          <div style={{ gridColumnEnd: '11', gridColumnStart: '1' }}>
+            <p style={{ textAlign: 'center' }}>gameId: {gameId}</p>
+          </div>
+        </div>
       </div>
-    </div>
-  );
+    );
+  }
 }
 
 PlayBoard.propTypes = {
@@ -37,8 +50,8 @@ PlayBoard.propTypes = {
   gameId: PropTypes.string.isRequired
 };
 
-const propsFromState = state => {
-  return { fichasInPlay: state.fichasInPlay };
+const propsFromState = (state, props) => {
+  return { state };
 };
 
 export default connect(propsFromState)(PlayBoard);

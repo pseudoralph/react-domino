@@ -2,13 +2,16 @@ export const STYLES = {
   game: {
     display: 'grid',
     gridTemplateRows: '[board] auto [hand] 7em',
-
     boxSizing: 'border-box',
     background: '#add0ad',
     height: '100vh'
   },
   board: {
     playable: {
+      gridTemplateRows: '50px repeat(5, 1fr)',
+
+      gridTemplateColumns: '155px repeat(9, 1fr)',
+      display: 'grid',
       border: '1px solid #b6b6b638',
       height: '100%',
       boxSizing: 'border-box'

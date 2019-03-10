@@ -97,9 +97,31 @@ export const watchHand = (gameId, player) => {
       .database()
       .ref(`${gameId}/player/${player}`)
       .on('child_removed', data => {
-        console.log(data.val()); //eslint-disable-line no-console
+        console.log('this ficha removed', data.val());
+        dispatch(placeFichaOnBoard(data.val(), gameId, player));
         dispatch(getPlayersFichasFromDb(player, gameId));
       });
+  };
+};
+
+export const watchBoard = gameId => {
+  return dispatch => {
+    firebase
+      .database()
+      .ref(`${gameId}/board/fichas`)
+      .on('child_added', data => {
+        console.log('board is listening', data.val());
+      });
+  };
+};
+
+export const placeFichaOnBoard = (ficha, gameId, player) => {
+  console.log(ficha, gameId, player);
+  return dispatch => {
+    firebase
+      .database()
+      .ref(`${gameId}/board/fichas`)
+      .push({ ...ficha });
   };
 };
 
