@@ -38,7 +38,7 @@ class PlayBoard extends React.Component {
   }
 
   render() {
-    const { dispatch, fichas } = this.props;
+    const { dispatch, fichas, gameId } = this.props;
 
     const renderedOutput = Object.keys(fichas).length
       ? this.renderHelper()
@@ -55,7 +55,7 @@ class PlayBoard extends React.Component {
           event.preventDefault();
         }}
       >
-        <PlayerStatus />
+        <PlayerStatus gameId={gameId} />
         <div style={STYLES.board.playable}>
           {renderedOutput.map((ficha, i) =>
             ficha ? (
