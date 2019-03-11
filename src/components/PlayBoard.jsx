@@ -18,15 +18,30 @@ class PlayBoard extends React.Component {
   }
 
   handleDrop(event, dispatch) {
+    console.log(event);
     let ficha = JSON.parse(event.dataTransfer.getData('ficha'));
     dispatch(makeMove(ficha));
-    this.fichaPlacement();
   }
 
-  fichaPlacement() {}
+  renderHelper() {
+    const { fichas } = this.props;
+    let fichasArrangement = [];
+
+    c.fichasGrid.map(gridPos => {
+      if (gridPos === Object.values(fichas)[0].renderPos) {
+        fichasArrangement.push(Object.values(fichas)[0]);
+      } else fichasArrangement.push(null);
+    });
+
+    return fichasArrangement;
+  }
 
   render() {
-    const { dispatch, gameId, fichas } = this.props;
+    const { dispatch, fichas } = this.props;
+
+    const renderedOutput = Object.keys(fichas).length
+      ? this.renderHelper()
+      : Array(40).fill(null);
 
     return (
       <div
@@ -41,20 +56,20 @@ class PlayBoard extends React.Component {
       >
         <PlayerStatus />
         <div style={STYLES.board.playable}>
-          {c.fichasGrid.map((grid, i) => (
-            <div key={i}>{grid}</div>
-          ))}
-
-          {Object.values(fichas).map(ficha => (
-            <div key={ficha.fichaId}>
-              <Ficha
-                onBoardStyling={STYLES.board.fichaOnBoard}
-                value={ficha.value}
-                fichaId={ficha.fichaId}
-                renderPos={ficha.renderPos}
-              />
-            </div>
-          ))}
+          {renderedOutput.map((ficha, i) =>
+            ficha ? (
+              <div key={i}>
+                <Ficha
+                  boardStyling={STYLES.board.fichaOnBoard}
+                  value={ficha.value}
+                  fichaId={ficha.fichaId}
+                  renderPos={ficha.renderPos}
+                />
+              </div>
+            ) : (
+              <div key={i}>&nbsp;</div>
+            )
+          )}
         </div>
       </div>
     );
@@ -63,7 +78,8 @@ class PlayBoard extends React.Component {
 
 PlayBoard.propTypes = {
   dispatch: PropTypes.func.isRequired,
-  gameId: PropTypes.string.isRequired
+  gameId: PropTypes.string.isRequired,
+  fichas: PropTypes.object
 };
 
 const propsFromState = state => {

@@ -101,7 +101,7 @@ export const watchHand = (gameId, player) => {
       .database()
       .ref(`${gameId}/player/${player}`)
       .on('child_removed', data => {
-        dispatch(placeFichaOnBoard(data.val(), gameId, player));
+        dispatch(placeFichaOnBoard(data.val(), gameId));
         dispatch(getPlayersFichasFromDb(player, gameId));
       });
   };
@@ -120,12 +120,12 @@ export const watchBoard = gameId => {
 
 /// WATCHERS END HERE ///
 
-export const placeFichaOnBoard = (ficha, gameId, player) => {
-  return dispatch => {
+export const placeFichaOnBoard = (ficha, gameId, position = 0) => {
+  return () => {
     firebase
       .database()
       .ref(`${gameId}/board`)
-      .push({ ...ficha, renderPos: 0 });
+      .push({ ...ficha, renderPos: position });
   };
 };
 

@@ -8,7 +8,7 @@ function handleDrag(event, ficha) {
 }
 
 function Ficha(props) {
-  const { value, fichaId, player, gameId, onBoardStyling } = props;
+  const { value, fichaId, player, gameId, boardStyling } = props;
 
   return (
     <div
@@ -18,7 +18,7 @@ function Ficha(props) {
       }
       style={{
         ...STYLES.activePlayersHand.ficha,
-        ...onBoardStyling
+        ...boardStyling
       }}
       className="ficha"
     >
@@ -34,7 +34,7 @@ Ficha.propTypes = {
   fichaId: PropTypes.string.isRequired,
   player: PropTypes.string,
   gameId: PropTypes.string,
-  onBoardStyling: PropTypes.object,
+  boardStyling: PropTypes.object,
   renderPos: PropTypes.number
 };
 
