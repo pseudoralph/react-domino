@@ -127,11 +127,31 @@ export const watchGame = gameId => {
       .database()
       .ref(`${gameId}`)
       .child('gameStatus')
-      .on('child_added', data => {
+      .on('child_changed', data => {
+        console.log('[watchGame] observed change event');
         dispatch(getUpdatedGameState(gameId, data.val()));
       });
   };
 };
+
+export const toggleTurn = (gameId, player) => {
+  return dispatch => {
+    firebase
+      .database()
+      .ref(`${gameId}/gameStatus/${gameId}`)
+      .update({ activePlayer: player });
+    // .once('value')
+    // .then(data => {
+    //   dispatch(updateLocalTurn(gameId, data.val()[gameId].activePlayer));
+    // });
+  };
+};
+
+export const updateLocalTurn = (gameId, activePlayer) => ({
+  type: types.TOGGLE_TURN,
+  gameId,
+  activePlayer
+});
 
 export const getUpdatedGameState = (gameId, data) => ({
   type: types.UPDATE_GAME_STATUS,

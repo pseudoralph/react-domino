@@ -6,8 +6,11 @@ const gameStatus = (
 ) => {
   switch (action.type) {
     case types.UPDATE_GAME_STATUS:
-      // console.log(action);
       return action.data;
+
+    case types.TOGGLE_TURN:
+      console.log(action);
+      return state;
 
     default:
       return state;

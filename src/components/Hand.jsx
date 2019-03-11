@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Ficha from './Ficha';
 
-import { watchHand, watchGame } from './actions';
+import { watchHand, watchGame, toggleTurn } from './actions';
 
 import { STYLES } from './assets/styling';
 import { connect } from 'react-redux';
@@ -18,7 +18,7 @@ class Hand extends React.Component {
   }
 
   render() {
-    const { fichas, player, gameId } = this.props;
+    const { fichas, player, gameId, dispatch } = this.props;
     return (
       <div style={STYLES.activePlayersHand} className="activePlayersHand">
         <div style={STYLES.activePlayersHand.fichas}>
@@ -31,6 +31,11 @@ class Hand extends React.Component {
               gameId={gameId}
             />
           ))}
+        </div>
+        <div style={{ right: '10px', position: 'fixed', bottom: '10px' }}>
+          <button onClick={() => dispatch(toggleTurn(gameId, player))}>
+            Skip turn
+          </button>
         </div>
       </div>
     );
