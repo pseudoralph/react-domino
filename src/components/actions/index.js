@@ -125,7 +125,7 @@ export const placeFichaOnBoard = (ficha, gameId, player) => {
     firebase
       .database()
       .ref(`${gameId}/board`)
-      .push({ ...ficha });
+      .push({ ...ficha, renderPos: 0 });
   };
 };
 

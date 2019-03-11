@@ -7,6 +7,10 @@ export const STYLES = {
     height: '100vh'
   },
   board: {
+    display: 'grid',
+    gridTemplateColumns: '[status] 10em [playable] auto',
+    gridRow: 'board / board',
+
     fichaOnBoard: {
       transform: 'rotate(90deg) scale(.85)',
       bottom: 'unset',
@@ -14,24 +18,20 @@ export const STYLES = {
       margin: '-40px 30px'
     },
     playable: {
-      gridTemplateRows: '50px repeat(5, 1fr)',
-
-      gridTemplateColumns: '155px repeat(8, 1fr)',
+      gridColumn: 'playable / playable',
+      gridTemplateRows: 'repeat(5, 1fr)',
+      gridTemplateColumns: 'repeat(8, 140px)',
       display: 'grid',
       border: '1px solid #b6b6b638',
-      // height: '100%',
+      height: '100%',
       boxSizing: 'border-box'
     },
     gridRowStart: 'board',
     gridRowEnd: 'board'
   },
   status: {
-    border: '1px solid black',
-    margin: '.66em',
-    padding: '.33em',
-    position: 'fixed',
-    top: '0',
-    left: '0'
+    gridColumn: 'status / status',
+    border: '1px solid black'
   },
   player: {
     icon: { border: '1px solid black', fontSize: '4em', margin: '0' },

@@ -9,6 +9,7 @@ function handleDrag(event, ficha) {
 
 function Ficha(props) {
   const { value, fichaId, player, gameId, onBoardStyling } = props;
+
   return (
     <div
       draggable
@@ -33,7 +34,8 @@ Ficha.propTypes = {
   fichaId: PropTypes.string.isRequired,
   player: PropTypes.string,
   gameId: PropTypes.string,
-  onBoardStyling: PropTypes.object
+  onBoardStyling: PropTypes.object,
+  renderPos: PropTypes.number
 };
 
 export default Ficha;
