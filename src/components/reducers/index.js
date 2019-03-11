@@ -1,9 +1,11 @@
 import players from './players';
 import fichasInPlay from './fichasInPlay';
+import gameStatus from './gameStatus';
 
 const rootReducer = {
   players,
-  fichasInPlay
+  fichasInPlay,
+  gameStatus
 };
 
 export default rootReducer;

@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Ficha from './Ficha';
 
-import { watchHand } from './actions';
+import { watchHand, watchGame } from './actions';
 
 import { STYLES } from './assets/styling';
 import { connect } from 'react-redux';
@@ -14,6 +14,7 @@ class Hand extends React.Component {
 
   componentWillMount() {
     this.props.dispatch(watchHand(this.props.gameId, this.props.player));
+    this.props.dispatch(watchGame(this.props.gameId));
   }
 
   render() {
@@ -44,7 +45,7 @@ Hand.propTypes = {
 };
 
 const propsFromState = (state, props) => {
-  return { fichas: state.players[props.player] };
+  return { fichas: state.players[props.player], gameStatus: state.gameStatus };
 };
 
 export default connect(propsFromState)(Hand);

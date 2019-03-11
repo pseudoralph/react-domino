@@ -18,8 +18,8 @@ class PlayBoard extends React.Component {
   }
 
   handleDrop(event, dispatch) {
-    console.log(event);
     let ficha = JSON.parse(event.dataTransfer.getData('ficha'));
+    console.log(ficha); // eslint-disable-line no-console
     // dispatch(moveValidator(ficha))
     dispatch(makeMove(ficha));
   }

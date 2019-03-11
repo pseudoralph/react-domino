@@ -30,8 +30,11 @@ export const startGame = gameId => {
   return () => {
     firebase
       .database()
-      .ref(`${gameId}/uplayedFichas`)
-      .set(readySet);
+      .ref(gameId)
+      .set({
+        uplayedFichas: readySet,
+        gameStatus: { [gameId]: { activePlayer: 'p1', unplayedBoard: true } }
+      });
   };
 };
 
@@ -117,6 +120,24 @@ export const watchBoard = gameId => {
       });
   };
 };
+
+export const watchGame = gameId => {
+  return dispatch => {
+    firebase
+      .database()
+      .ref(`${gameId}`)
+      .child('gameStatus')
+      .on('child_added', data => {
+        dispatch(getUpdatedGameState(gameId, data.val()));
+      });
+  };
+};
+
+export const getUpdatedGameState = (gameId, data) => ({
+  type: types.UPDATE_GAME_STATUS,
+  gameId,
+  data
+});
 
 /// WATCHERS END HERE ///
 
