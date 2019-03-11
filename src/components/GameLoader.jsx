@@ -27,8 +27,8 @@ class GameLoader extends React.Component {
   }
 
   handleHostGame() {
-    const gameId = randomWords(3).join('-');
-    // const gameId = 'test-game';
+    // const gameId = randomWords(3).join('-');
+    const gameId = 'test-game';
     this.setState({ gameId, player: 'p1' });
     this.dispatch(startGame(gameId));
     this.dispatch(grabFichas(gameId, 'p1'));
