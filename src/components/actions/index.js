@@ -1,6 +1,7 @@
 import * as firebase from 'firebase/app';
 import 'firebase/auth';
 import 'firebase/database';
+
 import c from '../constants';
 import { v4 } from 'uuid';
 
@@ -83,6 +84,7 @@ export const addFichasToPlayerDb = (gameId, player, fichas) => {
 };
 
 export const refreshPlayersFichas = (gameId, player, fichas) => ({
+  // state
   type: types.REFRESH_FICHAS,
   gameId,
   player,
@@ -91,13 +93,14 @@ export const refreshPlayersFichas = (gameId, player, fichas) => ({
 
 /// PLAYER INIT STOPS HERE ///
 
+/// WATCHERS START HERE ///
+
 export const watchHand = (gameId, player) => {
   return dispatch => {
     firebase
       .database()
       .ref(`${gameId}/player/${player}`)
       .on('child_removed', data => {
-        console.log('this ficha removed', data.val());
         dispatch(placeFichaOnBoard(data.val(), gameId, player));
         dispatch(getPlayersFichasFromDb(player, gameId));
       });
@@ -108,20 +111,33 @@ export const watchBoard = gameId => {
   return dispatch => {
     firebase
       .database()
-      .ref(`${gameId}/board/fichas`)
-      .on('child_added', data => {
-        console.log('board is listening', data.val());
+      .ref(`${gameId}/board`)
+      .on('child_added', () => {
+        dispatch(getFichasInPlayFromDb(gameId));
       });
   };
 };
 
+/// WATCHERS END HERE ///
+
 export const placeFichaOnBoard = (ficha, gameId, player) => {
-  console.log(ficha, gameId, player);
   return dispatch => {
     firebase
       .database()
-      .ref(`${gameId}/board/fichas`)
+      .ref(`${gameId}/board`)
       .push({ ...ficha });
+  };
+};
+
+export const getFichasInPlayFromDb = gameId => {
+  return dispatch => {
+    firebase
+      .database()
+      .ref(`${gameId}/board`)
+      .once('value')
+      .then(data => {
+        dispatch(refreshBoardFichas(gameId, data.val()));
+      });
   };
 };
 
@@ -137,8 +153,13 @@ export const getPlayersFichasFromDb = (player, gameId) => {
   };
 };
 
+export const refreshBoardFichas = (gameId, fichas) => ({
+  type: types.REFRESH_BOARD,
+  gameId,
+  fichas
+});
+
 export const makeMove = ficha => {
-  console.log('makeMove [action]: ', ficha); //eslint-disable-line no-console
   const { fichaId, player, gameId } = ficha;
 
   return () => {

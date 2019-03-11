@@ -5,6 +5,7 @@ import PlayerStatus from './PlayerStatus';
 import { STYLES } from './assets/styling';
 import { connect } from 'react-redux';
 import { watchBoard } from './actions';
+import Ficha from './Ficha';
 
 class PlayBoard extends React.Component {
   constructor(props) {
@@ -21,7 +22,7 @@ class PlayBoard extends React.Component {
   }
 
   render() {
-    const { dispatch, gameId } = this.props;
+    const { dispatch, gameId, fichas } = this.props;
 
     return (
       <div
@@ -36,9 +37,15 @@ class PlayBoard extends React.Component {
       >
         <PlayerStatus />
         <div style={STYLES.board.playable}>
-          <div style={{ gridColumnEnd: '11', gridColumnStart: '1' }}>
-            <p style={{ textAlign: 'center' }}>gameId: {gameId}</p>
-          </div>
+          {Object.values(fichas).map(ficha => (
+            <div key={ficha.fichaId}>
+              <Ficha
+                onBoardStyling={STYLES.board.fichaOnBoard}
+                value={ficha.value}
+                fichaId={ficha.fichaId}
+              />
+            </div>
+          ))}
         </div>
       </div>
     );
@@ -50,8 +57,8 @@ PlayBoard.propTypes = {
   gameId: PropTypes.string.isRequired
 };
 
-const propsFromState = (state, props) => {
-  return { state };
+const propsFromState = state => {
+  return { fichas: state.fichasInPlay };
 };
 
 export default connect(propsFromState)(PlayBoard);

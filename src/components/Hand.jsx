@@ -44,7 +44,7 @@ Hand.propTypes = {
 };
 
 const propsFromState = (state, props) => {
-  return { fichas: state.players[props.player], ...state };
+  return { fichas: state.players[props.player] };
 };
 
 export default connect(propsFromState)(Hand);

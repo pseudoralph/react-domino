@@ -8,14 +8,17 @@ function handleDrag(event, ficha) {
 }
 
 function Ficha(props) {
-  const { value, fichaId, player, gameId } = props;
+  const { value, fichaId, player, gameId, onBoardStyling } = props;
   return (
     <div
       draggable
       onDragStart={event =>
         handleDrag(event, { fichaId, player, value, gameId })
       }
-      style={STYLES.activePlayersHand.ficha}
+      style={{
+        ...STYLES.activePlayersHand.ficha,
+        ...onBoardStyling
+      }}
       className="ficha"
     >
       <Face value={props.value[0]} />
@@ -28,8 +31,9 @@ function Ficha(props) {
 Ficha.propTypes = {
   value: PropTypes.array.isRequired,
   fichaId: PropTypes.string.isRequired,
-  player: PropTypes.string.isRequired,
-  gameId: PropTypes.string.isRequired
+  player: PropTypes.string,
+  gameId: PropTypes.string,
+  onBoardStyling: PropTypes.object
 };
 
 export default Ficha;

@@ -7,13 +7,19 @@ export const STYLES = {
     height: '100vh'
   },
   board: {
+    fichaOnBoard: {
+      transform: 'rotate(90deg) scale(.85)',
+      bottom: 'unset',
+      position: 'unset',
+      margin: '-40px 30px'
+    },
     playable: {
       gridTemplateRows: '50px repeat(5, 1fr)',
 
-      gridTemplateColumns: '155px repeat(9, 1fr)',
+      gridTemplateColumns: '155px repeat(8, 1fr)',
       display: 'grid',
       border: '1px solid #b6b6b638',
-      height: '100%',
+      // height: '100%',
       boxSizing: 'border-box'
     },
     gridRowStart: 'board',
