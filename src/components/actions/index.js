@@ -10,6 +10,27 @@ const { firebaseConf, types, gameStart } = c;
 firebase.initializeApp(firebaseConf);
 
 /// HELPER THAT CONVERTS ARRAYS BACK TO OBJECTS ///
+
+const matchBack = (presentBoard, ficha) => {
+  const allFichas = Object.values(presentBoard).sort(x => x.renderPos);
+  const back = allFichas[0];
+
+  return (
+    back.value.filter(face => ficha.value.includes(face)).length &&
+    back.renderPos - 1 == ficha.target
+  );
+};
+
+const matchFront = (presentBoard, ficha) => {
+  const allFichas = Object.values(presentBoard).sort(x => x.renderPos);
+  const front = allFichas[allFichas.length - 1];
+
+  return (
+    front.value.filter(face => ficha.value.includes(face)).length &&
+    front.renderPos + 1 == ficha.target
+  );
+};
+
 const reconstructObject = inputArray => {
   const outputObject = {};
   inputArray.forEach(ficha => {
@@ -208,20 +229,33 @@ export const makeMove = (ficha, target) => {
     target
   );
 
-  return dispatch => {
-    firebase
-      .database()
-      .ref(`${gameId}/gameStatus/${gameId}`)
-      .once('value')
-      .then(data => {
-        let {
-          activePlayer,
-          openPos,
-          unplayedBoard,
-          outsideFaces = false
-        } = data.val();
+  const game = firebase.database().ref(gameId);
+  const gameStatus = game.child(`/gameStatus/${gameId}`);
+  const board = game.child('board');
 
-        console.log('game status =', data.val()); //eslint-disable-line no-console
+  return dispatch => {
+    gameStatus.once('value').then(gameStatusData => {
+      board.once('value').then(boardData => {
+        console.log('game status = ', gameStatusData.val());
+        console.log('board status = ', boardData.val());
+
+        if (boardData.val()) {
+          console.log(matchFront(boardData.val(), { ...ficha, target }));
+          console.log(matchBack(boardData.val(), { ...ficha, target }));
+
+          // const allFichas = Object.values(boardData.val()).sort(
+          //   x => x.renderPos
+          // );
+          // const front = allFichas[0];
+          // const back = allFichas[allFichas.length - 1];
+          // debugger;
+
+          // Object.values(boardData.val()).sort(x => x.renderPos)[0].value.filter((face)=> ficha.value.includes(face))
+        }
+
+        let { activePlayer, unplayedBoard } = gameStatusData.val();
+
+        console.log('game status =', gameStatusData.val()); //eslint-disable-line no-console
 
         if (player === activePlayer && target) {
           if (unplayedBoard) {
@@ -230,24 +264,24 @@ export const makeMove = (ficha, target) => {
             dispatch(
               placeFichaOnBoard({ ...ficha, renderPos: +target }, gameId)
             );
-
-            // dispatch(
-            //   updateStatus({
-            //     playSuccess: true,
-            //     playerMoved: player,
-            //     fichaOccupied: openPos,
-            //     gameId
-            //   })
-            // );
-          } else {
-            console.log('board already busy!'); //eslint-disable-line no-console
           }
-        } else {
-          return false;
         }
-
-        // dispatch(removeFichaFromPlayer(ficha));
       });
+
+      // let { activePlayer, unplayedBoard } = gameStatusData.val();
+
+      // console.log('game status =', gameStatusData.val()); //eslint-disable-line no-console
+
+      // if (player === activePlayer && target) {
+      //   if (unplayedBoard) {
+      //     dispatch(removeFichaFromPlayer(ficha));
+
+      //     dispatch(placeFichaOnBoard({ ...ficha, renderPos: +target }, gameId));
+      //   }
+      // }
+
+      // dispatch(removeFichaFromPlayer(ficha));
+    });
     // queue up the game status
     // 1 is the piece being sent from the active player?
     // 2 is the board empty OR do the end pieces match
