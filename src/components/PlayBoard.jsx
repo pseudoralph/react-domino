@@ -6,7 +6,7 @@ import { STYLES } from './assets/styling';
 import { connect } from 'react-redux';
 import { watchBoard } from './actions';
 import Ficha from './Ficha';
-import c from './constants';
+import boardRenderHelper from './helpers/boardRenderHelper';
 
 class PlayBoard extends React.Component {
   constructor(props) {
@@ -19,29 +19,14 @@ class PlayBoard extends React.Component {
 
   handleDrop(event, dispatch) {
     let ficha = JSON.parse(event.dataTransfer.getData('ficha'));
-    console.log(ficha); // eslint-disable-line no-console
-    // dispatch(moveValidator(ficha))
     dispatch(makeMove(ficha));
-  }
-
-  renderHelper() {
-    const { fichas } = this.props;
-    let fichasArrangement = [];
-
-    c.fichasGrid.map(gridPos => {
-      if (gridPos === Object.values(fichas)[0].renderPos) {
-        fichasArrangement.push(Object.values(fichas)[0]);
-      } else fichasArrangement.push(null);
-    });
-
-    return fichasArrangement;
   }
 
   render() {
     const { dispatch, fichas, gameId } = this.props;
 
     const renderedOutput = Object.keys(fichas).length
-      ? this.renderHelper()
+      ? boardRenderHelper(fichas)
       : Array(40).fill(null);
 
     return (

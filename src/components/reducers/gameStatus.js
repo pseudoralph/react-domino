@@ -9,7 +9,6 @@ const gameStatus = (
       return action.data;
 
     case types.TOGGLE_TURN:
-      // console.log(action);
       return state;
 
     default:

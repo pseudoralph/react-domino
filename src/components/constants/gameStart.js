@@ -1,4 +1,4 @@
-import { buildFichaSet } from '../buildFichaSet';
+import { buildFichaSet } from '../helpers/buildFichaSet';
 
 const getRandom = set => {
   return Math.floor(Math.random() * Math.floor(set.length));
