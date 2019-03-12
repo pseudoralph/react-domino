@@ -9,7 +9,7 @@ const { firebaseConf, types, gameStart } = c;
 
 firebase.initializeApp(firebaseConf);
 
-/// HELPER THAT CONVERTS ARRAYS BACK TO OBJECTS ///
+/// HELPERS ///
 
 const matchBack = (presentBoard, ficha) => {
   const allFichas = Object.values(presentBoard).sort(x => x.renderPos);
@@ -127,7 +127,6 @@ export const watchHand = (gameId, player) => {
       .database()
       .ref(`${gameId}/player/${player}`)
       .on('child_removed', () => {
-        // console.log('ficha removed', data.val());
         dispatch(getPlayersFichasFromDb(player, gameId));
       });
   };
@@ -151,7 +150,6 @@ export const watchGame = gameId => {
       .ref(`${gameId}`)
       .child('gameStatus')
       .on('child_changed', data => {
-        // console.log('[watchGame] observed change event');
         dispatch(getUpdatedGameState(gameId, data.val()));
       });
   };
@@ -222,13 +220,6 @@ export const refreshBoardFichas = (gameId, fichas) => ({
 export const makeMove = (ficha, target) => {
   const { player, gameId } = ficha;
 
-  console.log(
-    'requested ficha to remove =',
-    ficha,
-    '\ndrop at position =',
-    target
-  );
-
   const game = firebase.database().ref(gameId);
   const gameStatus = game.child(`/gameStatus/${gameId}`);
   const board = game.child('board');
@@ -236,29 +227,23 @@ export const makeMove = (ficha, target) => {
   return dispatch => {
     gameStatus.once('value').then(gameStatusData => {
       board.once('value').then(boardData => {
-        console.log('game status = ', gameStatusData.val());
-        console.log('board status = ', boardData.val());
+        const { activePlayer } = gameStatusData.val();
 
-        if (boardData.val()) {
-          console.log(matchFront(boardData.val(), { ...ficha, target }));
-          console.log(matchBack(boardData.val(), { ...ficha, target }));
+        if (boardData.val() && player === activePlayer && target) {
+          // condition for played board
+          if (
+            matchFront(boardData.val(), { ...ficha, target }) ||
+            matchBack(boardData.val(), { ...ficha, target })
+          ) {
+            dispatch(removeFichaFromPlayer(ficha));
 
-          // const allFichas = Object.values(boardData.val()).sort(
-          //   x => x.renderPos
-          // );
-          // const front = allFichas[0];
-          // const back = allFichas[allFichas.length - 1];
-          // debugger;
-
-          // Object.values(boardData.val()).sort(x => x.renderPos)[0].value.filter((face)=> ficha.value.includes(face))
-        }
-
-        let { activePlayer, unplayedBoard } = gameStatusData.val();
-
-        console.log('game status =', gameStatusData.val()); //eslint-disable-line no-console
-
-        if (player === activePlayer && target) {
-          if (unplayedBoard) {
+            dispatch(
+              placeFichaOnBoard({ ...ficha, renderPos: +target }, gameId)
+            );
+          }
+        } else {
+          // condition for new board
+          if (player === activePlayer && target) {
             dispatch(removeFichaFromPlayer(ficha));
 
             dispatch(
@@ -267,28 +252,7 @@ export const makeMove = (ficha, target) => {
           }
         }
       });
-
-      // let { activePlayer, unplayedBoard } = gameStatusData.val();
-
-      // console.log('game status =', gameStatusData.val()); //eslint-disable-line no-console
-
-      // if (player === activePlayer && target) {
-      //   if (unplayedBoard) {
-      //     dispatch(removeFichaFromPlayer(ficha));
-
-      //     dispatch(placeFichaOnBoard({ ...ficha, renderPos: +target }, gameId));
-      //   }
-      // }
-
-      // dispatch(removeFichaFromPlayer(ficha));
     });
-    // queue up the game status
-    // 1 is the piece being sent from the active player?
-    // 2 is the board empty OR do the end pieces match
-    // 3 give the ficha its position number and continue
-    // return a false
-
-    // delete ficha from player's hand
   };
 };
 
