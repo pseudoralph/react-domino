@@ -1,13 +1,15 @@
 import c from '../constants';
 
 function boardRenderHelper(fichas) {
-  // const { fichas } = this.props;
-  let fichasArrangement = [];
+  const { fichasGrid } = c;
+  let fichasArrangement = Array(fichasGrid.length).fill(null);
 
-  c.fichasGrid.map(gridPos => {
-    if (gridPos === Object.values(fichas)[0].renderPos) {
-      fichasArrangement.push(Object.values(fichas)[0]);
-    } else fichasArrangement.push(null);
+  Object.values(fichas).forEach(ficha => {
+    fichasGrid.forEach((gridId, i) => {
+      if (ficha.renderPos === gridId) {
+        fichasArrangement[i] = ficha;
+      }
+    });
   });
 
   return fichasArrangement;

@@ -33,7 +33,9 @@ export const startGame = gameId => {
       .ref(gameId)
       .set({
         uplayedFichas: readySet,
-        gameStatus: { [gameId]: { activePlayer: 'p1', unplayedBoard: true } }
+        gameStatus: {
+          [gameId]: { activePlayer: 'p1', unplayedBoard: true, openPos: 0 }
+        }
       });
   };
 };
@@ -103,8 +105,8 @@ export const watchHand = (gameId, player) => {
     firebase
       .database()
       .ref(`${gameId}/player/${player}`)
-      .on('child_removed', data => {
-        dispatch(placeFichaOnBoard(data.val(), gameId));
+      .on('child_removed', () => {
+        // console.log('ficha removed', data.val());
         dispatch(getPlayersFichasFromDb(player, gameId));
       });
   };
@@ -128,22 +130,18 @@ export const watchGame = gameId => {
       .ref(`${gameId}`)
       .child('gameStatus')
       .on('child_changed', data => {
-        console.log('[watchGame] observed change event');
+        // console.log('[watchGame] observed change event');
         dispatch(getUpdatedGameState(gameId, data.val()));
       });
   };
 };
 
 export const toggleTurn = (gameId, player) => {
-  return dispatch => {
+  return () => {
     firebase
       .database()
       .ref(`${gameId}/gameStatus/${gameId}`)
       .update({ activePlayer: player });
-    // .once('value')
-    // .then(data => {
-    //   dispatch(updateLocalTurn(gameId, data.val()[gameId].activePlayer));
-    // });
   };
 };
 
@@ -161,12 +159,12 @@ export const getUpdatedGameState = (gameId, data) => ({
 
 /// WATCHERS END HERE ///
 
-export const placeFichaOnBoard = (ficha, gameId, position = 0) => {
+export const placeFichaOnBoard = (ficha, gameId) => {
   return () => {
     firebase
       .database()
       .ref(`${gameId}/board`)
-      .push({ ...ficha, renderPos: position });
+      .push(ficha);
   };
 };
 
@@ -201,8 +199,76 @@ export const refreshBoardFichas = (gameId, fichas) => ({
 });
 
 export const makeMove = ficha => {
-  const { fichaId, player, gameId } = ficha;
+  const { player, gameId } = ficha;
 
+  console.log('requested ficha to remove =', ficha); //eslint-disable-line no-console
+
+  return dispatch => {
+    firebase
+      .database()
+      .ref(`${gameId}/gameStatus/${gameId}`)
+      .once('value')
+      .then(data => {
+        let { activePlayer, openPos, unplayedBoard } = data.val();
+
+        console.log('game status =', data.val()); //eslint-disable-line no-console
+
+        if (player === activePlayer) {
+          if (unplayedBoard) {
+            console.log('PLAY OK'); //eslint-disable-line no-console
+
+            dispatch(removeFichaFromPlayer(ficha));
+
+            dispatch(
+              placeFichaOnBoard({ ...ficha, renderPos: openPos }, gameId)
+            );
+
+            dispatch(
+              updateStatus({
+                playSuccess: true,
+                playerMoved: player,
+                fichaOccupied: openPos,
+                gameId
+              })
+            );
+          } else {
+            console.log('board already busy!'); //eslint-disable-line no-console
+          }
+        } else {
+          return false;
+        }
+
+        // dispatch(removeFichaFromPlayer(ficha));
+      });
+    // queue up the game status
+    // 1 is the piece being sent from the active player?
+    // 2 is the board empty OR do the end pieces match
+    // 3 give the ficha its position number and continue
+    // return a false
+
+    // delete ficha from player's hand
+  };
+};
+
+export const updateStatus = ({
+  playSuccess,
+  playerMoved,
+  fichaOccupied,
+  gameId
+}) => {
+  console.log('got it!');
+  if (playSuccess) {
+    return () => {
+      firebase
+        .database()
+        .ref(`${gameId}/gameStatus/${gameId}`)
+        .update({ openPos: ++fichaOccupied });
+    };
+  }
+};
+
+export const removeFichaFromPlayer = ({ fichaId, player, gameId }) => {
+  console.log('ficha successfully removed from ', player); //eslint-disable-line no-console
   return () => {
     firebase
       .database()

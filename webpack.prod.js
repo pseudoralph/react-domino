@@ -1,6 +1,5 @@
 const { resolve } = require('path');
 const webpack = require('webpack');
-const Dotenv = require('dotenv-webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const MinifyPlugin = require('babel-minify-webpack-plugin');
@@ -20,8 +19,7 @@ module.exports = {
   optimization: {
     minimizer: [
       new UglifyJsPlugin({
-        test: /\.jsx*/gi,
-        exclude: /\/node_modules/
+        test: /\.js(\?.*)?$/i
       })
     ]
   },
@@ -29,7 +27,6 @@ module.exports = {
     extensions: ['.js', '.jsx']
   },
   plugins: [
-    new Dotenv(),
     new CleanWebpackPlugin(resolve(__dirname, 'build')),
     new HtmlWebpackPlugin({
       template: 'template.ejs',

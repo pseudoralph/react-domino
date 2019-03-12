@@ -12,11 +12,10 @@
   "author": "Ralph Perdomo",
   "license": "ISC",
   "dependencies": {
-    "dotenv-webpack": "^1.7.0",
     "firebase": "5.8.6",
-    "lodash.pullat": "^4.6.0",
+    "lodash.pullat": "4.6.0",
     "prop-types": "15.7.1",
-    "random-words": "^1.1.0",
+    "random-words": "1.1.0",
     "react": "16.8.1",
     "react-dom": "16.8.1",
     "react-redux": "6.0.1",

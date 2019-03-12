@@ -28,7 +28,8 @@ const mapStateToProps = state => {
 
 PlayerStatus.propTypes = {
   dispatch: PropTypes.func.isRequired,
-  gameId: PropTypes.string.isRequired
+  gameId: PropTypes.string.isRequired,
+  status: PropTypes.object.isRequired
 };
 
 export default connect(mapStateToProps)(PlayerStatus);
