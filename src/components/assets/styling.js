@@ -12,7 +12,7 @@ export const STYLES = {
     gridRow: 'board / board',
 
     fichaOnBoard: {
-      transform: 'rotate(90deg) scale(.85)',
+      transform: 'rotate(-90deg) scale(.85)',
       bottom: 'unset',
       position: 'unset',
       margin: '-40px 30px'
@@ -41,14 +41,14 @@ export const STYLES = {
     fichas: { display: 'table', margin: '0 auto' },
     ficha: {
       borderBottom: '1px solid #7a7a7a',
+      borderLeft: '1px solid #7a7a7a',
       boxShadow: '4px -4px 0px 0px rgb(108, 107, 105)',
       bottom: '50px',
       position: 'relative',
       display: 'inline-block',
       margin: '10px',
       background: 'rgb(255, 253, 235)',
-      borderRadius: '0.33em',
-      borderLeft: '1px solid #7a7a7a'
+      borderRadius: '0.33em'
     },
     face: {
       padding: '10px',

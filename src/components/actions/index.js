@@ -15,19 +15,31 @@ const matchBack = (presentBoard, ficha) => {
   const allFichas = Object.values(presentBoard).sort(x => x.renderPos);
   const back = allFichas[0];
 
-  return (
-    back.value.filter(face => ficha.value.includes(face)).length &&
-    back.renderPos - 1 == ficha.target
-  );
+  console.log('top part matched:', ficha.value.includes(back.top));
+
+  // console.log(ficha.value.indexOf(back.top)); // result of 0 === a rotate is needed
+
+  if (ficha.value.indexOf(back.top) === 0) {
+    console.log(`new ficha ${ficha.fichaId} must be rotated`);
+  }
+
+  return ficha.value.includes(back.top) && back.renderPos - 1 == ficha.target;
 };
 
 const matchFront = (presentBoard, ficha) => {
   const allFichas = Object.values(presentBoard).sort(x => x.renderPos);
   const front = allFichas[allFichas.length - 1];
 
+  console.log('bottom part matched:', ficha.value.includes(front.bottom));
+
+  // console.log(ficha.value.indexOf(front.bottom)); //1 == a rotate is needed
+
+  if (ficha.value.indexOf(front.bottom) === 1) {
+    console.log(`new ficha ${ficha.fichaId} must be rotated`);
+  }
+
   return (
-    front.value.filter(face => ficha.value.includes(face)).length &&
-    front.renderPos + 1 == ficha.target
+    ficha.value.includes(front.bottom) && front.renderPos + 1 == ficha.target
   );
 };
 
@@ -183,7 +195,7 @@ export const placeFichaOnBoard = (ficha, gameId) => {
     firebase
       .database()
       .ref(`${gameId}/board`)
-      .push(ficha);
+      .push({ ...ficha, top: ficha.value[0], bottom: ficha.value[1] });
   };
 };
 
