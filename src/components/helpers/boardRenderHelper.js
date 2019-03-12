@@ -11,7 +11,6 @@ function boardRenderHelper(fichas) {
       }
     });
   });
-
   return fichasArrangement;
 }
 

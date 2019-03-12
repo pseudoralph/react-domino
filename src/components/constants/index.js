@@ -1,5 +1,4 @@
 import * as types from './actionTypes';
-// import firebaseConf from './firebaseConf';
 import firebaseConf from '../../../.env';
 import gameStart from './gameStart';
 import { fichasGrid } from './fichasGrid';

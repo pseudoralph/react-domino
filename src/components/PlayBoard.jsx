@@ -7,6 +7,7 @@ import { connect } from 'react-redux';
 import { watchBoard } from './actions';
 import Ficha from './Ficha';
 import boardRenderHelper from './helpers/boardRenderHelper';
+import c from './constants';
 
 class PlayBoard extends React.Component {
   constructor(props) {
@@ -19,7 +20,7 @@ class PlayBoard extends React.Component {
 
   handleDrop(event, dispatch) {
     let ficha = JSON.parse(event.dataTransfer.getData('ficha'));
-    dispatch(makeMove(ficha));
+    dispatch(makeMove(ficha, event.target.id));
   }
 
   render() {
@@ -35,16 +36,30 @@ class PlayBoard extends React.Component {
         className="board"
         onDrop={event => {
           this.handleDrop(event, dispatch);
+          if (event.target.id) {
+            document.getElementById(event.target.id).style.border = 'unset';
+          }
+        }}
+        onDragEnter={event => {
+          if (event.target.id && !event.target.childElementCount) {
+            document.getElementById(event.target.id).style.border =
+              '5px dotted #99b999';
+          }
         }}
         onDragOver={event => {
           event.preventDefault();
+        }}
+        onDragLeave={event => {
+          if (event.target.id) {
+            document.getElementById(event.target.id).style.border = 'unset';
+          }
         }}
       >
         <PlayerStatus gameId={gameId} />
         <div style={STYLES.board.playable}>
           {renderedOutput.map((ficha, i) =>
             ficha ? (
-              <div key={i}>
+              <div key={i} id={c.fichasGrid[i]} className="path">
                 <Ficha
                   boardStyling={STYLES.board.fichaOnBoard}
                   value={ficha.value}
@@ -53,7 +68,13 @@ class PlayBoard extends React.Component {
                 />
               </div>
             ) : (
-              <div key={i}>&nbsp;</div>
+              <div
+                key={i}
+                id={c.fichasGrid[i]}
+                className={c.fichasGrid[i] ? 'path' : null}
+              >
+                &nbsp;
+              </div>
             )
           )}
         </div>

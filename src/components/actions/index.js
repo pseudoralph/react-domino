@@ -34,7 +34,7 @@ export const startGame = gameId => {
       .set({
         uplayedFichas: readySet,
         gameStatus: {
-          [gameId]: { activePlayer: 'p1', unplayedBoard: true, openPos: 0 }
+          [gameId]: { activePlayer: 'p1', unplayedBoard: true }
         }
       });
   };
@@ -198,10 +198,15 @@ export const refreshBoardFichas = (gameId, fichas) => ({
   fichas
 });
 
-export const makeMove = ficha => {
+export const makeMove = (ficha, target) => {
   const { player, gameId } = ficha;
 
-  console.log('requested ficha to remove =', ficha); //eslint-disable-line no-console
+  console.log(
+    'requested ficha to remove =',
+    ficha,
+    '\ndrop at position =',
+    target
+  );
 
   return dispatch => {
     firebase
@@ -209,28 +214,31 @@ export const makeMove = ficha => {
       .ref(`${gameId}/gameStatus/${gameId}`)
       .once('value')
       .then(data => {
-        let { activePlayer, openPos, unplayedBoard } = data.val();
+        let {
+          activePlayer,
+          openPos,
+          unplayedBoard,
+          outsideFaces = false
+        } = data.val();
 
         console.log('game status =', data.val()); //eslint-disable-line no-console
 
-        if (player === activePlayer) {
+        if (player === activePlayer && target) {
           if (unplayedBoard) {
-            console.log('PLAY OK'); //eslint-disable-line no-console
-
             dispatch(removeFichaFromPlayer(ficha));
 
             dispatch(
-              placeFichaOnBoard({ ...ficha, renderPos: openPos }, gameId)
+              placeFichaOnBoard({ ...ficha, renderPos: +target }, gameId)
             );
 
-            dispatch(
-              updateStatus({
-                playSuccess: true,
-                playerMoved: player,
-                fichaOccupied: openPos,
-                gameId
-              })
-            );
+            // dispatch(
+            //   updateStatus({
+            //     playSuccess: true,
+            //     playerMoved: player,
+            //     fichaOccupied: openPos,
+            //     gameId
+            //   })
+            // );
           } else {
             console.log('board already busy!'); //eslint-disable-line no-console
           }
@@ -259,10 +267,7 @@ export const updateStatus = ({
   console.log('got it!');
   if (playSuccess) {
     return () => {
-      firebase
-        .database()
-        .ref(`${gameId}/gameStatus/${gameId}`)
-        .update({ openPos: ++fichaOccupied });
+      true;
     };
   }
 };

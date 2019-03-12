@@ -5,6 +5,7 @@ import { STYLES } from './assets/styling';
 
 function handleDrag(event, ficha) {
   event.dataTransfer.setData('ficha', JSON.stringify(ficha));
+  // console.log(event);
 }
 
 function Ficha(props) {
