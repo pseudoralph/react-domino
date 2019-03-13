@@ -201,7 +201,9 @@ export const makeMove = (ficha, target) => {
       board.once('value').then(boardData => {
         const { activePlayer } = gameStatusData.val();
 
-        if (boardData.val() && player === activePlayer && target) {
+        // player === activePlayer
+
+        if (boardData.val() && true && target) {
           // const rightSide = Object.values(boardData.val()).sort(function(a, b) {
           //   return b.renderPos - a.renderPos;
           // })[0];

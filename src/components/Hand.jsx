@@ -24,6 +24,7 @@ class Hand extends React.Component {
         <div style={STYLES.activePlayersHand.fichas}>
           {Object.values(fichas).map(ficha => (
             <Ficha
+              fichaStyling={'fichaInHand'}
               value={ficha.value}
               fichaId={ficha.fichaId}
               key={ficha.fichaId}

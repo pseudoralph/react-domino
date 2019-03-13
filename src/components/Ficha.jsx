@@ -18,7 +18,7 @@ function Ficha(props) {
       }
       style={{
         ...STYLES.activePlayersHand.ficha,
-        ...STYLES.board[fichaStyling]
+        ...STYLES.fichaStyling[fichaStyling]
       }}
       className="ficha"
     >

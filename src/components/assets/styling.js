@@ -1,4 +1,52 @@
 export const STYLES = {
+  fichaStyling: {
+    fichaInHand: {
+      borderBottom: '1px solid #7a7a7a',
+      borderLeft: '1px solid #7a7a7a',
+      boxShadow: '4px -4px 0px 0px rgb(108, 107, 105)'
+    },
+    fichaOnBoardLeft: {
+      borderBottom: '1px solid #7a7a7a',
+      borderLeft: '1px solid #7a7a7a',
+      boxShadow: '4px -4px 0px 0px rgb(108, 107, 105)',
+      transform: 'rotate(0deg) scale(.85)',
+      bottom: 'unset',
+      position: 'unset',
+      margin: '-10px 0'
+    },
+    fichaOnBoardRight: {
+      borderBottom: '1px solid #7a7a7a',
+      borderLeft: '1px solid #7a7a7a',
+      boxShadow: '4px -4px 0px 0px rgb(108, 107, 105)',
+      transform: 'rotate(0deg) scale(.85)',
+      bottom: 'unset',
+      position: 'unset',
+      margin: '-25px 55px'
+    },
+    fichaOnBoardMinus90: {
+      // horiz positions -3 through 4
+      borderTop: '1px solid #7a7a7a',
+      borderLeft: '1px solid #7a7a7a',
+      boxShadow: '4px 4px 0px 0px rgb(108, 107, 105)',
+
+      transform: 'rotate(-90deg) scale(.85)',
+      bottom: 'unset',
+      position: 'unset',
+      margin: '-40px 30px'
+    },
+    fichaOnBoardPlus90: {
+      // horiz positions -12 through -5 and 6 through 13
+      borderBottom: '1px solid #7a7a7a',
+      borderRight: '1px solid #7a7a7a',
+      boxShadow: '-4px -4px 0px 0px rgb(108, 107, 105)',
+
+      transform: 'rotate(90deg) scale(.85)',
+      bottom: 'unset',
+      position: 'unset',
+      margin: '-40px 30px'
+    }
+  },
+
   game: {
     display: 'grid',
     gridTemplateRows: '[board] auto [hand] 7em',
@@ -11,47 +59,6 @@ export const STYLES = {
     gridTemplateColumns: '[status] 10em [playable] auto',
     gridRow: 'board / board',
 
-    fichaOnBoardLeft: {
-      // vert positions -5 and 5
-      transform: 'rotate(0deg) scale(.85)',
-      bottom: 'unset',
-      position: 'unset',
-      margin: '-10px 0'
-      // margin: '-40px 30px'
-    },
-
-    fichaOnBoardRight: {
-      // vert positions -5 and 5
-      transform: 'rotate(0deg) scale(.85)',
-      bottom: 'unset',
-      position: 'unset',
-      // margin: '-10px 0'
-      margin: '-25px 55px;'
-    },
-
-    fichaOnBoardMinus90: {
-      // horiz positions -3 through 4
-      transform: 'rotate(-90deg) scale(.85)',
-      bottom: 'unset',
-      position: 'unset',
-      margin: '-40px 30px'
-    },
-
-    fichaOnBoardPlus90: {
-      // horiz positions -12 through -5 and 6 through 13
-      transform: 'rotate(90deg) scale(.85)',
-      bottom: 'unset',
-      position: 'unset',
-      margin: '-40px 30px'
-    },
-
-    // fichaOnBoard: {
-    //   // positions -3 through 4
-    //   transform: 'rotate(-90deg) scale(.85)',
-    //   bottom: 'unset',
-    //   position: 'unset',
-    //   margin: '-40px 30px'
-    // },
     playable: {
       gridColumn: 'playable / playable',
       gridTemplateRows: 'repeat(5, 1fr)',
@@ -75,9 +82,6 @@ export const STYLES = {
   activePlayersHand: {
     fichas: { display: 'table', margin: '0 auto' },
     ficha: {
-      borderBottom: '1px solid #7a7a7a',
-      borderLeft: '1px solid #7a7a7a',
-      boxShadow: '4px -4px 0px 0px rgb(108, 107, 105)',
       bottom: '50px',
       position: 'relative',
       display: 'inline-block',
