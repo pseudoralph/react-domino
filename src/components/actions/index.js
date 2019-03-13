@@ -11,46 +11,6 @@ firebase.initializeApp(firebaseConf);
 
 /// HELPERS ///
 
-const matchLeft = (presentBoard, ficha) => {
-  console.log('left', presentBoard, ficha);
-  const sortedFichas = Object.values(presentBoard).sort(function(a, b) {
-    return a.renderPos - b.renderPos;
-  });
-  const back = sortedFichas[0];
-
-  // Object.values(presentBoard).sort((a,b)=>{a.renderPos - b.renderPos})
-
-  console.log('top part matched:', ficha.value.includes(back.top));
-
-  if (ficha.value.indexOf(back.top) === 0) {
-    console.log(`new ficha ${ficha.fichaId} must be rotated`);
-  }
-
-  return ficha.value.includes(back.top) && back.renderPos - 1 == ficha.target;
-};
-
-const matchRight = (presentBoard, ficha) => {
-  const sortedFichas = Object.values(presentBoard).sort(function(a, b) {
-    return a.renderPos - b.renderPos;
-  });
-
-  const front = sortedFichas[sortedFichas.length - 1];
-
-  // const rightTop = Object.values(presentBoard).sort(x => x.renderPos)[Object.values(presentBoard).sort(x => x.renderPos).length-1].top
-
-  console.log('bottom part matched:', ficha.value.includes(front.bottom));
-
-  // console.log(ficha.value.indexOf(front.bottom)); //1 == a rotate is needed
-
-  if (ficha.value.indexOf(front.bottom) === 1) {
-    console.log(`new ficha ${ficha.fichaId} must be rotated`);
-  }
-
-  return (
-    ficha.value.includes(front.bottom) && front.renderPos + 1 == ficha.target
-  );
-};
-
 const reconstructObject = inputArray => {
   const outputObject = {};
   inputArray.forEach(ficha => {
@@ -251,10 +211,14 @@ export const makeMove = (ficha, target) => {
 
         if (boardData.val() && player === activePlayer && target) {
           // condition for played board
-          if (
-            matchLeft(boardData.val(), { ...ficha, target }) ||
-            matchRight(boardData.val(), { ...ficha, target })
-          ) {
+          const leftMatch = matchLeft(boardData.val(), { ...ficha, target });
+          const rightMatch = matchRight(boardData.val(), { ...ficha, target });
+
+          if (leftMatch || rightMatch) {
+            leftMatch === 'flip' || rightMatch === 'flip'
+              ? (ficha.value = [ficha.value[1], ficha.value[0]])
+              : null;
+
             dispatch(removeFichaFromPlayer(ficha));
 
             dispatch(
@@ -262,7 +226,7 @@ export const makeMove = (ficha, target) => {
             );
           }
         } else {
-          // condition for new board
+          // condition for first move
           if (player === activePlayer && target) {
             dispatch(removeFichaFromPlayer(ficha));
 
@@ -276,19 +240,48 @@ export const makeMove = (ficha, target) => {
   };
 };
 
-export const updateStatus = ({
-  playSuccess,
-  playerMoved,
-  fichaOccupied,
-  gameId
-}) => {
-  console.log('got it!');
-  if (playSuccess) {
-    return () => {
-      true;
-    };
+const matchLeft = (presentBoard, ficha) => {
+  const leftMost = Object.values(presentBoard).sort(function(a, b) {
+    return a.renderPos - b.renderPos;
+  })[0];
+
+  if (ficha.value.indexOf(leftMost.top) === 0) {
+    return 'flip';
   }
+
+  return (
+    ficha.value.includes(leftMost.top) && leftMost.renderPos - 1 == ficha.target
+  );
 };
+
+const matchRight = (presentBoard, ficha) => {
+  const rightMost = Object.values(presentBoard).sort(function(a, b) {
+    return b.renderPos - a.renderPos;
+  })[0];
+
+  if (ficha.value.indexOf(rightMost.bottom) === 1) {
+    return 'flip';
+  }
+
+  return (
+    ficha.value.includes(rightMost.bottom) &&
+    rightMost.renderPos + 1 == ficha.target
+  );
+};
+
+// export const updateStatus = ({
+//   playSuccess,
+//   playerMoved,
+//   fichaOccupied,
+//   gameId
+// }) => {
+//   console.log('got it!');
+//   if (playSuccess) {
+//     return () => {
+//       true;
+//     };
+//   }
+// };
 
 export const removeFichaFromPlayer = ({ fichaId, player, gameId }) => {
   console.log('ficha successfully removed from ', player); //eslint-disable-line no-console
