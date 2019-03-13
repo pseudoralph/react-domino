@@ -28,7 +28,7 @@ export const startGame = gameId => {
       .set({
         uplayedFichas: readySet,
         gameStatus: {
-          [gameId]: { activePlayer: 'p1', unplayedBoard: true }
+          [gameId]: { activePlayer: 'p1' }
         }
       });
   };
@@ -119,20 +119,10 @@ export const watchGame = gameId => {
   return dispatch => {
     firebase
       .database()
-      .ref(`${gameId}`)
-      .child('gameStatus')
-      .on('child_changed', data => {
-        dispatch(getUpdatedGameState(gameId, data.val()));
-      });
-  };
-};
-
-export const toggleTurn = (gameId, player) => {
-  return () => {
-    firebase
-      .database()
       .ref(`${gameId}/gameStatus/${gameId}`)
-      .update({ activePlayer: player });
+      .on('child_changed', data => {
+        dispatch(getUpdatedGameState(data.val(), gameId));
+      });
   };
 };
 
@@ -142,7 +132,7 @@ export const updateLocalTurn = (gameId, activePlayer) => ({
   activePlayer
 });
 
-export const getUpdatedGameState = (gameId, data) => ({
+export const getUpdatedGameState = (data, gameId) => ({
   type: types.UPDATE_GAME_STATUS,
   gameId,
   data
@@ -201,25 +191,9 @@ export const makeMove = (ficha, target) => {
       board.once('value').then(boardData => {
         const { activePlayer } = gameStatusData.val();
 
-        // player === activePlayer
-
-        if (boardData.val() && true && target) {
-          // const rightSide = Object.values(boardData.val()).sort(function(a, b) {
-          //   return b.renderPos - a.renderPos;
-          // })[0];
-          // const leftSide = Object.values(boardData.val()).sort(function(a, b) {
-          //   return a.renderPos - b.renderPos;
-          // })[0];
-
-          // console.log(
-          //   Object.values(boardData.val()).sort(function(a, b) {
-          //     return a.renderPos - b.renderPos;
-          //   })[0].renderPos
-          // );
-          // condition for played board
+        if (boardData.val() && player === activePlayer && target) {
           const leftMatch = matchLeft(boardData.val(), { ...ficha, target });
           const rightMatch = matchRight(boardData.val(), { ...ficha, target });
-          console.log(leftMatch, rightMatch);
 
           if (leftMatch || rightMatch) {
             leftMatch == 'flip' && !rightMatch
@@ -232,10 +206,6 @@ export const makeMove = (ficha, target) => {
               ? (ficha.value = [ficha.value[1], ficha.value[0]])
               : null;
 
-            // (leftMatch == 'flip') | (rightMatch == 'flip')
-            //   ? (ficha.value = [ficha.value[1], ficha.value[0]])
-            //   : null;
-
             dispatch(removeFichaFromPlayer(ficha));
 
             dispatch(
@@ -248,9 +218,9 @@ export const makeMove = (ficha, target) => {
                 gameId
               )
             );
+            dispatch(togglePlayer(player, gameId));
           }
         } else {
-          // condition for first move
           if (player === activePlayer && target) {
             dispatch(removeFichaFromPlayer(ficha));
             dispatch(
@@ -263,6 +233,7 @@ export const makeMove = (ficha, target) => {
                 gameId
               )
             );
+            dispatch(togglePlayer(player, gameId));
           }
         }
       });
@@ -270,22 +241,16 @@ export const makeMove = (ficha, target) => {
   };
 };
 
-// export const updateStatus = ({
-//   playSuccess,
-//   playerMoved,
-//   fichaOccupied,
-//   gameId
-// }) => {
-//   console.log('got it!');
-//   if (playSuccess) {
-//     return () => {
-//       true;
-//     };
-//   }
-// };
+export const togglePlayer = (player, gameId) => {
+  return () => {
+    firebase
+      .database()
+      .ref(`${gameId}/gameStatus/${gameId}`)
+      .update({ activePlayer: player == 'p2' ? 'p1' : 'p2' });
+  };
+};
 
 export const removeFichaFromPlayer = ({ fichaId, player, gameId }) => {
-  console.log('ficha successfully removed from ', player); //eslint-disable-line no-console
   return () => {
     firebase
       .database()

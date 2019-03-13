@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Ficha from './Ficha';
 
-import { watchHand, watchGame, toggleTurn } from './actions';
+import { watchHand, watchGame, togglePlayer } from './actions';
 
 import { STYLES } from './assets/styling';
 import { connect } from 'react-redux';
@@ -18,7 +18,7 @@ class Hand extends React.Component {
   }
 
   render() {
-    const { fichas, player, gameId, dispatch } = this.props;
+    const { fichas, player, gameId, dispatch, gameStatus } = this.props;
     return (
       <div style={STYLES.activePlayersHand} className="activePlayersHand">
         <div style={STYLES.activePlayersHand.fichas}>
@@ -34,7 +34,13 @@ class Hand extends React.Component {
           ))}
         </div>
         <div style={{ right: '10px', position: 'fixed', bottom: '10px' }}>
-          <button onClick={() => dispatch(toggleTurn(gameId, player))}>
+          <button
+            onClick={() => {
+              gameStatus.activePlayer == player
+                ? dispatch(togglePlayer(player, gameId))
+                : null;
+            }}
+          >
             Skip turn
           </button>
         </div>
@@ -47,7 +53,8 @@ Hand.propTypes = {
   dispatch: PropTypes.func,
   fichas: PropTypes.object,
   gameId: PropTypes.string,
-  player: PropTypes.string
+  player: PropTypes.string,
+  gameStatus: PropTypes.object
 };
 
 const propsFromState = (state, props) => {

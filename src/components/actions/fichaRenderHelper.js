@@ -1,5 +1,5 @@
 export const fichaRenderHelper = pos => {
-  console.log('rendering at: ', pos);
+  // console.log('rendering at: ', pos);
 
   const fichaStyling = [
     'fichaOnBoardLeft',
