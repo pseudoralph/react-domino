@@ -6,7 +6,7 @@ const MinifyPlugin = require('babel-minify-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 const WebpackBundleSizeAnalyzerPlugin = require('webpack-bundle-size-analyzer')
   .WebpackBundleSizeAnalyzerPlugin;
-// npm install terser-webpack-plugin --save-dev
+
 const projectTitle = 'react-domino'; //set this on start
 
 module.exports = {
