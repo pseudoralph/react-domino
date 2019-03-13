@@ -1,4 +1,58 @@
 export const STYLES = {
+  gameSelect: {
+    image: { opacity: '.8', position: 'fixed', bottom: '0', right: '0' },
+    boxShadow: '1px 1px 4px 0px #a8a8a8',
+    padding: '1em',
+    textAlign: 'center',
+    display: 'table',
+    width: '300px',
+    margin: '5em auto',
+    height: '30em',
+    borderRadius: '.5em',
+    background: '#98b398',
+    button: {
+      join: {
+        cursor: 'pointer',
+        margin: '12em 0 0',
+        display: 'inline-block',
+        color: 'rgb(255, 255, 255)',
+        backgroundColor: 'rgb(64, 78, 67)',
+        border: '1px solid transparent',
+        padding: '0.375rem 0.75rem',
+        fontSize: '1rem',
+        lineHeight: '1.5',
+        borderRadius: '0.25rem',
+        width: '66%'
+      },
+      cursor: 'pointer',
+      margin: '4em 1em',
+      display: 'inline-block',
+      color: '#fff',
+      backgroundColor: 'rgb(64, 78, 67)',
+      borderColor: '#1e7e34',
+      border: '1px solid transparent',
+      padding: '.375rem .75rem',
+      fontSize: '1rem',
+      lineHeight: '1.5',
+      borderRadius: '.25rem'
+    },
+    input: {
+      textAlign: 'center',
+      display: 'block',
+      width: '85%',
+      padding: '.5em',
+      fontSize: '1.2em',
+      fontWeight: '400',
+      lineHeight: '2em',
+      color: 'rgb(73, 80, 87)',
+      backgroundColor: 'rgb(255, 255, 255)',
+      border: '1px solid rgb(206, 212, 218)',
+      borderRadius: '0.25rem',
+      boxSizing: 'border-box',
+      margin: '0 auto'
+    }
+  },
+
   fichaStyling: {
     fichaInHand: {
       borderBottom: '1px solid #7a7a7a',

@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import domino from './assets/img/domino-lean.png';
+
 import { startGame, grabFichas } from './actions';
 import { STYLES } from './assets/styling';
 
@@ -65,14 +67,30 @@ class GameLoader extends React.Component {
     } else {
       return (
         <div style={STYLES.game}>
-          <div>
-            <button onClick={this.handleHostGame}>Host Game</button>
-            <button onClick={() => this.handleToggleInputBox(hiddenInput)}>
+          <div style={STYLES.gameSelect}>
+            <img src={domino} style={STYLES.gameSelect.image} />
+            <button
+              onClick={this.handleHostGame}
+              style={STYLES.gameSelect.button}
+            >
+              Host Game
+            </button>
+            <button
+              style={STYLES.gameSelect.button}
+              onClick={() => this.handleToggleInputBox(hiddenInput)}
+            >
               Join Game
             </button>
             <div ref={hiddenInput} style={{ display: 'none' }}>
-              <input ref={joinCode} type="text" />
-              <button onClick={() => this.handleJoinGame(joinCode)}>
+              <input
+                ref={joinCode}
+                type="text"
+                style={STYLES.gameSelect.input}
+              />
+              <button
+                style={STYLES.gameSelect.button.join}
+                onClick={() => this.handleJoinGame(joinCode)}
+              >
                 Join
               </button>
             </div>
