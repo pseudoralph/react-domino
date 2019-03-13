@@ -3,10 +3,10 @@ const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const MinifyPlugin = require('babel-minify-webpack-plugin');
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+const TerserPlugin = require('terser-webpack-plugin');
 const WebpackBundleSizeAnalyzerPlugin = require('webpack-bundle-size-analyzer')
   .WebpackBundleSizeAnalyzerPlugin;
-
+// npm install terser-webpack-plugin --save-dev
 const projectTitle = 'react-domino'; //set this on start
 
 module.exports = {
@@ -18,7 +18,7 @@ module.exports = {
   },
   optimization: {
     minimizer: [
-      new UglifyJsPlugin({
+      new TerserPlugin({
         test: /\.js(\?.*)?$/i
       })
     ]

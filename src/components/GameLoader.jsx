@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import domino from './assets/img/domino-lean.png';
-import github from './assets/img/github-11-48.png';
 import github_white from './assets/img/github_white.png';
 
 import { startGame, grabFichas } from './actions';
@@ -103,6 +102,7 @@ class GameLoader extends React.Component {
               <a
                 style={{ color: 'white', textDecoration: 'none' }}
                 href="https://github.com/pseudoralph/react-domino"
+                rel="noopener noreferrer"
                 target="_blank"
               >
                 <img
