@@ -2,6 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import domino from './assets/img/domino-lean.png';
+import github from './assets/img/github-11-48.png';
+import github_white from './assets/img/github_white.png';
 
 import { startGame, grabFichas } from './actions';
 import { STYLES } from './assets/styling';
@@ -68,6 +70,9 @@ class GameLoader extends React.Component {
       return (
         <div style={STYLES.game}>
           <div style={STYLES.gameSelect}>
+            <h1 style={{ fontWeight: 400, color: '#232323' }}>
+              Double9 Domino
+            </h1>
             <img src={domino} style={STYLES.gameSelect.image} />
             <button
               onClick={this.handleHostGame}
@@ -93,6 +98,27 @@ class GameLoader extends React.Component {
               >
                 Join
               </button>
+            </div>
+            <div style={STYLES.gameSelect.footer} className="footer">
+              <a
+                style={{ color: 'white', textDecoration: 'none' }}
+                href="https://github.com/pseudoralph/react-domino"
+                target="_blank"
+              >
+                <img
+                  src={github_white}
+                  style={STYLES.gameSelect.footer.image}
+                />
+                <p
+                  style={{
+                    display: 'inline-block',
+                    margin: 0,
+                    fontSize: '.8em'
+                  }}
+                >
+                  pseudoralph
+                </p>
+              </a>
             </div>
           </div>
         </div>

@@ -1,7 +1,27 @@
 export const STYLES = {
   gameSelect: {
-    image: { opacity: '.8', position: 'fixed', bottom: '0', right: '0' },
-    boxShadow: '1px 1px 4px 0px #a8a8a8',
+    footer: {
+      image: { width: '22px', padding: '0 .5em', verticalAlign: 'middle' },
+      lineHeight: '1.2em',
+      padding: '.5em 0 0',
+      position: 'fixed',
+      bottom: '0',
+      width: '100%',
+      height: '2em',
+      textAlign: 'left',
+      left: '0',
+      color: 'white',
+      background: 'rgb(64, 78, 67)',
+      fontWeight: 100
+    },
+    image: {
+      opacity: '.8',
+      position: 'fixed',
+      bottom: '0',
+      right: '0',
+      marginBottom: '2.5em'
+    },
+    boxShadow: '1px 1px 4px 0px rgba(64, 78, 67, 0.55)',
     padding: '1em',
     textAlign: 'center',
     display: 'table',
@@ -13,7 +33,7 @@ export const STYLES = {
     button: {
       join: {
         cursor: 'pointer',
-        margin: '12em 0 0',
+        margin: '10em 0 0',
         display: 'inline-block',
         color: 'rgb(255, 255, 255)',
         backgroundColor: 'rgb(64, 78, 67)',
@@ -25,7 +45,7 @@ export const STYLES = {
         width: '66%'
       },
       cursor: 'pointer',
-      margin: '4em 1em',
+      margin: '3em 1em 4em',
       display: 'inline-block',
       color: '#fff',
       backgroundColor: 'rgb(64, 78, 67)',
@@ -43,7 +63,7 @@ export const STYLES = {
       padding: '.5em',
       fontSize: '1.2em',
       fontWeight: '400',
-      lineHeight: '2em',
+      lineHeight: '1.5em',
       color: 'rgb(73, 80, 87)',
       backgroundColor: 'rgb(255, 255, 255)',
       border: '1px solid rgb(206, 212, 218)',
