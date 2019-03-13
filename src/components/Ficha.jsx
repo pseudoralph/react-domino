@@ -5,11 +5,10 @@ import { STYLES } from './assets/styling';
 
 function handleDrag(event, ficha) {
   event.dataTransfer.setData('ficha', JSON.stringify(ficha));
-  // console.log(event);
 }
 
 function Ficha(props) {
-  const { value, fichaId, player, gameId, boardStyling } = props;
+  const { value, fichaId, player, gameId, fichaStyling } = props;
 
   return (
     <div
@@ -19,7 +18,7 @@ function Ficha(props) {
       }
       style={{
         ...STYLES.activePlayersHand.ficha,
-        ...boardStyling
+        ...STYLES.board[fichaStyling]
       }}
       className="ficha"
     >
@@ -35,8 +34,8 @@ Ficha.propTypes = {
   fichaId: PropTypes.string.isRequired,
   player: PropTypes.string,
   gameId: PropTypes.string,
-  boardStyling: PropTypes.object,
-  renderPos: PropTypes.number
+  renderPos: PropTypes.number,
+  fichaStyling: PropTypes.string
 };
 
 export default Ficha;

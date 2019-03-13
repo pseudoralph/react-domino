@@ -11,12 +11,47 @@ export const STYLES = {
     gridTemplateColumns: '[status] 10em [playable] auto',
     gridRow: 'board / board',
 
-    fichaOnBoard: {
+    fichaOnBoardLeft: {
+      // vert positions -5 and 5
+      transform: 'rotate(0deg) scale(.85)',
+      bottom: 'unset',
+      position: 'unset',
+      margin: '-10px 0'
+      // margin: '-40px 30px'
+    },
+
+    fichaOnBoardRight: {
+      // vert positions -5 and 5
+      transform: 'rotate(0deg) scale(.85)',
+      bottom: 'unset',
+      position: 'unset',
+      // margin: '-10px 0'
+      margin: '-25px 55px;'
+    },
+
+    fichaOnBoardMinus90: {
+      // horiz positions -3 through 4
       transform: 'rotate(-90deg) scale(.85)',
       bottom: 'unset',
       position: 'unset',
       margin: '-40px 30px'
     },
+
+    fichaOnBoardPlus90: {
+      // horiz positions -12 through -5 and 6 through 13
+      transform: 'rotate(90deg) scale(.85)',
+      bottom: 'unset',
+      position: 'unset',
+      margin: '-40px 30px'
+    },
+
+    // fichaOnBoard: {
+    //   // positions -3 through 4
+    //   transform: 'rotate(-90deg) scale(.85)',
+    //   bottom: 'unset',
+    //   position: 'unset',
+    //   margin: '-40px 30px'
+    // },
     playable: {
       gridColumn: 'playable / playable',
       gridTemplateRows: 'repeat(5, 1fr)',

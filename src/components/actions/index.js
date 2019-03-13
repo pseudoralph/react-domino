@@ -4,20 +4,13 @@ import 'firebase/database';
 
 import c from '../constants';
 import { v4 } from 'uuid';
+import { matchLeft, matchRight } from '../helpers/matchers';
+import { reconstructObject } from '../helpers/reconstructObject';
+import { fichaRenderHelper } from './fichaRenderHelper';
 
 const { firebaseConf, types, gameStart } = c;
 
 firebase.initializeApp(firebaseConf);
-
-/// HELPERS ///
-
-const reconstructObject = inputArray => {
-  const outputObject = {};
-  inputArray.forEach(ficha => {
-    outputObject[ficha.fichaId] = ficha;
-  });
-  return outputObject;
-};
 
 /// PLAYER INIT STARTS HERE ///
 export const startGame = gameId => {
@@ -58,7 +51,7 @@ export const readyPlayer = (gameId, player, uplayedFichas) => {
   let deckArray = [];
 
   Object.keys(uplayedFichas).map(ficha => deckArray.push(uplayedFichas[ficha]));
-  var playersFichas = pullAt(deckArray, [...Array(10).keys()]);
+  const playersFichas = pullAt(deckArray, [...Array(10).keys()]);
 
   return dispatch => {
     dispatch(updateUnplayedFichas(gameId, reconstructObject(deckArray)));
@@ -90,7 +83,6 @@ export const addFichasToPlayerDb = (gameId, player, fichas) => {
 };
 
 export const refreshPlayersFichas = (gameId, player, fichas) => ({
-  // state
   type: types.REFRESH_FICHAS,
   gameId,
   player,
@@ -210,63 +202,70 @@ export const makeMove = (ficha, target) => {
         const { activePlayer } = gameStatusData.val();
 
         if (boardData.val() && player === activePlayer && target) {
+          // const rightSide = Object.values(boardData.val()).sort(function(a, b) {
+          //   return b.renderPos - a.renderPos;
+          // })[0];
+          // const leftSide = Object.values(boardData.val()).sort(function(a, b) {
+          //   return a.renderPos - b.renderPos;
+          // })[0];
+
+          // console.log(
+          //   Object.values(boardData.val()).sort(function(a, b) {
+          //     return a.renderPos - b.renderPos;
+          //   })[0].renderPos
+          // );
           // condition for played board
           const leftMatch = matchLeft(boardData.val(), { ...ficha, target });
           const rightMatch = matchRight(boardData.val(), { ...ficha, target });
+          console.log(leftMatch, rightMatch);
 
           if (leftMatch || rightMatch) {
-            leftMatch === 'flip' || rightMatch === 'flip'
+            leftMatch == 'flip' && !rightMatch
               ? (ficha.value = [ficha.value[1], ficha.value[0]])
               : null;
+            rightMatch == 'flip' && !leftMatch
+              ? (ficha.value = [ficha.value[1], ficha.value[0]])
+              : null;
+            rightMatch == 'flip' && leftMatch == 'flip'
+              ? (ficha.value = [ficha.value[1], ficha.value[0]])
+              : null;
+
+            // (leftMatch == 'flip') | (rightMatch == 'flip')
+            //   ? (ficha.value = [ficha.value[1], ficha.value[0]])
+            //   : null;
 
             dispatch(removeFichaFromPlayer(ficha));
 
             dispatch(
-              placeFichaOnBoard({ ...ficha, renderPos: +target }, gameId)
+              placeFichaOnBoard(
+                {
+                  ...ficha,
+                  renderPos: +target,
+                  fichaStyling: fichaRenderHelper(+target)
+                },
+                gameId
+              )
             );
           }
         } else {
           // condition for first move
           if (player === activePlayer && target) {
             dispatch(removeFichaFromPlayer(ficha));
-
             dispatch(
-              placeFichaOnBoard({ ...ficha, renderPos: +target }, gameId)
+              placeFichaOnBoard(
+                {
+                  ...ficha,
+                  renderPos: +target,
+                  fichaStyling: fichaRenderHelper(+target)
+                },
+                gameId
+              )
             );
           }
         }
       });
     });
   };
-};
-
-const matchLeft = (presentBoard, ficha) => {
-  const leftMost = Object.values(presentBoard).sort(function(a, b) {
-    return a.renderPos - b.renderPos;
-  })[0];
-
-  if (ficha.value.indexOf(leftMost.top) === 0) {
-    return 'flip';
-  }
-
-  return (
-    ficha.value.includes(leftMost.top) && leftMost.renderPos - 1 == ficha.target
-  );
-};
-
-const matchRight = (presentBoard, ficha) => {
-  const rightMost = Object.values(presentBoard).sort(function(a, b) {
-    return b.renderPos - a.renderPos;
-  })[0];
-
-  if (ficha.value.indexOf(rightMost.bottom) === 1) {
-    return 'flip';
-  }
-
-  return (
-    ficha.value.includes(rightMost.bottom) &&
-    rightMost.renderPos + 1 == ficha.target
-  );
 };
 
 // export const updateStatus = ({

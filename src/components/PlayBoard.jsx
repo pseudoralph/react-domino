@@ -61,10 +61,10 @@ class PlayBoard extends React.Component {
             ficha ? (
               <div key={i} id={c.fichasGrid[i]} className="path">
                 <Ficha
-                  boardStyling={STYLES.board.fichaOnBoard}
                   value={ficha.value}
                   fichaId={ficha.fichaId}
                   renderPos={ficha.renderPos}
+                  fichaStyling={ficha.fichaStyling}
                 />
               </div>
             ) : (
