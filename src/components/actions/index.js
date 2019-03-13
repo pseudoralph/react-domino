@@ -11,13 +11,16 @@ firebase.initializeApp(firebaseConf);
 
 /// HELPERS ///
 
-const matchBack = (presentBoard, ficha) => {
-  const allFichas = Object.values(presentBoard).sort(x => x.renderPos);
-  const back = allFichas[0];
+const matchLeft = (presentBoard, ficha) => {
+  console.log('left', presentBoard, ficha);
+  const sortedFichas = Object.values(presentBoard).sort(function(a, b) {
+    return a.renderPos - b.renderPos;
+  });
+  const back = sortedFichas[0];
+
+  // Object.values(presentBoard).sort((a,b)=>{a.renderPos - b.renderPos})
 
   console.log('top part matched:', ficha.value.includes(back.top));
-
-  // console.log(ficha.value.indexOf(back.top)); // result of 0 === a rotate is needed
 
   if (ficha.value.indexOf(back.top) === 0) {
     console.log(`new ficha ${ficha.fichaId} must be rotated`);
@@ -26,9 +29,14 @@ const matchBack = (presentBoard, ficha) => {
   return ficha.value.includes(back.top) && back.renderPos - 1 == ficha.target;
 };
 
-const matchFront = (presentBoard, ficha) => {
-  const allFichas = Object.values(presentBoard).sort(x => x.renderPos);
-  const front = allFichas[allFichas.length - 1];
+const matchRight = (presentBoard, ficha) => {
+  const sortedFichas = Object.values(presentBoard).sort(function(a, b) {
+    return a.renderPos - b.renderPos;
+  });
+
+  const front = sortedFichas[sortedFichas.length - 1];
+
+  // const rightTop = Object.values(presentBoard).sort(x => x.renderPos)[Object.values(presentBoard).sort(x => x.renderPos).length-1].top
 
   console.log('bottom part matched:', ficha.value.includes(front.bottom));
 
@@ -244,8 +252,8 @@ export const makeMove = (ficha, target) => {
         if (boardData.val() && player === activePlayer && target) {
           // condition for played board
           if (
-            matchFront(boardData.val(), { ...ficha, target }) ||
-            matchBack(boardData.val(), { ...ficha, target })
+            matchLeft(boardData.val(), { ...ficha, target }) ||
+            matchRight(boardData.val(), { ...ficha, target })
           ) {
             dispatch(removeFichaFromPlayer(ficha));
 
