@@ -21,6 +21,7 @@ export const STYLES = {
       right: '0',
       marginBottom: '2.5em'
     },
+    zIndex: 99,
     boxShadow: '1px 1px 4px 0px rgba(64, 78, 67, 0.55)',
     padding: '1em',
     textAlign: 'center',
@@ -29,7 +30,7 @@ export const STYLES = {
     margin: '5em auto',
     height: '30em',
     borderRadius: '.5em',
-    background: '#98b398',
+    background: 'rgba(152, 179, 152, 0.9)',
     button: {
       join: {
         cursor: 'pointer',

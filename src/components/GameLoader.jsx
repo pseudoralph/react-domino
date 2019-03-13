@@ -69,11 +69,11 @@ class GameLoader extends React.Component {
     } else {
       return (
         <div style={STYLES.game}>
+          <img src={domino} style={STYLES.gameSelect.image} />
           <div style={STYLES.gameSelect}>
             <h1 style={{ fontWeight: 400, color: '#232323' }}>
               Double9 Domino
             </h1>
-            <img src={domino} style={STYLES.gameSelect.image} />
             <button
               onClick={this.handleHostGame}
               style={STYLES.gameSelect.button}
