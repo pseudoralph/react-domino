@@ -147,12 +147,27 @@ export const STYLES = {
     gridRowEnd: 'board'
   },
   status: {
-    gridColumn: 'status / status',
-    border: '1px solid black'
+    box: {
+      background: 'rgb(141, 179, 141)',
+      borderRadius: '.8em',
+      margin: '.5em',
+      padding: '1em'
+    },
+    gridColumn: 'status / status'
   },
   player: {
-    icon: { border: '1px solid black', fontSize: '4em', margin: '0' },
-    textAlign: 'center'
+    face: {
+      height: '1em',
+      fontSize: '3.3em',
+      borderRadius: '100%',
+      margin: '0px auto .1em',
+      width: '1em',
+      padding: '0.3em',
+      lineHeight: '1.2em',
+      background: 'rgb(173, 208, 173)'
+    },
+    textAlign: 'center',
+    marginBottom: '1em'
   },
   activePlayersHand: {
     fichas: { display: 'table', margin: '0 auto' },
@@ -182,7 +197,7 @@ export const STYLES = {
       margin: '0 5px'
     },
     backgroundImage:
-      'linear-gradient(to right, rgb(173, 208, 173) , rgb(153, 185, 153), rgb(173, 208, 173))',
+      'linear-gradient(to right, rgb(173, 208, 173) , rgb(141, 179, 141), rgb(173, 208, 173))',
     width: '100%',
     gridRowStart: 'hand',
     gridRowEnd: 'hand'

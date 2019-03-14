@@ -19,8 +19,25 @@ class Hand extends React.Component {
 
   render() {
     const { fichas, player, gameId, dispatch, gameStatus } = this.props;
+    const icon = player == 'p2' ? '🤖' : '🧔🏻';
+
     return (
       <div style={STYLES.activePlayersHand} className="activePlayersHand">
+        <div
+          style={{
+            display: 'inline-block',
+            position: 'fixed',
+            bottom: '0px',
+            left: '0px',
+            textAlign: 'center',
+            padding: '.5em'
+          }}
+        >
+          <p style={{ margin: 0, fontSize: '2em' }}>{icon}</p>
+          <p style={{ margin: 0, fontFamily: 'monospace' }}>
+            {player == 'p2' ? 'player2' : 'player1'}
+          </p>
+        </div>
         <div style={STYLES.activePlayersHand.fichas}>
           {Object.values(fichas).map(ficha => (
             <Ficha
@@ -35,6 +52,7 @@ class Hand extends React.Component {
         </div>
         <div style={{ right: '10px', position: 'fixed', bottom: '10px' }}>
           <button
+            style={{ ...STYLES.gameSelect.button, margin: 0 }}
             onClick={() => {
               gameStatus.activePlayer == player
                 ? dispatch(togglePlayer(player, gameId))

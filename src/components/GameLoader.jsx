@@ -30,17 +30,14 @@ class GameLoader extends React.Component {
   }
 
   handleHostGame() {
-    // const gameId = randomWords(3).join('-');
-    const gameId = 'test-game';
+    const gameId = randomWords(2).join('-');
     this.setState({ gameId, player: 'p1' });
     this.dispatch(startGame(gameId));
     this.dispatch(grabFichas(gameId, 'p1'));
   }
 
   handleJoinGame(joinCode) {
-    const gameId = joinCode.current.value
-      ? joinCode.current.value
-      : 'test-game';
+    const gameId = joinCode.current.value;
 
     this.setState({ gameId, player: 'p2' });
     this.dispatch(grabFichas(gameId, 'p2'));
