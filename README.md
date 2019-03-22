@@ -27,13 +27,19 @@ JS, React 16.8
 
 ## Branch todo
 
-- [ ] refactor game logic— use "first move" and only record where ficha is dropped. not where it CAN be played (don't eval left and right move)
+- [ ] refactor game logic— use "first move" and only record where ficha is dropped and not where it CAN be played (don't eval left and right move)
 
-* [ ] add navigator.userAgent to player stats and game start time/date
+- [ ] add navigator.userAgent to player stats and game start time/date
 
-* [ ] add hammer JS
+- [ ] add hammer JS
 
-* [ ] add end game event— game win from emptying hand
+- [ ] add end game event— game win from emptying hand
+
+- [ ] count out how many skips— two skips in a row (board stays the same size)
+
+- [ ] only allow skip when player doesn't have ficha to play— no cheat skipping
+
+- [ ] randomize who goes first on first game
 
 ### License
 
