@@ -12,22 +12,6 @@ Most online domino games are based on a double-6 set. Cuban dominos, however, ar
 
 This project is that domino game.
 
-## Hierarchical overview
-
-![Project UI-1](https://github.com/pseudoralph/domino-planning/blob/master/assets/ui-2.jpg)
-![Project UI-2](https://github.com/pseudoralph/domino-planning/blob/master/assets/ui.jpeg)
-![State representation](https://github.com/pseudoralph/domino-planning/blob/master/assets/state.jpeg)
-![Components Tree](https://github.com/pseudoralph/domino-planning/blob/master/assets/component_tree.jpeg)
-
-- GameLoader
-  - Game
-    - PlayBoard
-      - PlayerStatus
-        - Player
-    - Hand
-      - Ficha
-        - Face
-
 ## Setup
 
 - clone this repository using `git clone https://github.com/pseudoralph/react-domino`
@@ -35,21 +19,21 @@ This project is that domino game.
 - launch dev environment using `npm run start`
 - navigate to `localhost:8080`
 
+Alternatively, this game can also be played at [https://domino.prdmo.com/](https://domino.prdmo.com/)
+
 ## Technologies Used
 
 JS, React 16.8
 
-## Objectives
+## Branch todo
 
-- [x] Includes visual representation of the capstone's planned layout/appearance.
+- [ ] refactor game logic— use "first move" and only record where ficha is dropped. not where it CAN be played (don't eval left and right move)
 
-- [x] Includes visual of project's component tree.
+* [ ] add navigator.userAgent to player stats and game start time/date
 
-- [x] Project was submitted by the Friday deadline.
+* [ ] add hammer JS
 
-- [x] Project demonstrates an understanding of all React concepts. If prompted, you can discuss your code with an instructor using the correct terminology.
-
-- [x] Lists all planned state, details how state will be structured and lifted.
+* [ ] add end game event— game win from emptying hand
 
 ### License
 
