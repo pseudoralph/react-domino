@@ -29,7 +29,7 @@ JS, React 16.8
 
 - [ ] refactor game logic— use "first move" and only record where ficha is dropped and not where it CAN be played (don't eval left and right move)
 
-- [ ] add navigator.userAgent to player stats and game start time/date
+- [x] add navigator.userAgent to player stats and game start time/date
 
 - [ ] add hammer JS
 

@@ -77,11 +77,12 @@ export const updateUnplayedFichas = (gameId, fichas) => {
 };
 
 export const addFichasToPlayerDb = (gameId, player, fichas) => {
+  const userAgent = navigator.userAgent ? navigator.userAgent : null;
   return () => {
     firebase
       .database()
       .ref(`${gameId}/player/${player}`)
-      .set(fichas);
+      .set({ ...fichas, userAgent });
   };
 };
 
