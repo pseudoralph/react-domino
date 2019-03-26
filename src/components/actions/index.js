@@ -6,7 +6,7 @@ import c from '../constants';
 import { v4 } from 'uuid';
 import { matchLeft, matchRight } from '../helpers/matchers';
 import { reconstructObject } from '../helpers/reconstructObject';
-import { fichaRenderHelper } from './fichaRenderHelper';
+import { fichaRenderHelper } from '../helpers/fichaRenderHelper';
 
 const { firebaseConf, types, gameStart } = c;
 
@@ -22,13 +22,16 @@ export const startGame = gameId => {
     readySet[fichaId] = { value: ficha, fichaId };
   });
   return () => {
+    const gameStartTime = new Date();
+
     firebase
       .database()
       .ref(gameId)
       .set({
         uplayedFichas: readySet,
         gameStatus: {
-          [gameId]: { activePlayer: 'p1' }
+          startTime: `${gameStartTime}`,
+          activePlayer: 'p1'
         }
       });
   };
@@ -119,7 +122,7 @@ export const watchGame = gameId => {
   return dispatch => {
     firebase
       .database()
-      .ref(`${gameId}/gameStatus/${gameId}`)
+      .ref(`${gameId}/gameStatus`)
       .on('child_changed', data => {
         dispatch(getUpdatedGameState(data.val(), gameId));
       });
@@ -183,7 +186,7 @@ export const makeMove = (ficha, target) => {
   const { player, gameId } = ficha;
 
   const game = firebase.database().ref(gameId);
-  const gameStatus = game.child(`/gameStatus/${gameId}`);
+  const gameStatus = game.child('/gameStatus');
   const board = game.child('board');
 
   return dispatch => {
@@ -245,7 +248,7 @@ export const togglePlayer = (player, gameId) => {
   return () => {
     firebase
       .database()
-      .ref(`${gameId}/gameStatus/${gameId}`)
+      .ref(`${gameId}/gameStatus/`)
       .update({ activePlayer: player == 'p2' ? 'p1' : 'p2' });
   };
 };
