@@ -9,7 +9,6 @@ function handleDrag(event, ficha) {
 
 function Ficha(props) {
   const { value, fichaId, player, gameId, fichaStyling } = props;
-
   return (
     <div
       draggable
@@ -22,9 +21,9 @@ function Ficha(props) {
       }}
       className="ficha"
     >
-      <Face value={props.value[0]} />
+      <Face value={value[0]} />
       <hr style={STYLES.activePlayersHand.line} />
-      <Face value={props.value[1]} />
+      <Face value={value[1]} />
     </div>
   );
 }

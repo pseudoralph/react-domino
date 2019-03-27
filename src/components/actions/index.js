@@ -31,7 +31,8 @@ export const startGame = gameId => {
         uplayedFichas: readySet,
         gameStatus: {
           startTime: `${gameStartTime}`,
-          activePlayer: 'p1'
+          activePlayer: 'p1',
+          firstMoveMade: false
         }
       });
   };
@@ -78,11 +79,16 @@ export const updateUnplayedFichas = (gameId, fichas) => {
 
 export const addFichasToPlayerDb = (gameId, player, fichas) => {
   const userAgent = navigator.userAgent ? navigator.userAgent : null;
+
+  let playerGame = {};
+  playerGame[player] = fichas;
+  playerGame[`_userAgents/${player}`] = userAgent;
+
   return () => {
     firebase
       .database()
-      .ref(`${gameId}/player/${player}`)
-      .set({ ...fichas, userAgent });
+      .ref(`${gameId}/player`)
+      .update(playerGame);
   };
 };
 
