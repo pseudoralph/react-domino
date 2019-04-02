@@ -200,30 +200,32 @@ export const makeMove = (ficha, target) => {
   return dispatch => {
     gameStatus.once('value').then(gameStatusData => {
       const { activePlayer } = gameStatusData.val();
+      console.log('hi');
+      console.log(gameStatusData.val());
 
-      console.log(gameStatusData.val())
+      if (
+        !gameStatusData.val().firstMoveMade &&
+        player === activePlayer &&
+        target
+      ) {
+        console.log('first move!');
 
-      if (!gameStatusData.val().firstMoveMade && player === activePlayer && target){
-        console.log('first move!')
-
-          dispatch(removeFichaFromPlayer(ficha));
-          dispatch(
-            placeFichaOnBoard(
-              {
-                ...ficha,
-                renderPos: +target,
-                fichaStyling: fichaRenderHelper(+target)
-              },
-              gameId
-            )
-          );
-          dispatch(togglePlayer(player, gameId));
-        
-      
+        dispatch(removeFichaFromPlayer(ficha));
+        dispatch(
+          placeFichaOnBoard(
+            {
+              ...ficha,
+              renderPos: +target,
+              fichaStyling: fichaRenderHelper(+target)
+            },
+            gameId
+          )
+        );
+        dispatch(togglePlayer(player, gameId));
       }
 
       board.once('value').then(boardData => {
-        console.log(boardData.val())
+        console.log(boardData.val());
 
         if (boardData.val() && player === activePlayer && target) {
           const leftMatch = matchLeft(boardData.val(), { ...ficha, target });
@@ -254,8 +256,8 @@ export const makeMove = (ficha, target) => {
             );
             dispatch(togglePlayer(player, gameId));
           }
-        } 
-        
+        }
+
         // else {
         //   if (player === activePlayer && target) {
         //     dispatch(removeFichaFromPlayer(ficha));
