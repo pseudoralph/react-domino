@@ -193,13 +193,37 @@ export const makeMove = (ficha, target) => {
   const { player, gameId } = ficha;
 
   const game = firebase.database().ref(gameId);
-  const gameStatus = game.child('/gameStatus');
+
+  const gameStatus = game.child('gameStatus');
   const board = game.child('board');
 
   return dispatch => {
     gameStatus.once('value').then(gameStatusData => {
+      const { activePlayer } = gameStatusData.val();
+
+      console.log(gameStatusData.val())
+
+      if (!gameStatusData.val().firstMoveMade && player === activePlayer && target){
+        console.log('first move!')
+
+          dispatch(removeFichaFromPlayer(ficha));
+          dispatch(
+            placeFichaOnBoard(
+              {
+                ...ficha,
+                renderPos: +target,
+                fichaStyling: fichaRenderHelper(+target)
+              },
+              gameId
+            )
+          );
+          dispatch(togglePlayer(player, gameId));
+        
+      
+      }
+
       board.once('value').then(boardData => {
-        const { activePlayer } = gameStatusData.val();
+        console.log(boardData.val())
 
         if (boardData.val() && player === activePlayer && target) {
           const leftMatch = matchLeft(boardData.val(), { ...ficha, target });
@@ -230,22 +254,24 @@ export const makeMove = (ficha, target) => {
             );
             dispatch(togglePlayer(player, gameId));
           }
-        } else {
-          if (player === activePlayer && target) {
-            dispatch(removeFichaFromPlayer(ficha));
-            dispatch(
-              placeFichaOnBoard(
-                {
-                  ...ficha,
-                  renderPos: +target,
-                  fichaStyling: fichaRenderHelper(+target)
-                },
-                gameId
-              )
-            );
-            dispatch(togglePlayer(player, gameId));
-          }
-        }
+        } 
+        
+        // else {
+        //   if (player === activePlayer && target) {
+        //     dispatch(removeFichaFromPlayer(ficha));
+        //     dispatch(
+        //       placeFichaOnBoard(
+        //         {
+        //           ...ficha,
+        //           renderPos: +target,
+        //           fichaStyling: fichaRenderHelper(+target)
+        //         },
+        //         gameId
+        //       )
+        //     );
+        //     dispatch(togglePlayer(player, gameId));
+        //   }
+        // }
       });
     });
   };
