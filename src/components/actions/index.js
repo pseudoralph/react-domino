@@ -196,8 +196,6 @@ export const makeMove = (ficha, target) => {
   const gameStatus = game.child('/gameStatus');
   const board = game.child('board');
 
-  console.log('hi');
-
   return dispatch => {
     gameStatus.once('value').then(gameStatusData => {
       board.once('value').then(boardData => {
