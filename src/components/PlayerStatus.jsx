@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Player from './Player';
-import { STYLES } from './assets/styling';
+import { STYLES } from '../assets/styling';
 import { connect } from 'react-redux';
 
 function PlayerStatus(props) {

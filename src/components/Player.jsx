@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { STYLES } from './assets/styling';
+import { STYLES } from '../assets/styling';
 
 function Player(props) {
   const { name, isComputer, isActive } = props;

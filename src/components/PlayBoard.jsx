@@ -1,13 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { makeMove } from './actions';
+import { makeMove, watchBoard } from '../actions';
 import PlayerStatus from './PlayerStatus';
-import { STYLES } from './assets/styling';
+import { STYLES } from '../assets/styling';
 import { connect } from 'react-redux';
-import { watchBoard } from './actions';
 import Ficha from './Ficha';
-import boardRenderHelper from './helpers/boardRenderHelper';
-import c from './constants';
+import boardRenderHelper from '../helpers/boardRenderHelper';
+import c from '../constants';
 
 class PlayBoard extends React.Component {
   constructor(props) {

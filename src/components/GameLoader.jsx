@@ -2,11 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import randomWords from 'random-words'; //eslint-disable-line no-unused-vars
 import { connect } from 'react-redux';
-import { startGame, grabFichas } from './actions';
+import { startGame, grabFichas } from '../actions';
 import PlayBoard from './PlayBoard';
 import Hand from './Hand';
 import GameSelect from './GameSelect';
-import { STYLES } from './assets/styling';
+import { STYLES } from '../assets/styling';
 
 class GameLoader extends React.Component {
   constructor(props) {

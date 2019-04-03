@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { STYLES } from './assets/styling';
-import { calcDots } from './helpers/calcDots';
+import { STYLES } from '../assets/styling';
+import { calcDots } from '../helpers/calcDots';
 
 function Face(props) {
   let i = 0;

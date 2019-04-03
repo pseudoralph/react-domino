@@ -200,7 +200,6 @@ export const makeMove = (ficha, target) => {
   return dispatch => {
     gameStatus.once('value').then(gameStatusData => {
       const { activePlayer } = gameStatusData.val();
-      console.log('hi');
       console.log(gameStatusData.val());
 
       if (

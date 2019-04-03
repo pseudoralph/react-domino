@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import domino from './assets/img/domino-lean.png';
-import github_white from './assets/img/github_white.png';
-import { STYLES } from './assets/styling';
+import domino from '../assets/img/domino-lean.png';
+import github_white from '../assets/img/github_white.png';
+import { STYLES } from '../assets/styling';
 
 function handleToggleInputBox(hiddenInput) {
   hiddenInput.current.style.display === 'block'
