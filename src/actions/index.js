@@ -22,15 +22,13 @@ export const startGame = gameId => {
     readySet[fichaId] = { value: ficha, fichaId };
   });
   return () => {
-    const gameStartTime = new Date();
-
     firebase
       .database()
       .ref(gameId)
       .set({
         uplayedFichas: readySet,
         gameStatus: {
-          startTime: `${gameStartTime}`,
+          startTime: new Date(),
           activePlayer: 'p1',
           firstMoveMade: false
         }
@@ -200,15 +198,12 @@ export const makeMove = (ficha, target) => {
   return dispatch => {
     gameStatus.once('value').then(gameStatusData => {
       const { activePlayer } = gameStatusData.val();
-      console.log(gameStatusData.val());
 
       if (
         !gameStatusData.val().firstMoveMade &&
         player === activePlayer &&
         target
       ) {
-        console.log('first move!');
-
         dispatch(removeFichaFromPlayer(ficha));
         dispatch(
           placeFichaOnBoard(
@@ -221,6 +216,7 @@ export const makeMove = (ficha, target) => {
           )
         );
         dispatch(togglePlayer(player, gameId));
+        dispatch(closeBoard(gameStatus));
       }
 
       board.once('value').then(boardData => {
@@ -256,26 +252,13 @@ export const makeMove = (ficha, target) => {
             dispatch(togglePlayer(player, gameId));
           }
         }
-
-        // else {
-        //   if (player === activePlayer && target) {
-        //     dispatch(removeFichaFromPlayer(ficha));
-        //     dispatch(
-        //       placeFichaOnBoard(
-        //         {
-        //           ...ficha,
-        //           renderPos: +target,
-        //           fichaStyling: fichaRenderHelper(+target)
-        //         },
-        //         gameId
-        //       )
-        //     );
-        //     dispatch(togglePlayer(player, gameId));
-        //   }
-        // }
       });
     });
   };
+};
+
+const closeBoard = gameStatus => {
+  return () => gameStatus.set({ firstMoveMade: true });
 };
 
 export const togglePlayer = (player, gameId) => {
