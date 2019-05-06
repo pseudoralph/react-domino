@@ -220,7 +220,7 @@ export const makeMove = (ficha, target) => {
       }
 
       board.once('value').then(boardData => {
-        console.log(boardData.val());
+        // console.log(boardData.val());
 
         if (boardData.val() && player === activePlayer && target) {
           const leftMatch = matchLeft(boardData.val(), { ...ficha, target });
