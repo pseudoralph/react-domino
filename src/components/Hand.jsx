@@ -54,7 +54,7 @@ class Hand extends React.Component {
           <button
             style={{ ...STYLES.gameSelect.button, margin: 0 }}
             onClick={() => {
-              gameStatus.activePlayer == player
+              gameStatus.activePlayer === player
                 ? dispatch(skipPlayer(player, gameId))
                 : null;
             }}
