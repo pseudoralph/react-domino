@@ -2,9 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Ficha from './Ficha';
 
-import { watchHand, watchGame, togglePlayer } from './actions';
+import { watchHand, watchGame, togglePlayer } from '../actions';
 
-import { STYLES } from './assets/styling';
+import { STYLES } from '../assets/styling';
 import { connect } from 'react-redux';
 
 class Hand extends React.Component {

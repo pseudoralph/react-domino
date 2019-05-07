@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Face from './Face';
-import { STYLES } from './assets/styling';
+import { STYLES } from '../assets/styling';
 
 function handleDrag(event, ficha) {
   event.dataTransfer.setData('ficha', JSON.stringify(ficha));

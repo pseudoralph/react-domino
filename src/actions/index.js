@@ -22,15 +22,13 @@ export const startGame = gameId => {
     readySet[fichaId] = { value: ficha, fichaId };
   });
   return () => {
-    const gameStartTime = new Date();
-
     firebase
       .database()
       .ref(gameId)
       .set({
         uplayedFichas: readySet,
         gameStatus: {
-          startTime: `${gameStartTime}`,
+          startTime: new Date(),
           activePlayer: 'p1',
           firstMoveMade: false
         }
@@ -189,74 +187,114 @@ export const refreshBoardFichas = (gameId, fichas) => ({
   fichas
 });
 
+const moveInsights = (fichasInPlay, target) => {
+  const layout = Object.values(fichasInPlay)
+    .map(ficha => ficha.renderPos)
+    .sort((a, b) => a - b);
+
+  if (target < layout[0] && target < layout[layout.length - 1]) {
+    return { side: 'left', position: layout[0] - 1 };
+  } else if (target > layout[0] && target > layout[layout.length - 1]) {
+    return { side: 'right', position: layout[layout.length - 1] + 1 };
+  } else if (!layout.includes(target)) {
+    return false;
+  }
+};
+
 export const makeMove = (ficha, target) => {
   const { player, gameId } = ficha;
 
   const game = firebase.database().ref(gameId);
-  const gameStatus = game.child('/gameStatus');
+
+  const gameStatus = game.child('gameStatus');
   const board = game.child('board');
+  const currentPlayer = game.child(`player/${player}`);
 
-  return dispatch => {
+  return (dispatch, state) => {
+    const { players, fichasInPlay } = state();
+
     gameStatus.once('value').then(gameStatusData => {
-      board.once('value').then(boardData => {
-        const { activePlayer } = gameStatusData.val();
+      const { activePlayer } = gameStatusData.val();
 
-        if (boardData.val() && player === activePlayer && target) {
-          const leftMatch = matchLeft(boardData.val(), { ...ficha, target });
-          const rightMatch = matchRight(boardData.val(), { ...ficha, target });
+      if (
+        !gameStatusData.val().firstMoveMade &&
+        player === activePlayer &&
+        target
+      ) {
+        dispatch(removeFichaFromPlayer(ficha));
+        dispatch(
+          placeFichaOnBoard(
+            {
+              ...ficha,
+              renderPos: +target,
+              fichaStyling: fichaRenderHelper(+target)
+            },
+            gameId
+          )
+        );
+        dispatch(togglePlayer(gameStatus, player));
 
-          if (leftMatch || rightMatch) {
-            leftMatch == 'flip' && !rightMatch
-              ? (ficha.value = [ficha.value[1], ficha.value[0]])
-              : null;
-            rightMatch == 'flip' && !leftMatch
-              ? (ficha.value = [ficha.value[1], ficha.value[0]])
-              : null;
-            rightMatch == 'flip' && leftMatch == 'flip'
-              ? (ficha.value = [ficha.value[1], ficha.value[0]])
-              : null;
+        return true;
+      }
 
-            dispatch(removeFichaFromPlayer(ficha));
+      const canMove = moveInsights(fichasInPlay, target);
+      let rightMatch, leftMatch;
 
-            dispatch(
-              placeFichaOnBoard(
-                {
-                  ...ficha,
-                  renderPos: +target,
-                  fichaStyling: fichaRenderHelper(+target)
-                },
-                gameId
-              )
-            );
-            dispatch(togglePlayer(player, gameId));
-          }
-        } else {
-          if (player === activePlayer && target) {
-            dispatch(removeFichaFromPlayer(ficha));
-            dispatch(
-              placeFichaOnBoard(
-                {
-                  ...ficha,
-                  renderPos: +target,
-                  fichaStyling: fichaRenderHelper(+target)
-                },
-                gameId
-              )
-            );
-            dispatch(togglePlayer(player, gameId));
-          }
+      if (canMove) {
+        switch (canMove.side) {
+          case 'right':
+            console.log('go right');
+            rightMatch = matchRight(fichasInPlay, { ...ficha, target });
+            break;
+          case 'left':
+            leftMatch = matchLeft(fichasInPlay, { ...ficha, target });
+            console.log('go left');
+            break;
         }
-      });
+      }
+
+      if (fichasInPlay && player === activePlayer && target) {
+        if (leftMatch || rightMatch) {
+          leftMatch == 'flip' && !rightMatch
+            ? (ficha.value = [ficha.value[1], ficha.value[0]])
+            : null;
+          rightMatch == 'flip' && !leftMatch
+            ? (ficha.value = [ficha.value[1], ficha.value[0]])
+            : null;
+          // rightMatch == 'flip' && leftMatch == 'flip'
+          //   ? (ficha.value = [ficha.value[1], ficha.value[0]])
+          //   : null;
+        }
+
+        dispatch(removeFichaFromPlayer(ficha));
+
+        dispatch(
+          placeFichaOnBoard(
+            {
+              ...ficha,
+              renderPos: +target,
+              fichaStyling: fichaRenderHelper(+target)
+            },
+            gameId
+          )
+        );
+        dispatch(togglePlayer(gameStatus, player));
+      }
     });
   };
 };
 
-export const togglePlayer = (player, gameId) => {
+export const togglePlayer = (gameStatus, player) => {
   return () => {
-    firebase
-      .database()
-      .ref(`${gameId}/gameStatus/`)
-      .update({ activePlayer: player == 'p2' ? 'p1' : 'p2' });
+    gameStatus.update({
+      activePlayer: player == 'p2' ? 'p1' : 'p2',
+      firstMoveMade: true
+    });
+
+    // firebase
+    //   .database()
+    //   .ref(`${gameId}/gameStatus/`)
+    //   .update({ activePlayer: player == 'p2' ? 'p1' : 'p2' });
   };
 };
 

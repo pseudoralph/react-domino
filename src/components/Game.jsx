@@ -3,7 +3,7 @@ import { createStore, applyMiddleware, combineReducers } from 'redux';
 import { Provider } from 'react-redux';
 import thunkMiddleware from 'redux-thunk';
 import GameLoader from './GameLoader';
-import rootReducer from './reducers';
+import rootReducer from '../reducers';
 
 const combinedReducers = combineReducers(rootReducer);
 const store = createStore(combinedReducers, applyMiddleware(thunkMiddleware));
