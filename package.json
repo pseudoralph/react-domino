@@ -7,7 +7,8 @@
     "build": "webpack --config webpack.prod.js --env.production -p",
     "start": "webpack-dev-server --config webpack.dev.js --open",
     "lint": "eslint 'src/**'; exit 0",
-    "lint-fix": "eslint 'src/**' --fix; exit 0"
+    "lint-fix": "eslint 'src/**' --fix; exit 0",
+    "deploy": "mv ./build/* ./; rm -r ./build; git add .; git commit -m \"prepare deploy to gh-pages\"; "
   },
   "author": "Ralph Perdomo",
   "license": "ISC",
