@@ -7,8 +7,7 @@
     "build": "webpack --config webpack.prod.js --env.production -p",
     "start": "webpack-dev-server --config webpack.dev.js --open",
     "lint": "eslint 'src/**'; exit 0",
-    "lint-fix": "eslint 'src/**' --fix; exit 0",
-    "deploy": "rm -rf ./build; npm run build"
+    "lint-fix": "eslint 'src/**' --fix; exit 0"
   },
   "author": "Ralph Perdomo",
   "license": "ISC",
