@@ -148,12 +148,14 @@ export const getUpdatedGameState = (data, gameId) => ({
 
 /// WATCHERS END HERE ///
 
-export const placeFichaOnBoard = (ficha, gameId) => {
+export const placeFichaOnBoard = (ficha, board) => {
   return () => {
-    firebase
-      .database()
-      .ref(`${gameId}/board`)
-      .push({ ...ficha, top: ficha.value[0], bottom: ficha.value[1] });
+    board.push({ ...ficha, top: ficha.value[0], bottom: ficha.value[1] });
+
+    // firebase
+    //   .database()
+    //   .ref(`${gameId}/board`)
+    //   .push({ ...ficha, top: ficha.value[0], bottom: ficha.value[1] });
   };
 };
 
@@ -201,6 +203,24 @@ const moveInsights = (fichasInPlay, target) => {
   }
 };
 
+const commitMove = (ficha, toPosition, board, gameStatus, player) => {
+  return (dispatch, state) => {
+    debugger;
+    dispatch(removeFichaFromPlayer(ficha));
+    dispatch(
+      placeFichaOnBoard(
+        {
+          ...ficha,
+          renderPos: toPosition,
+          fichaStyling: fichaRenderHelper(toPosition)
+        },
+        board
+      )
+    );
+    dispatch(togglePlayer(gameStatus, player));
+  };
+};
+
 export const makeMove = (ficha, target) => {
   const { player, gameId } = ficha;
 
@@ -208,19 +228,15 @@ export const makeMove = (ficha, target) => {
 
   const gameStatus = game.child('gameStatus');
   const board = game.child('board');
-  const currentPlayer = game.child(`player/${player}`);
+  // const currentPlayer = game.child(`player/${player}`);
 
   return (dispatch, state) => {
-    const { players, fichasInPlay } = state();
+    const { fichasInPlay } = state();
 
     gameStatus.once('value').then(gameStatusData => {
-      const { activePlayer } = gameStatusData.val();
+      const { activePlayer, firstMoveMade } = gameStatusData.val();
 
-      if (
-        !gameStatusData.val().firstMoveMade &&
-        player === activePlayer &&
-        target
-      ) {
+      if (!firstMoveMade && player === activePlayer) {
         dispatch(removeFichaFromPlayer(ficha));
         dispatch(
           placeFichaOnBoard(
@@ -229,56 +245,42 @@ export const makeMove = (ficha, target) => {
               renderPos: +target,
               fichaStyling: fichaRenderHelper(+target)
             },
-            gameId
+            board
           )
         );
         dispatch(togglePlayer(gameStatus, player));
 
-        return true;
-      }
+        // return true;
+      } else if (fichasInPlay && player === activePlayer) {
+        const canMove = moveInsights(fichasInPlay, target);
+        let rightMatch, leftMatch;
 
-      const canMove = moveInsights(fichasInPlay, target);
-      let rightMatch, leftMatch;
+        if (canMove) {
+          const { side, position } = canMove;
+          switch (side) {
+            case 'right':
+              rightMatch = matchRight(fichasInPlay, { ...ficha, position });
+              rightMatch === 'flip'
+                ? (ficha.value = [ficha.value[1], ficha.value[0]])
+                : null;
+              rightMatch &&
+                dispatch(
+                  commitMove(ficha, position, board, gameStatus, player)
+                );
 
-      if (canMove) {
-        switch (canMove.side) {
-          case 'right':
-            console.log('go right');
-            rightMatch = matchRight(fichasInPlay, { ...ficha, target });
-            break;
-          case 'left':
-            leftMatch = matchLeft(fichasInPlay, { ...ficha, target });
-            console.log('go left');
-            break;
+              break;
+            case 'left':
+              leftMatch = matchLeft(fichasInPlay, { ...ficha, position });
+              leftMatch === 'flip'
+                ? (ficha.value = [ficha.value[1], ficha.value[0]])
+                : null;
+              leftMatch &&
+                dispatch(
+                  commitMove(ficha, position, board, gameStatus, player)
+                );
+              break;
+          }
         }
-      }
-
-      if (fichasInPlay && player === activePlayer && target) {
-        if (leftMatch || rightMatch) {
-          leftMatch == 'flip' && !rightMatch
-            ? (ficha.value = [ficha.value[1], ficha.value[0]])
-            : null;
-          rightMatch == 'flip' && !leftMatch
-            ? (ficha.value = [ficha.value[1], ficha.value[0]])
-            : null;
-          // rightMatch == 'flip' && leftMatch == 'flip'
-          //   ? (ficha.value = [ficha.value[1], ficha.value[0]])
-          //   : null;
-        }
-
-        dispatch(removeFichaFromPlayer(ficha));
-
-        dispatch(
-          placeFichaOnBoard(
-            {
-              ...ficha,
-              renderPos: +target,
-              fichaStyling: fichaRenderHelper(+target)
-            },
-            gameId
-          )
-        );
-        dispatch(togglePlayer(gameStatus, player));
       }
     });
   };
