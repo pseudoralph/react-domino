@@ -12,7 +12,6 @@ const { firebaseConf, types, gameStart } = c;
 
 firebase.initializeApp(firebaseConf);
 
-/// PLAYER INIT STARTS HERE ///
 export const startGame = gameId => {
   const uplayedFichas = gameStart();
   const readySet = {};
@@ -48,7 +47,7 @@ export const grabFichas = (gameId, player) => {
   };
 };
 
-export const readyPlayer = (gameId, player, uplayedFichas) => {
+const readyPlayer = (gameId, player, uplayedFichas) => {
   const pullAt = require('lodash.pullat');
   let deckArray = [];
 
@@ -66,7 +65,7 @@ export const readyPlayer = (gameId, player, uplayedFichas) => {
   };
 };
 
-export const updateUnplayedFichas = (gameId, fichas) => {
+const updateUnplayedFichas = (gameId, fichas) => {
   return () => {
     firebase
       .database()
@@ -75,7 +74,7 @@ export const updateUnplayedFichas = (gameId, fichas) => {
   };
 };
 
-export const addFichasToPlayerDb = (gameId, player, fichas) => {
+const addFichasToPlayerDb = (gameId, player, fichas) => {
   const userAgent = navigator.userAgent ? navigator.userAgent : null;
 
   let playerGame = {};
@@ -90,7 +89,7 @@ export const addFichasToPlayerDb = (gameId, player, fichas) => {
   };
 };
 
-export const refreshPlayersFichas = (gameId, player, fichas) => ({
+const refreshPlayersFichas = (gameId, player, fichas) => ({
   type: types.REFRESH_FICHAS,
   gameId,
   player,
@@ -134,13 +133,13 @@ export const watchGame = gameId => {
   };
 };
 
-export const updateLocalTurn = (gameId, activePlayer) => ({
-  type: types.TOGGLE_TURN,
-  gameId,
-  activePlayer
-});
+// export const updateLocalTurn = (gameId, activePlayer) => ({
+//   type: types.TOGGLE_TURN,
+//   gameId,
+//   activePlayer
+// });
 
-export const getUpdatedGameState = (data, gameId) => ({
+const getUpdatedGameState = (data, gameId) => ({
   type: types.UPDATE_GAME_STATUS,
   gameId,
   data
@@ -148,7 +147,7 @@ export const getUpdatedGameState = (data, gameId) => ({
 
 /// WATCHERS END HERE ///
 
-export const placeFichaOnBoard = (ficha, board) => {
+const placeFichaOnBoard = (ficha, board) => {
   return () => {
     board.push({ ...ficha, top: ficha.value[0], bottom: ficha.value[1] });
 
@@ -159,7 +158,7 @@ export const placeFichaOnBoard = (ficha, board) => {
   };
 };
 
-export const getFichasInPlayFromDb = gameId => {
+const getFichasInPlayFromDb = gameId => {
   return dispatch => {
     firebase
       .database()
@@ -171,7 +170,7 @@ export const getFichasInPlayFromDb = gameId => {
   };
 };
 
-export const getPlayersFichasFromDb = (player, gameId) => {
+const getPlayersFichasFromDb = (player, gameId) => {
   return dispatch => {
     firebase
       .database()
@@ -183,7 +182,7 @@ export const getPlayersFichasFromDb = (player, gameId) => {
   };
 };
 
-export const refreshBoardFichas = (gameId, fichas) => ({
+const refreshBoardFichas = (gameId, fichas) => ({
   type: types.REFRESH_BOARD,
   gameId,
   fichas
@@ -205,7 +204,6 @@ const moveInsights = (fichasInPlay, target) => {
 
 const commitMove = (ficha, toPosition, board, gameStatus, player) => {
   return (dispatch, state) => {
-    // debugger;
     dispatch(removeFichaFromPlayer(ficha));
     dispatch(
       placeFichaOnBoard(
@@ -296,7 +294,7 @@ export const togglePlayer = (gameStatus, player) => {
   };
 };
 
-export const removeFichaFromPlayer = ({ fichaId, player, gameId }) => {
+const removeFichaFromPlayer = ({ fichaId, player, gameId }) => {
   return () => {
     firebase
       .database()
