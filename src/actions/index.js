@@ -187,6 +187,24 @@ export const refreshBoardFichas = (gameId, fichas) => ({
   fichas
 });
 
+const moveInsights = (fichasInPlay, target) => {
+  // return an object with game stats
+  // inludes: active player
+  //
+
+  const layout = Object.values(fichasInPlay)
+    .map(ficha => ficha.renderPos)
+    .sort((a, b) => a - b);
+
+  if (target < layout[0] && target < layout[layout.length - 1]) {
+    return { side: 'left', position: layout[0] - 1 };
+  } else if (target > layout[0] && target > layout[layout.length - 1]) {
+    return { side: 'right', position: layout[layout.length - 1] + 1 };
+  } else if (!layout.includes(target)) {
+    return false;
+  }
+};
+
 export const makeMove = (ficha, target) => {
   const { player, gameId } = ficha;
 
@@ -194,8 +212,14 @@ export const makeMove = (ficha, target) => {
 
   const gameStatus = game.child('gameStatus');
   const board = game.child('board');
+  const currentPlayer = game.child(`player/${player}`);
 
-  return dispatch => {
+  return (dispatch, state) => {
+    const { players, fichasInPlay } = state();
+
+    // Object.values(fichasInPlay).length && console.log(fichasInPlay);
+
+    // currentPlayer.once('value').then(x => console.log(x.val()));
     gameStatus.once('value').then(gameStatusData => {
       const { activePlayer } = gameStatusData.val();
 
@@ -215,9 +239,12 @@ export const makeMove = (ficha, target) => {
             gameId
           )
         );
-        dispatch(togglePlayer(player, gameId));
-        dispatch(closeBoard(gameStatus));
+        dispatch(togglePlayer(gameStatus, player));
+
+        return true;
       }
+
+      console.log(moveInsights(fichasInPlay, target));
 
       board.once('value').then(boardData => {
         // console.log(boardData.val());
@@ -249,7 +276,8 @@ export const makeMove = (ficha, target) => {
                 gameId
               )
             );
-            dispatch(togglePlayer(player, gameId));
+            // dispatch(togglePlayer(player, gameId));
+            dispatch(togglePlayer(gameStatus, player));
           }
         }
       });
@@ -257,16 +285,17 @@ export const makeMove = (ficha, target) => {
   };
 };
 
-const closeBoard = gameStatus => {
-  return () => gameStatus.set({ firstMoveMade: true });
-};
-
-export const togglePlayer = (player, gameId) => {
+export const togglePlayer = (gameStatus, player) => {
   return () => {
-    firebase
-      .database()
-      .ref(`${gameId}/gameStatus/`)
-      .update({ activePlayer: player == 'p2' ? 'p1' : 'p2' });
+    gameStatus.update({
+      activePlayer: player == 'p2' ? 'p1' : 'p2',
+      firstMoveMade: true
+    });
+
+    // firebase
+    //   .database()
+    //   .ref(`${gameId}/gameStatus/`)
+    //   .update({ activePlayer: player == 'p2' ? 'p1' : 'p2' });
   };
 };
 
