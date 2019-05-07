@@ -133,12 +133,6 @@ export const watchGame = gameId => {
   };
 };
 
-// export const updateLocalTurn = (gameId, activePlayer) => ({
-//   type: types.TOGGLE_TURN,
-//   gameId,
-//   activePlayer
-// });
-
 const getUpdatedGameState = (data, gameId) => ({
   type: types.UPDATE_GAME_STATUS,
   gameId,
@@ -150,11 +144,6 @@ const getUpdatedGameState = (data, gameId) => ({
 const placeFichaOnBoard = (ficha, board) => {
   return () => {
     board.push({ ...ficha, top: ficha.value[0], bottom: ficha.value[1] });
-
-    // firebase
-    //   .database()
-    //   .ref(`${gameId}/board`)
-    //   .push({ ...ficha, top: ficha.value[0], bottom: ficha.value[1] });
   };
 };
 
@@ -203,7 +192,7 @@ const moveInsights = (fichasInPlay, target) => {
 };
 
 const commitMove = (ficha, toPosition, board, gameStatus, player) => {
-  return (dispatch, state) => {
+  return dispatch => {
     dispatch(removeFichaFromPlayer(ficha));
     dispatch(
       placeFichaOnBoard(
@@ -215,7 +204,7 @@ const commitMove = (ficha, toPosition, board, gameStatus, player) => {
         board
       )
     );
-    dispatch(togglePlayer(gameStatus, player));
+    dispatch(nextPlayer(gameStatus, player));
   };
 };
 
@@ -233,24 +222,14 @@ export const makeMove = (ficha, target) => {
       const { activePlayer, firstMoveMade } = gameStatusData.val();
 
       if (!firstMoveMade && player === activePlayer) {
-        dispatch(removeFichaFromPlayer(ficha));
-        dispatch(
-          placeFichaOnBoard(
-            {
-              ...ficha,
-              renderPos: +target,
-              fichaStyling: fichaRenderHelper(+target)
-            },
-            board
-          )
-        );
-        dispatch(togglePlayer(gameStatus, ficha.player));
+        dispatch(commitMove(ficha, +target, board, gameStatus, player));
       } else if (fichasInPlay && player === activePlayer) {
         const canMove = moveInsights(fichasInPlay, target);
         let rightMatch, leftMatch;
 
         if (canMove) {
           const { side, position } = canMove;
+
           switch (side) {
             case 'right':
               rightMatch = matchRight(fichasInPlay, { ...ficha, position });
@@ -280,17 +259,21 @@ export const makeMove = (ficha, target) => {
   };
 };
 
-export const togglePlayer = (gameStatus, player) => {
+const nextPlayer = (gameStatus, player) => {
   return () => {
     gameStatus.update({
       activePlayer: player == 'p2' ? 'p1' : 'p2',
       firstMoveMade: true
     });
+  };
+};
 
-    // firebase
-    //   .database()
-    //   .ref(`${gameId}/gameStatus/`)
-    //   .update({ activePlayer: player == 'p2' ? 'p1' : 'p2' });
+export const skipPlayer = (player, gameId) => {
+  return () => {
+    firebase
+      .database()
+      .ref(`${gameId}/gameStatus/`)
+      .update({ activePlayer: player == 'p2' ? 'p1' : 'p2' });
   };
 };
 
