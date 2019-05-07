@@ -205,7 +205,7 @@ const moveInsights = (fichasInPlay, target) => {
 
 const commitMove = (ficha, toPosition, board, gameStatus, player) => {
   return (dispatch, state) => {
-    debugger;
+    // debugger;
     dispatch(removeFichaFromPlayer(ficha));
     dispatch(
       placeFichaOnBoard(
@@ -225,10 +225,8 @@ export const makeMove = (ficha, target) => {
   const { player, gameId } = ficha;
 
   const game = firebase.database().ref(gameId);
-
   const gameStatus = game.child('gameStatus');
   const board = game.child('board');
-  // const currentPlayer = game.child(`player/${player}`);
 
   return (dispatch, state) => {
     const { fichasInPlay } = state();
@@ -248,9 +246,7 @@ export const makeMove = (ficha, target) => {
             board
           )
         );
-        dispatch(togglePlayer(gameStatus, player));
-
-        // return true;
+        dispatch(togglePlayer(gameStatus, ficha.player));
       } else if (fichasInPlay && player === activePlayer) {
         const canMove = moveInsights(fichasInPlay, target);
         let rightMatch, leftMatch;
