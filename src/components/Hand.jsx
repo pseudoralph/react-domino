@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Ficha from './Ficha';
 
-import { watchHand, watchGame, togglePlayer } from '../actions';
+import { watchHand, watchGame, skipPlayer } from '../actions';
 
 import { STYLES } from '../assets/styling';
 import { connect } from 'react-redux';
@@ -55,7 +55,7 @@ class Hand extends React.Component {
             style={{ ...STYLES.gameSelect.button, margin: 0 }}
             onClick={() => {
               gameStatus.activePlayer == player
-                ? dispatch(togglePlayer(player, gameId))
+                ? dispatch(skipPlayer(player, gameId))
                 : null;
             }}
           >

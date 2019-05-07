@@ -6,7 +6,8 @@ export const matchLeft = (presentBoard, ficha) => {
     return 'flip';
   }
   return (
-    ficha.value.includes(leftMost.top) && leftMost.renderPos - 1 == ficha.target
+    ficha.value.includes(leftMost.top) &&
+    leftMost.renderPos - 1 == ficha.position
   );
 };
 
@@ -19,6 +20,6 @@ export const matchRight = (presentBoard, ficha) => {
   }
   return (
     ficha.value.includes(rightMost.bottom) &&
-    rightMost.renderPos + 1 == ficha.target
+    rightMost.renderPos + 1 == ficha.position
   );
 };
