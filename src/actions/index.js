@@ -188,10 +188,6 @@ export const refreshBoardFichas = (gameId, fichas) => ({
 });
 
 const moveInsights = (fichasInPlay, target) => {
-  // return an object with game stats
-  // inludes: active player
-  //
-
   const layout = Object.values(fichasInPlay)
     .map(ficha => ficha.renderPos)
     .sort((a, b) => a - b);
@@ -217,9 +213,6 @@ export const makeMove = (ficha, target) => {
   return (dispatch, state) => {
     const { players, fichasInPlay } = state();
 
-    // Object.values(fichasInPlay).length && console.log(fichasInPlay);
-
-    // currentPlayer.once('value').then(x => console.log(x.val()));
     gameStatus.once('value').then(gameStatusData => {
       const { activePlayer } = gameStatusData.val();
 
@@ -244,43 +237,49 @@ export const makeMove = (ficha, target) => {
         return true;
       }
 
-      console.log(moveInsights(fichasInPlay, target));
+      const canMove = moveInsights(fichasInPlay, target);
+      let rightMatch, leftMatch;
 
-      board.once('value').then(boardData => {
-        // console.log(boardData.val());
-
-        if (boardData.val() && player === activePlayer && target) {
-          const leftMatch = matchLeft(boardData.val(), { ...ficha, target });
-          const rightMatch = matchRight(boardData.val(), { ...ficha, target });
-
-          if (leftMatch || rightMatch) {
-            leftMatch == 'flip' && !rightMatch
-              ? (ficha.value = [ficha.value[1], ficha.value[0]])
-              : null;
-            rightMatch == 'flip' && !leftMatch
-              ? (ficha.value = [ficha.value[1], ficha.value[0]])
-              : null;
-            rightMatch == 'flip' && leftMatch == 'flip'
-              ? (ficha.value = [ficha.value[1], ficha.value[0]])
-              : null;
-
-            dispatch(removeFichaFromPlayer(ficha));
-
-            dispatch(
-              placeFichaOnBoard(
-                {
-                  ...ficha,
-                  renderPos: +target,
-                  fichaStyling: fichaRenderHelper(+target)
-                },
-                gameId
-              )
-            );
-            // dispatch(togglePlayer(player, gameId));
-            dispatch(togglePlayer(gameStatus, player));
-          }
+      if (canMove) {
+        switch (canMove.side) {
+          case 'right':
+            console.log('go right');
+            rightMatch = matchRight(fichasInPlay, { ...ficha, target });
+            break;
+          case 'left':
+            leftMatch = matchLeft(fichasInPlay, { ...ficha, target });
+            console.log('go left');
+            break;
         }
-      });
+      }
+
+      if (fichasInPlay && player === activePlayer && target) {
+        if (leftMatch || rightMatch) {
+          leftMatch == 'flip' && !rightMatch
+            ? (ficha.value = [ficha.value[1], ficha.value[0]])
+            : null;
+          rightMatch == 'flip' && !leftMatch
+            ? (ficha.value = [ficha.value[1], ficha.value[0]])
+            : null;
+          // rightMatch == 'flip' && leftMatch == 'flip'
+          //   ? (ficha.value = [ficha.value[1], ficha.value[0]])
+          //   : null;
+        }
+
+        dispatch(removeFichaFromPlayer(ficha));
+
+        dispatch(
+          placeFichaOnBoard(
+            {
+              ...ficha,
+              renderPos: +target,
+              fichaStyling: fichaRenderHelper(+target)
+            },
+            gameId
+          )
+        );
+        dispatch(togglePlayer(gameStatus, player));
+      }
     });
   };
 };
