@@ -27,7 +27,7 @@ JS, React 16.8
 
 ## Branch todo
 
-- [ ] refactor game logic— use "first move" and only record where ficha is dropped and not where it CAN be played (don't eval left and right move)
+- [x] refactor game logic— use "first move" and only record where ficha is dropped and not where it CAN be played (don't eval left and right move)
 
 - [x] add navigator.userAgent to player stats and game start time/date
 

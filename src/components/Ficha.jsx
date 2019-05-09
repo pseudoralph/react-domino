@@ -1,16 +1,26 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import Face from './Face';
 import { STYLES } from '../assets/styling';
+import Hammer from 'hammerjs';
 
 function handleDrag(event, ficha) {
   event.dataTransfer.setData('ficha', JSON.stringify(ficha));
 }
 
 function Ficha(props) {
+  useEffect(() => {
+    console.log('hi!');
+    const webkitDrag = new Hammer(webkitDraggableFicha.current);
+    webkitDrag.on('pan', () => console.log('draggin!'));
+    // console.log(webkitDrag);
+  }, []);
+  const webkitDraggableFicha = React.createRef();
+
   const { value, fichaId, player, gameId, fichaStyling } = props;
   return (
     <div
+      ref={webkitDraggableFicha}
       draggable
       onDragStart={event =>
         handleDrag(event, { fichaId, player, value, gameId })
