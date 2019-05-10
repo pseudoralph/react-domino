@@ -14,11 +14,11 @@
   "license": "ISC",
   "dependencies": {
     "firebase": "5.8.6",
-    "hammerjs": "^2.0.8",
     "lodash.pullat": "4.6.0",
     "prop-types": "15.7.1",
     "random-words": "1.1.0",
     "react": "16.8.1",
+    "react-beautiful-dnd": "^11.0.3",
     "react-dom": "16.8.1",
     "react-redux": "6.0.1",
     "react-router-dom": "4.3.1",
