@@ -94,7 +94,7 @@ export const makeMove = (ficha, target) => {
       const { activePlayer, firstMoveMade } = gameStatusData.val();
 
       if (!firstMoveMade && player === activePlayer) {
-        dispatch(commitMove(ficha, +target, board, gameStatus, player));
+        dispatch(commitMove(ficha, 0, board, gameStatus, player));
       } else if (fichasInPlay && player === activePlayer) {
         const canMove = moveInsights(fichasInPlay, target);
         let rightMatch, leftMatch;
