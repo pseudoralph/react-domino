@@ -58,12 +58,12 @@ const MultiMode = ({ handleInfoVis, dispatch }) => {
   };
 
   const handleIsJoining = () => {
+    //eslint-disable-next-line no-extra-boolean-cast
     if (!!gameCodeUserInput.current.value) {
       const joinCode = gameCodeUserInput.current.value;
       const player = 'p2';
 
       setGameState({ gameId: joinCode, player });
-
       dispatch(grabFichas(joinCode, player));
     }
   };
