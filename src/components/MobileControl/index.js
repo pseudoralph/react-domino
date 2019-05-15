@@ -2,8 +2,8 @@ import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-
 import { watchHand, watchGame } from '../../actions';
+import Ficha from '../../components/Ficha';
 // import Draggable from 'react-beautiful-dnd';
 
 const MobileControl = props => {
@@ -16,13 +16,25 @@ const MobileControl = props => {
     }
   }, []);
 
-  return (
-    <div>
-      {props.location.state
-        ? `game id: ${props.location.state.gameId}`
-        : 'you made it here alone'}
-    </div>
-  );
+  if (props.location.state && props.fichas) {
+    const { fichas, player, gameId } = props;
+    return (
+      <div>
+        {Object.values(fichas).map(ficha => (
+          <Ficha
+            fichaStyling={'fichaInHand'}
+            value={ficha.value}
+            fichaId={ficha.fichaId}
+            key={ficha.fichaId}
+            player={player}
+            gameId={gameId}
+          />
+        ))}
+      </div>
+    );
+  } else {
+    return <div>no.</div>;
+  }
 };
 
 MobileControl.propTypes = {
@@ -30,8 +42,17 @@ MobileControl.propTypes = {
   dispatch: PropTypes.func
 };
 
-const mapToStateProps = state => {
-  return state;
+const mapToStateProps = (state, props) => {
+  if (!props.location.state) {
+    return state;
+  } else {
+    return {
+      fichas: state.players[props.location.state.player],
+      gameStatus: state.gameStatus,
+      gameId: props.location.state.gameId,
+      player: props.location.state.player
+    };
+  }
 };
 
 export default withRouter(connect(mapToStateProps)(MobileControl));
