@@ -8,8 +8,11 @@ import { Link, Redirect } from 'react-router-dom';
 import info from '../../assets/icons/info.svg';
 import '../../styles/selection.css';
 
-const MultiMode = props => {
+const MultiMode = ({ handleInfoVis, dispatch }) => {
   const [gameState, setGameState] = useState({});
+
+  const joinGameEntry = React.createRef();
+  const gameCodeUserInput = React.createRef();
 
   const styling = {
     box: {
@@ -24,7 +27,21 @@ const MultiMode = props => {
       boxSizing: 'border-box',
       textAlign: 'center',
       maxWidth: '30em'
+    },
+    inlineButton: {
+      display: 'inline',
+      position: 'absolute',
+      margin: '0',
+      top: '.4em',
+      right: '2em'
     }
+  };
+
+  const handleJoinGameEntryVisibility = () => {
+    joinGameEntry.current.style.visibility =
+      joinGameEntry.current.style.visibility === 'hidden'
+        ? 'visible'
+        : 'hidden';
   };
 
   const handleIsHosting = () => {
@@ -36,17 +53,19 @@ const MultiMode = props => {
       player
     });
 
-    props.dispatch(startGame(randomGameId));
-    props.dispatch(grabFichas(randomGameId, player));
+    dispatch(startGame(randomGameId));
+    dispatch(grabFichas(randomGameId, player));
   };
 
   const handleIsJoining = () => {
-    const joinCode = gameState.gameId;
-    const player = 'p2';
+    if (!!gameCodeUserInput.current.value) {
+      const joinCode = gameCodeUserInput.current.value;
+      const player = 'p2';
 
-    setGameState({ gameId: joinCode, player });
+      setGameState({ gameId: joinCode, player });
 
-    props.dispatch(grabFichas(joinCode, player));
+      dispatch(grabFichas(joinCode, player));
+    }
   };
 
   if (gameState.gameId) {
@@ -62,8 +81,38 @@ const MultiMode = props => {
     return (
       <div className="selection-box">
         <div style={styling.box}>
-          <button onClick={handleIsHosting}>Host</button>
-          <button onClick={handleIsJoining}>Join</button>
+          <h3>Controller</h3>
+          <button
+            style={{ display: 'inline-block', marginRight: '2em' }}
+            className="selection-button"
+            onClick={handleIsHosting}
+          >
+            Host Game
+          </button>
+          <button
+            style={{ display: 'inline-block' }}
+            className="selection-button"
+            onClick={handleJoinGameEntryVisibility}
+          >
+            Join Game
+          </button>
+          <div
+            ref={joinGameEntry}
+            style={{ visibility: 'hidden', position: 'relative' }}
+          >
+            <input
+              className="slection-input"
+              type="text"
+              ref={gameCodeUserInput}
+            />
+            <button
+              className="selection-button"
+              style={styling.inlineButton}
+              onClick={handleIsJoining}
+            >
+              Join
+            </button>
+          </div>
         </div>
         <div style={styling.box}>
           <p>
