@@ -1,12 +1,16 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import randomWords from 'random-words'; //eslint-disable-line no-unused-vars
+import { connect } from 'react-redux';
+import { startGame, grabFichas } from '../../actions';
 
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import info from '../../assets/icons/info.svg';
 import '../../styles/selection.css';
 
 const MultiMode = props => {
+  const [gameState, setGameState] = useState({});
+
   const styling = {
     box: {
       position: 'relative',
@@ -23,49 +27,56 @@ const MultiMode = props => {
     }
   };
 
-  const [hostedGame, setHostedGame] = useState({
-    gameId: null,
-    player: null
-  });
+  const handleIsHosting = () => {
+    const randomGameId = randomWords(2).join('-');
+    const player = 'p1';
 
-  const handleHostedGame = () => {
-    setHostedGame({
-      gameId: randomWords(2).join('-'),
-      player: 'p1'
+    setGameState({
+      gameId: randomGameId,
+      player
     });
 
-    props.handleRedir();
-
-    // this.dispatch(startGame(gameId));
-    // this.dispatch(grabFichas(gameId, 'p1'));
+    props.dispatch(startGame(randomGameId));
+    props.dispatch(grabFichas(randomGameId, player));
   };
 
-  return (
-    <div className="selection-box">
-      <div style={styling.box}>
-        <button onClick={handleHostedGame}>Host</button>
-        <p>
-          <Link
-            to={{
-              pathname: '/controller',
-              state: { hosted: true }
-            }}
-          >
-            HOST
-          </Link>
-        </p>
+  const handleIsJoining = () => {
+    const joinCode = gameState.gameId;
+    const player = 'p2';
+
+    setGameState({ gameId: joinCode, player });
+
+    props.dispatch(grabFichas(joinCode, player));
+  };
+
+  if (gameState.gameId) {
+    return (
+      <Redirect
+        to={{
+          pathname: '/controller',
+          state: gameState
+        }}
+      />
+    );
+  } else {
+    return (
+      <div className="selection-box">
+        <div style={styling.box}>
+          <button onClick={handleIsHosting}>Host</button>
+          <button onClick={handleIsJoining}>Join</button>
+        </div>
+        <div style={styling.box}>
+          <p>
+            <Link to="/display">Display</Link>
+          </p>
+        </div>
       </div>
-      <div style={styling.box}>
-        <p>
-          <Link to="/display">Display</Link>
-        </p>
-      </div>
-    </div>
-  );
+    );
+  }
 };
 
 MultiMode.propTypes = {
   handleInfoVis: PropTypes.func
 };
 
-export default MultiMode;
+export default connect()(MultiMode);
