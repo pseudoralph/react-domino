@@ -1,0 +1,13 @@
+.mobile-control-wrapper {
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+}
+
+.div-test {
+  /* -webkit-user-drag: element; */
+  height: 3em;
+  width: 3em;
+  background-color: red;
+}

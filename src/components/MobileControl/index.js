@@ -4,7 +4,11 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { watchHand, watchGame } from '../../actions';
 import Ficha from '../../components/Ficha';
-// import Draggable from 'react-beautiful-dnd';
+import '../../styles/mobileControl.css';
+
+// import TouchBackend from 'react-dnd-touch-backend';
+import HTML5Backend from 'react-dnd-html5-backend';
+import { DragDropContext } from 'react-dnd';
 
 const MobileControl = props => {
   useEffect(() => {
@@ -19,21 +23,27 @@ const MobileControl = props => {
   if (props.location.state && props.fichas) {
     const { fichas, player, gameId } = props;
     return (
-      <div>
-        {Object.values(fichas).map(ficha => (
-          <Ficha
-            fichaStyling={'fichaInHand'}
-            value={ficha.value}
-            fichaId={ficha.fichaId}
-            key={ficha.fichaId}
-            player={player}
-            gameId={gameId}
-          />
-        ))}
-      </div>
+      <DragDropContext backend={HTML5Backend}>
+        <div>
+          {Object.values(fichas).map(ficha => (
+            <Ficha
+              fichaStyling={'fichaInHand'}
+              value={ficha.value}
+              fichaId={ficha.fichaId}
+              key={ficha.fichaId}
+              player={player}
+              gameId={gameId}
+            />
+          ))}
+        </div>
+      </DragDropContext>
     );
   } else {
-    return <div>no.</div>;
+    return (
+      <div className="mobile-control-wrapper">
+        <div className="div-test" />
+      </div>
+    );
   }
 };
 
