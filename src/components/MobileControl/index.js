@@ -8,7 +8,9 @@ import '../../styles/mobileControl.css';
 
 import TouchBackend from 'react-dnd-touch-backend'; //eslint-disable-line no-unused-vars
 import HTML5Backend from 'react-dnd-html5-backend'; //eslint-disable-line no-unused-vars
-import { DragDropContextProvider } from 'react-dnd';
+import { DragDropContext } from 'react-dnd';
+
+import Board from './board';
 
 const MobileControl = props => {
   useEffect(() => {
@@ -23,8 +25,10 @@ const MobileControl = props => {
   if (props.location.state && props.fichas) {
     const { fichas, player, gameId } = props;
     return (
-      <DragDropContextProvider backend={TouchBackend}>
-        <div style={{ position: 'fixed', bottom: 0 }}>
+      <div style={{ padding: '1em' }}>
+        <Board />
+
+        <div>
           {Object.values(fichas).map(ficha => (
             <Ficha
               fichaStyling={'fichaInHand'}
@@ -36,7 +40,7 @@ const MobileControl = props => {
             />
           ))}
         </div>
-      </DragDropContextProvider>
+      </div>
     );
   } else {
     return (
@@ -65,4 +69,6 @@ const mapToStateProps = (state, props) => {
   }
 };
 
-export default withRouter(connect(mapToStateProps)(MobileControl));
+export default withRouter(
+  DragDropContext(HTML5Backend)(connect(mapToStateProps)(MobileControl))
+);

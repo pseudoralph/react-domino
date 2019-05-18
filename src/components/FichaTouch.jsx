@@ -9,8 +9,10 @@ import { DragSource } from 'react-dnd';
 
 const fichaSource = {
   beginDrag(props) {
-    console.log(props);
-    return {};
+    return props;
+  },
+  endDrag(props) {
+    return props;
   }
 };
 
