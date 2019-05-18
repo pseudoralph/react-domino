@@ -3,12 +3,12 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { watchHand, watchGame } from '../../actions';
-import Ficha from '../../components/Ficha';
+import Ficha from '../../components/FichaTouch';
 import '../../styles/mobileControl.css';
 
-// import TouchBackend from 'react-dnd-touch-backend';
-import HTML5Backend from 'react-dnd-html5-backend';
-import { DragDropContext } from 'react-dnd';
+import TouchBackend from 'react-dnd-touch-backend'; //eslint-disable-line no-unused-vars
+import HTML5Backend from 'react-dnd-html5-backend'; //eslint-disable-line no-unused-vars
+import { DragDropContextProvider } from 'react-dnd';
 
 const MobileControl = props => {
   useEffect(() => {
@@ -23,8 +23,8 @@ const MobileControl = props => {
   if (props.location.state && props.fichas) {
     const { fichas, player, gameId } = props;
     return (
-      <DragDropContext backend={HTML5Backend}>
-        <div>
+      <DragDropContextProvider backend={TouchBackend}>
+        <div style={{ position: 'fixed', bottom: 0 }}>
           {Object.values(fichas).map(ficha => (
             <Ficha
               fichaStyling={'fichaInHand'}
@@ -36,7 +36,7 @@ const MobileControl = props => {
             />
           ))}
         </div>
-      </DragDropContext>
+      </DragDropContextProvider>
     );
   } else {
     return (
