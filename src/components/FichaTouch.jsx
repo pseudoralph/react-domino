@@ -23,19 +23,19 @@ function collect(connect, monitor) {
   };
 }
 
-function handleDrag(event, ficha) {
-  event.dataTransfer.setData('ficha', JSON.stringify(ficha));
-}
+// function handleDrag(event, ficha) {
+//   event.dataTransfer.setData('ficha', JSON.stringify(ficha));
+// }
 
 function Ficha(props) {
   const {
     value,
-    fichaId,
-    player,
-    gameId,
+    // fichaId,
+    // player,
+    // gameId,
     fichaStyling,
-    connectDragSource,
-    isDragging
+    connectDragSource
+    // isDragging
   } = props;
   return connectDragSource(
     <div

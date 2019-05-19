@@ -89,7 +89,7 @@ export const makeMove = (ficha, target) => {
 
   return (dispatch, state) => {
     const { fichasInPlay } = state();
-    debugger;
+
     gameStatus.once('value').then(gameStatusData => {
       const { activePlayer, firstMoveMade } = gameStatusData.val();
 
@@ -98,8 +98,6 @@ export const makeMove = (ficha, target) => {
       } else if (fichasInPlay && player === activePlayer) {
         let canMove = moveInsights(fichasInPlay, target);
         let rightMatch, leftMatch;
-
-        console.log(canMove);
 
         if (canMove) {
           const { side, position } = canMove;

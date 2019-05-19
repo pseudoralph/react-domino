@@ -1,7 +1,6 @@
-import React, { useEffect } from 'react';
-import { DropTarget } from 'react-dnd';
-import { ItemTypes } from '../../constants/itemTypes';
+import React from 'react';
 import DropZone from './DropZone';
+import PropTypes from 'prop-types';
 
 const DropBoard = ({ dispatch }) => {
   return (
@@ -16,13 +15,14 @@ const DropBoard = ({ dispatch }) => {
       <h3>drag here</h3>
       <div style={{ display: 'table', textAlign: 'center', margin: '0 auto' }}>
         <DropZone dispatch={dispatch} side="left" />
-        {/* <DropZone dispatch={dispatch} side="zero" /> */}
         <DropZone dispatch={dispatch} side="right" />
       </div>
     </div>
   );
 };
 
-export default DropBoard;
+DropBoard.propTypes = {
+  dispatch: PropTypes.func
+};
 
-// export default DropTarget(ItemTypes.FICHA, dropBoardTarget, collect)(DropBoard);
+export default DropBoard;
