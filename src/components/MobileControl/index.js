@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
-import { watchHand, watchGame } from '../../actions';
+import { withRouter, Redirect } from 'react-router-dom';
+import { watchHand, watchGame, watchBoard } from '../../actions';
 import Ficha from '../../components/FichaTouch';
 import '../../styles/mobileControl.css';
 
@@ -10,7 +10,7 @@ import TouchBackend from 'react-dnd-touch-backend'; //eslint-disable-line no-unu
 import HTML5Backend from 'react-dnd-html5-backend'; //eslint-disable-line no-unused-vars
 import { DragDropContext } from 'react-dnd';
 
-import Board from './board';
+import DropBoard from './dropBoard';
 
 const MobileControl = props => {
   useEffect(() => {
@@ -19,14 +19,15 @@ const MobileControl = props => {
 
       props.dispatch(watchHand(gameId, player));
       props.dispatch(watchGame(gameId));
+      props.dispatch(watchBoard(gameId));
     }
   }, []);
 
   if (props.location.state && props.fichas) {
-    const { fichas, player, gameId } = props;
+    const { fichas, player, gameId, dispatch } = props;
     return (
       <div style={{ padding: '1em' }}>
-        <Board />
+        <DropBoard dispatch={dispatch} />
 
         <div>
           {Object.values(fichas).map(ficha => (
@@ -43,11 +44,7 @@ const MobileControl = props => {
       </div>
     );
   } else {
-    return (
-      <div className="mobile-control-wrapper">
-        <div className="div-test" />
-      </div>
-    );
+    return <Redirect to="/" />;
   }
 };
 
@@ -61,6 +58,7 @@ const mapToStateProps = (state, props) => {
     return state;
   } else {
     return {
+      fichasInPlay: state.fichasInPlay,
       fichas: state.players[props.location.state.player],
       gameStatus: state.gameStatus,
       gameId: props.location.state.gameId,
