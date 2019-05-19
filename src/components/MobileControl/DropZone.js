@@ -6,14 +6,10 @@ import { makeMove } from '../../actions';
 const dropBoardTarget = {
   drop(props, monitor) {
     const direction = props.side === 'left' ? -99 : 99;
-    // console.log(props.side, direction);
-    props.dispatch(makeMove(monitor.getItem(), direction));
+    props.dispatch(
+      makeMove({ ...monitor.getItem(), writable: true }, direction)
+    );
   }
-
-  // hover(props, monitor, dispatch) {
-  //   debugger;
-  //   console.log('ok');
-  // }
 };
 
 function collect(connect, monitor) {
