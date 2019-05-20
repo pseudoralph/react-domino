@@ -1,3 +1,8 @@
 .ficha {
-  -webkit-user-drag: element;
+  font-size: '12px';
+}
+
+.dot {
+  box-shadow: inset 0px 0px 14px 2px #000000;
+  border-radius: 100%;
 }
