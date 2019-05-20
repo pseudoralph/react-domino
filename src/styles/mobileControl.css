@@ -3,10 +3,14 @@
   height: 100vh;
   position: fixed;
   top: 0;
+  background-color: rgb(173, 208, 173);
+  padding: 1em;
+  box-sizing: border-box;
 }
 
-.div-test {
-  height: 3em;
-  width: 3em;
-  background-color: red;
+.drop-zone-container-wrapper {
+  width: 100%;
+  border: 5px dashed black;
+  padding: 1em;
+  box-sizing: border-box;
 }

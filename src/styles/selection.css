@@ -7,6 +7,11 @@ a {
   height: 100vh;
 }
 
+.selection-centered {
+  display: table;
+  margin: 0 auto;
+}
+
 .selection-wrapper > h1 {
   font-weight: 400;
   color: rgb(35 35 35);
@@ -66,7 +71,8 @@ p {
 }
 
 .selection-img {
-  width: 15em;
+  margin-top: 2em;
+  width: calc(100% - 7em);
 }
 
 .selection-button {
