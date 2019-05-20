@@ -24,10 +24,21 @@ const MobileControl = props => {
   }, []);
 
   if (props.location.state && props.fichas) {
-    const { fichas, player, gameId, dispatch, fichasInPlay } = props;
+    const {
+      fichas,
+      player,
+      gameId,
+      dispatch,
+      fichasInPlay,
+      gameStatus
+    } = props;
     return (
       <div className="mobile-control-wrapper">
-        <DropZoneContainer fichasInPlay={fichasInPlay} dispatch={dispatch} />
+        <DropZoneContainer
+          fichasInPlay={fichasInPlay}
+          dispatch={dispatch}
+          isActivePlayer={gameStatus.activePlayer === player}
+        />
 
         <div>
           {Object.values(fichas).map(ficha => (

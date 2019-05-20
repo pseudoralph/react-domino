@@ -5,14 +5,13 @@ import { STYLES } from '../../assets/styling';
 
 import '../../styles/ficha.css';
 
-function FichaDisplay(props) {
-  const { value, fichaStyling } = props;
-
+function FichaDisplay({ value, fichaStyling, transform }) {
   return (
     <div
       style={{
         ...STYLES.activePlayersHand.ficha,
         ...STYLES.fichaStyling[fichaStyling],
+        ...transform,
         bottom: 0
       }}
       className="ficha"

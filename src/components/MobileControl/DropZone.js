@@ -20,27 +20,10 @@ function collect(connect, monitor) {
   };
 }
 
-const DropZone = ({ side, connectDropTarget, assistFicha }) => {
-  const dropStyling = {
-    display: 'inline-block',
-    width: '4em',
-    backgroundColor: 'grey',
-    padding: '1em',
-    margin: '1em'
-  };
-
+const DropZone = ({ side, connectDropTarget, children, dropStyling }) => {
   return connectDropTarget(
-    <div id={side} style={dropStyling}>
-      {side}
-      {assistFicha && (
-        <div style={{ background: 'red' }}>
-          <FichaDisplay
-            fichaStyling={'controllerView'}
-            value={assistFicha.value}
-            key={assistFicha.fichaId}
-          />
-        </div>
-      )}
+    <div id={side} className={dropStyling}>
+      {children}
     </div>
   );
 };
