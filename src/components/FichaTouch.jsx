@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Face from './Face';
 import { STYLES } from '../assets/styling';
-// import '../styles/ficha.css';
+import '../styles/ficha.css';
 
 import { ItemTypes } from '../constants/itemTypes';
 import { DragSource } from 'react-dnd';
