@@ -2,8 +2,9 @@ import React from 'react';
 import { DropTarget } from 'react-dnd';
 import { ItemTypes } from '../../constants/itemTypes';
 import { makeMove } from '../../actions';
+import FichaDisplay from './FichaDisplay';
 
-const dropBoardTarget = {
+const dropZoneTarget = {
   drop(props, monitor) {
     const direction = props.side === 'left' ? -99 : 99;
     props.dispatch(
@@ -19,7 +20,7 @@ function collect(connect, monitor) {
   };
 }
 
-const DropZone = ({ side, connectDropTarget }) => {
+const DropZone = ({ side, connectDropTarget, assistFicha }) => {
   const dropStyling = {
     display: 'inline-block',
     width: '4em',
@@ -31,8 +32,17 @@ const DropZone = ({ side, connectDropTarget }) => {
   return connectDropTarget(
     <div id={side} style={dropStyling}>
       {side}
+      {assistFicha && (
+        <div style={{ background: 'red' }}>
+          <FichaDisplay
+            fichaStyling={'controllerView'}
+            value={assistFicha.value}
+            key={assistFicha.fichaId}
+          />
+        </div>
+      )}
     </div>
   );
 };
 
-export default DropTarget(ItemTypes.FICHA, dropBoardTarget, collect)(DropZone);
+export default DropTarget(ItemTypes.FICHA, dropZoneTarget, collect)(DropZone);

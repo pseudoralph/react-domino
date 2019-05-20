@@ -3,14 +3,14 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter, Redirect } from 'react-router-dom';
 import { watchHand, watchGame, watchBoard } from '../../actions';
-import Ficha from '../../components/FichaTouch';
+import FichaTouch from './FichaTouch';
 import '../../styles/mobileControl.css';
 
 import TouchBackend from 'react-dnd-touch-backend'; //eslint-disable-line no-unused-vars
 import HTML5Backend from 'react-dnd-html5-backend'; //eslint-disable-line no-unused-vars
 import { DragDropContext } from 'react-dnd';
 
-import DropBoard from './dropBoard';
+import DropZoneContainer from './dropZoneContainer';
 
 const MobileControl = props => {
   useEffect(() => {
@@ -24,15 +24,15 @@ const MobileControl = props => {
   }, []);
 
   if (props.location.state && props.fichas) {
-    const { fichas, player, gameId, dispatch } = props;
+    const { fichas, player, gameId, dispatch, fichasInPlay } = props;
     return (
-      <div style={{ padding: '1em' }}>
-        <DropBoard dispatch={dispatch} />
+      <div className="mobile-control-wrapper">
+        <DropZoneContainer fichasInPlay={fichasInPlay} dispatch={dispatch} />
 
         <div>
           {Object.values(fichas).map(ficha => (
-            <Ficha
-              fichaStyling={'fichaInHand'}
+            <FichaTouch
+              fichaStyling={'controllerView'}
               value={ficha.value}
               fichaId={ficha.fichaId}
               key={ficha.fichaId}

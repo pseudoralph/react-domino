@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import classic from '../../assets/img/classic-mode.png';
 import info from '../../assets/icons/info.svg';
-import '../../styles/selection.css';
+// import '../../styles/selection.css';
 
 const ClassicMode = ({ handleInfoVis }) => {
   const classicDesc = React.createRef();
