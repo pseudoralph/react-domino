@@ -75,6 +75,10 @@ export const STYLES = {
   },
 
   fichaStyling: {
+    controllerView: {
+      border: '1px solid #7a7a7a',
+      boxShadow: 'rgb(108, 107, 105) .15rem -.15rem 0 0'
+    },
     fichaInHand: {
       borderBottom: '1px solid #7a7a7a',
       borderLeft: '1px solid #7a7a7a',
@@ -180,21 +184,19 @@ export const STYLES = {
       borderRadius: '0.33em'
     },
     face: {
-      padding: '10px',
-      width: '50px',
+      padding: '.62rem',
       gridTemplateColumns: 'repeat(3,1 fr)',
       gridTemplateRows: 'repeat(3, 1 fr)',
-      gridColumnGap: '5px',
-      gridRowGap: '5px',
+      gap: '.32rem',
       display: 'inline-grid',
       cursor: 'pointer'
     },
     dot: {
-      height: '13px',
-      width: '13px'
+      height: '.66rem',
+      width: '.66rem'
     },
     line: {
-      margin: '0 5px'
+      margin: '0 .33rem'
     },
     backgroundImage:
       'linear-gradient(to right, rgb(173, 208, 173) , rgb(141, 179, 141), rgb(173, 208, 173))',
