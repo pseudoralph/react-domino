@@ -1,11 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Face from './Face';
-import { STYLES } from '../assets/styling';
-import '../styles/ficha.css';
-
-import { ItemTypes } from '../constants/itemTypes';
+import Face from '../Face';
+import { STYLES } from '../../assets/styling';
+import { ItemTypes } from '../../constants/itemTypes';
 import { DragSource } from 'react-dnd';
+import '../../styles/ficha.css';
 
 const fichaSource = {
   beginDrag(props) {
@@ -23,20 +22,9 @@ function collect(connect, monitor) {
   };
 }
 
-// function handleDrag(event, ficha) {
-//   event.dataTransfer.setData('ficha', JSON.stringify(ficha));
-// }
+function FichaTouch(props) {
+  const { value, fichaStyling, connectDragSource } = props;
 
-function Ficha(props) {
-  const {
-    value,
-    // fichaId,
-    // player,
-    // gameId,
-    fichaStyling,
-    connectDragSource
-    // isDragging
-  } = props;
   return connectDragSource(
     <div
       style={{
@@ -53,13 +41,9 @@ function Ficha(props) {
   );
 }
 
-Ficha.propTypes = {
+FichaTouch.propTypes = {
   value: PropTypes.array.isRequired,
-  fichaId: PropTypes.string.isRequired,
-  player: PropTypes.string,
-  gameId: PropTypes.string,
-  renderPos: PropTypes.number,
   fichaStyling: PropTypes.string
 };
 
-export default DragSource(ItemTypes.FICHA, fichaSource, collect)(Ficha);
+export default DragSource(ItemTypes.FICHA, fichaSource, collect)(FichaTouch);
