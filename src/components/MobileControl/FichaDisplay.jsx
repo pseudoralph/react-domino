@@ -23,7 +23,8 @@ function FichaDisplay({ value, fichaStyling, transform }) {
 
 FichaDisplay.propTypes = {
   value: PropTypes.array.isRequired,
-  fichaStyling: PropTypes.string
+  fichaStyling: PropTypes.string,
+  transform: PropTypes.string
 };
 
 export default FichaDisplay;

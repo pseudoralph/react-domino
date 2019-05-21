@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 const Overlay = ({ children, placement }) => {
   const definedMargin = '2.5rem';
@@ -44,6 +45,11 @@ const Overlay = ({ children, placement }) => {
       </div>
     </div>
   );
+};
+
+Overlay.propTypes = {
+  children: PropTypes.object,
+  placement: PropTypes.string
 };
 
 export default Overlay;

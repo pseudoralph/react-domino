@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { DragLayer } from 'react-dnd';
 import FichaDisplay from './FichaDisplay';
 
@@ -20,13 +21,7 @@ const getItemStyles = props => {
     };
   }
   let { x, y } = currentOffset;
-  if (props.snapToGrid) {
-    x -= initialOffset.x;
-    y -= initialOffset.y;
-    [x, y] = snapToGrid(x, y);
-    x += initialOffset.x;
-    y += initialOffset.y;
-  }
+
   const transform = `translate(${x}px, ${y}px)`;
   return {
     transform,
@@ -56,6 +51,11 @@ const collect = monitor => {
     currentOffset: monitor.getSourceClientOffset(),
     isDragging: monitor.isDragging()
   };
+};
+
+FichaDragLayer.propTypes = {
+  item: PropTypes.object,
+  isDragging: PropTypes.bool
 };
 
 export default DragLayer(collect)(FichaDragLayer);

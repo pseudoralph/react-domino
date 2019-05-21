@@ -3,15 +3,13 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter, Redirect } from 'react-router-dom';
 import { watchHand, watchGame, watchBoard } from '../../actions';
+import { DragDropContext } from 'react-dnd';
 import FichaTouch from './FichaTouch';
 import FichaTouchDragLayer from './FichaTouchDragLayer';
-import '../../styles/mobileControl.css';
-
 import TouchBackend from 'react-dnd-touch-backend'; //eslint-disable-line no-unused-vars
-import HTML5Backend from 'react-dnd-html5-backend'; //eslint-disable-line no-unused-vars
-import { DragDropContext } from 'react-dnd';
-
+// import HTML5Backend from 'react-dnd-html5-backend'; //eslint-disable-line no-unused-vars
 import DropZoneContainer from './dropZoneContainer';
+import '../../styles/mobileControl.css';
 
 const FichaTouchBundler = ({ ficha, player, gameId }) => {
   return (
@@ -81,11 +79,6 @@ const MobileControl = props => {
   }
 };
 
-MobileControl.propTypes = {
-  location: PropTypes.object,
-  dispatch: PropTypes.func
-};
-
 const mapToStateProps = (state, props) => {
   if (!props.location.state) {
     return state;
@@ -98,6 +91,17 @@ const mapToStateProps = (state, props) => {
       player: props.location.state.player
     };
   }
+};
+
+FichaTouchBundler.propTypes = {
+  ficha: PropTypes.object,
+  player: PropTypes.string,
+  gameId: PropTypes.string
+};
+
+MobileControl.propTypes = {
+  location: PropTypes.object,
+  dispatch: PropTypes.func
 };
 
 export default withRouter(
