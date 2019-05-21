@@ -5,52 +5,7 @@ import FichaDisplay from './FichaDisplay';
 
 import { getLeftMostFicha, getRightMostFicha } from '../../helpers/matchers';
 import SpinningFicha from '../../assets/SpinningFicha';
-
-const Overlay = ({ children, placement }) => {
-  const definedMargin = '2.5rem';
-  const marginOffset =
-    placement === 'left'
-      ? { marginRight: definedMargin }
-      : placement === 'right'
-      ? { marginLeft: definedMargin }
-      : null;
-  const gradientOverlay =
-    placement === 'left'
-      ? {
-          backgroundImage: 'linear-gradient(180deg, #ffffff00 , #8db38d)',
-          backgroundColor: 'unset'
-        }
-      : placement === 'right'
-      ? {
-          backgroundImage: 'linear-gradient(180deg, #8db38d, #ffffff00)',
-          backgroundColor: 'unset'
-        }
-      : null;
-  return (
-    <div
-      style={{
-        transform: 'rotate(-90deg)',
-        display: 'inline-block',
-        position: 'relative',
-        top: '-.65rem',
-        ...marginOffset
-      }}
-    >
-      <div
-        style={{
-          backgroundColor: 'rgba(255, 255, 255, 0.25)',
-          zIndex: 1,
-          borderRadius: '0.33em',
-          ...gradientOverlay
-        }}
-      >
-        {React.cloneElement(children, {
-          transform: { zIndex: -1 }
-        })}
-      </div>
-    </div>
-  );
-};
+import Overlay from './Overlay';
 
 const DropZoneContainer = ({ dispatch, fichasInPlay, isActivePlayer }) => {
   let leftMost, rightMost, only;
@@ -67,11 +22,15 @@ const DropZoneContainer = ({ dispatch, fichasInPlay, isActivePlayer }) => {
             >
               <SpinningFicha />
             </DropZone>
-            <p>Place your first piece</p>
+            <p>Place your ficha</p>
           </div>
         ) : (
-          <div className="dragzone-container-waiting">
-            Waiting on player 1 to move...
+          <div>
+            <div className="dragzone-container-waiting">
+              <SpinningFicha />
+            </div>
+
+            <p>Waiting on player 1</p>
           </div>
         )}
       </div>
