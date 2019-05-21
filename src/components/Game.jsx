@@ -5,6 +5,7 @@ import thunkMiddleware from 'redux-thunk';
 import GameLoader from './GameLoader';
 import Selection from './Selection';
 import MobileControl from './MobileControl';
+
 import Display from './Display';
 
 import rootReducer from '../reducers';
