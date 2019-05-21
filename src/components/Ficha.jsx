@@ -20,7 +20,6 @@ function Ficha(props) {
         ...STYLES.activePlayersHand.ficha,
         ...STYLES.fichaStyling[fichaStyling]
       }}
-      className="ficha"
     >
       <Face value={value[0]} />
       <hr style={STYLES.activePlayersHand.line} />
