@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { withRouter, Redirect } from 'react-router-dom';
 import { watchHand, watchGame, watchBoard } from '../../actions';
 import FichaTouch from './FichaTouch';
+import FichaTouchDragLayer from './FichaTouchDragLayer';
 import '../../styles/mobileControl.css';
 
 import TouchBackend from 'react-dnd-touch-backend'; //eslint-disable-line no-unused-vars
@@ -11,6 +12,29 @@ import HTML5Backend from 'react-dnd-html5-backend'; //eslint-disable-line no-unu
 import { DragDropContext } from 'react-dnd';
 
 import DropZoneContainer from './dropZoneContainer';
+
+const FichaTouchBundler = ({ ficha, player, gameId }) => {
+  return (
+    <div style={{ display: 'inline' }}>
+      <FichaTouch
+        fichaStyling={'controllerView'}
+        value={ficha.value}
+        fichaId={ficha.fichaId}
+        key={ficha.fichaId}
+        player={player}
+        gameId={gameId}
+      />
+      <FichaTouchDragLayer
+        fichaStyling={'controllerView'}
+        value={ficha.value}
+        fichaId={`drag_${ficha.fichaId}`}
+        key={`drag_${ficha.fichaId}`}
+        player={player}
+        gameId={gameId}
+      />
+    </div>
+  );
+};
 
 const MobileControl = props => {
   useEffect(() => {
@@ -40,15 +64,13 @@ const MobileControl = props => {
           isActivePlayer={gameStatus.activePlayer === player}
         />
 
-        <div>
-          {Object.values(fichas).map(ficha => (
-            <FichaTouch
-              fichaStyling={'controllerView'}
-              value={ficha.value}
-              fichaId={ficha.fichaId}
-              key={ficha.fichaId}
-              player={player}
+        <div className="mobile-control-fichas-deck">
+          {Object.values(fichas).map((ficha, i) => (
+            <FichaTouchBundler
+              ficha={ficha}
               gameId={gameId}
+              player={player}
+              key={i}
             />
           ))}
         </div>
@@ -79,5 +101,5 @@ const mapToStateProps = (state, props) => {
 };
 
 export default withRouter(
-  DragDropContext(HTML5Backend)(connect(mapToStateProps)(MobileControl))
+  DragDropContext(TouchBackend)(connect(mapToStateProps)(MobileControl))
 );
