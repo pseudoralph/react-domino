@@ -75,9 +75,15 @@ export const STYLES = {
   },
 
   fichaStyling: {
+    dropZoneView: {
+      border: '1px solid #7a7a7a',
+      boxShadow: 'rgb(108, 107, 105) 0.1rem 0.1rem',
+      // bottom: '0',
+      margin: '0'
+    },
     controllerView: {
       border: '1px solid #7a7a7a',
-      boxShadow: 'rgb(108, 107, 105) .15rem -.15rem 0 0'
+      boxShadow: 'rgb(108, 107, 105) 0.1rem 0.1rem'
     },
     fichaInHand: {
       borderBottom: '1px solid #7a7a7a',
@@ -107,7 +113,6 @@ export const STYLES = {
       borderTop: '1px solid #7a7a7a',
       borderLeft: '1px solid #7a7a7a',
       boxShadow: '4px 4px 0px 0px rgb(108, 107, 105)',
-
       transform: 'rotate(-90deg) scale(.85)',
       bottom: 'unset',
       position: 'unset',
@@ -118,14 +123,12 @@ export const STYLES = {
       borderBottom: '1px solid #7a7a7a',
       borderRight: '1px solid #7a7a7a',
       boxShadow: '-4px -4px 0px 0px rgb(108, 107, 105)',
-
       transform: 'rotate(90deg) scale(.85)',
       bottom: 'unset',
       position: 'unset',
       margin: '-40px 30px'
     }
   },
-
   game: {
     display: 'grid',
     gridTemplateRows: '[board] auto [hand] 7em',
@@ -177,9 +180,9 @@ export const STYLES = {
     fichas: { display: 'table', margin: '0 auto' },
     ficha: {
       bottom: '50px',
+      margin: '10px',
       position: 'relative',
       display: 'inline-block',
-      margin: '10px',
       background: 'rgb(255, 253, 235)',
       borderRadius: '0.33em'
     },
