@@ -2,7 +2,6 @@ import React from 'react';
 import { DropTarget } from 'react-dnd';
 import { ItemTypes } from '../../constants/itemTypes';
 import { makeMove } from '../../actions';
-import FichaDisplay from './FichaDisplay';
 
 const dropZoneTarget = {
   drop(props, monitor) {
@@ -16,13 +15,26 @@ const dropZoneTarget = {
 function collect(connect, monitor) {
   return {
     connectDropTarget: connect.dropTarget(),
-    drop: monitor.getItem()
+    drop: monitor.getItem(),
+    isOver: monitor.isOver()
   };
 }
 
-const DropZone = ({ side, connectDropTarget, children, dropStyling }) => {
+const DropZone = ({
+  side,
+  connectDropTarget,
+  children,
+  dropStyling,
+  isOver
+}) => {
   return connectDropTarget(
-    <div id={side} className={dropStyling}>
+    <div
+      id={side}
+      className={dropStyling}
+      style={
+        isOver ? { backgroundColor: '#add1ad' } : { backgroundColor: 'unset' }
+      }
+    >
       {children}
     </div>
   );
