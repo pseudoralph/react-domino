@@ -18,21 +18,23 @@ const fichaSource = {
 function collect(connect, monitor) {
   return {
     connectDragSource: connect.dragSource(),
+    connectDragPreview: connect.dragPreview(),
     isDragging: monitor.isDragging()
   };
 }
 
 function FichaTouch(props) {
-  const { value, fichaStyling, connectDragSource } = props;
+  const { value, fichaStyling, isDragging, connectDragSource } = props;
 
   return connectDragSource(
     <div
       style={{
         ...STYLES.activePlayersHand.ficha,
         ...STYLES.fichaStyling[fichaStyling],
-        bottom: 0
+        bottom: 0,
+        opacity: isDragging ? 0 : 1,
+        height: isDragging ? 0 : ''
       }}
-      className="ficha"
     >
       <Face value={value[0]} />
       <hr style={STYLES.activePlayersHand.line} />
