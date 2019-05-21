@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Face from '../Face';
 import { STYLES } from '../../assets/styling';
-
 import '../../styles/ficha.css';
 
 function FichaDisplay({ value, fichaStyling, transform }) {
@@ -14,7 +13,6 @@ function FichaDisplay({ value, fichaStyling, transform }) {
         ...transform,
         bottom: 0
       }}
-      className="ficha"
     >
       <Face value={value[0]} />
       <hr style={STYLES.activePlayersHand.line} />
