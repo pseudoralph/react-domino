@@ -1,6 +1,11 @@
 import React from 'react';
 import ClassicMode from './classicMode';
 import MultiMode from './multiMode';
+import '../../styles/selection.css';
+
+const isMobile = () => {
+  return /(iphone|ipad)/i.test(navigator.userAgent);
+};
 
 const Selection = () => {
   const handleInfoVis = htmlRef => {
@@ -11,8 +16,8 @@ const Selection = () => {
   return (
     <div className="selection-wrapper">
       <h1>Select a game mode</h1>
-      <div>
-        <ClassicMode handleInfoVis={handleInfoVis} />
+      <div className="selection-centered">
+        {!isMobile() && <ClassicMode handleInfoVis={handleInfoVis} />}
         <MultiMode handleInfoVis={handleInfoVis} />
       </div>
     </div>

@@ -7,6 +7,11 @@ a {
   height: 100vh;
 }
 
+.selection-centered {
+  display: table;
+  margin: 0 auto;
+}
+
 .selection-wrapper > h1 {
   font-weight: 400;
   color: rgb(35 35 35);
@@ -31,9 +36,6 @@ a {
 
 .selection-box {
   position: relative;
-  /* box-shadow: rgba(64, 78, 67, 0.55) 1px 1px 4px 0px;
-  border-radius: 0.5em;
-  background: rgba(152, 179, 152, 0.9); */
   margin: 1em;
   display: inline-block;
   width: calc(50% - 2em);
@@ -43,10 +45,10 @@ a {
   max-width: 30em;
 }
 
-p {
+.selection-option p {
   color: white;
-  padding: 0;
-  margin: 0;
+  /* padding: 0;
+  margin: 0; */
   font-weight: 100;
 }
 
@@ -66,7 +68,8 @@ p {
 }
 
 .selection-img {
-  width: 15em;
+  margin-top: 2em;
+  width: calc(100% - 7em);
 }
 
 .selection-button {

@@ -6,7 +6,7 @@ import { startGame, grabFichas } from '../../actions';
 
 import { Link, Redirect } from 'react-router-dom';
 import info from '../../assets/icons/info.svg';
-import '../../styles/selection.css';
+// import '../../styles/selection.css';
 
 const MultiMode = ({ handleInfoVis, dispatch }) => {
   const [gameState, setGameState] = useState({});

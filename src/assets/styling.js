@@ -39,10 +39,10 @@ export const STYLES = {
         color: 'rgb(255, 255, 255)',
         backgroundColor: 'rgb(64, 78, 67)',
         border: '1px solid transparent',
-        padding: '0.375rem 0.75rem',
-        fontSize: '1rem',
+        padding: '0.375em 0.75em',
+        fontSize: '1em',
         lineHeight: '1.5',
-        borderRadius: '0.25rem',
+        borderRadius: '0.25em',
         width: '66%'
       },
       cursor: 'pointer',
@@ -52,10 +52,10 @@ export const STYLES = {
       backgroundColor: 'rgb(64, 78, 67)',
       borderColor: '#1e7e34',
       border: '1px solid transparent',
-      padding: '.375rem .75rem',
-      fontSize: '1rem',
+      padding: '.375em .75em',
+      fontSize: '1em',
       lineHeight: '1.5',
-      borderRadius: '.25rem'
+      borderRadius: '.25em'
     },
     input: {
       textAlign: 'center',
@@ -68,13 +68,22 @@ export const STYLES = {
       color: 'rgb(73, 80, 87)',
       backgroundColor: 'rgb(255, 255, 255)',
       border: '1px solid rgb(206, 212, 218)',
-      borderRadius: '0.25rem',
+      borderRadius: '0.25em',
       boxSizing: 'border-box',
       margin: '0 auto'
     }
   },
-
   fichaStyling: {
+    dropZoneView: {
+      border: '1px solid #7a7a7a',
+      boxShadow: 'rgb(108, 107, 105) 0.1em 0.1em',
+      // bottom: '0',
+      margin: '0'
+    },
+    controllerView: {
+      border: '1px solid #7a7a7a',
+      boxShadow: 'rgb(108, 107, 105) 0.1em 0.1em'
+    },
     fichaInHand: {
       borderBottom: '1px solid #7a7a7a',
       borderLeft: '1px solid #7a7a7a',
@@ -96,32 +105,29 @@ export const STYLES = {
       transform: 'rotate(0deg) scale(.85)',
       bottom: 'unset',
       position: 'unset',
-      margin: '-25px 55px'
+      margin: '-15px 55px'
     },
     fichaOnBoardMinus90: {
       // horiz positions -3 through 4
       borderTop: '1px solid #7a7a7a',
       borderLeft: '1px solid #7a7a7a',
       boxShadow: '4px 4px 0px 0px rgb(108, 107, 105)',
-
       transform: 'rotate(-90deg) scale(.85)',
       bottom: 'unset',
       position: 'unset',
-      margin: '-40px 30px'
+      margin: '-10px 30px'
     },
     fichaOnBoardPlus90: {
       // horiz positions -12 through -5 and 6 through 13
       borderBottom: '1px solid #7a7a7a',
       borderRight: '1px solid #7a7a7a',
       boxShadow: '-4px -4px 0px 0px rgb(108, 107, 105)',
-
       transform: 'rotate(90deg) scale(.85)',
       bottom: 'unset',
       position: 'unset',
-      margin: '-40px 30px'
+      margin: '-6px 0px -14px 32px'
     }
   },
-
   game: {
     display: 'grid',
     gridTemplateRows: '[board] auto [hand] 7em',
@@ -173,28 +179,26 @@ export const STYLES = {
     fichas: { display: 'table', margin: '0 auto' },
     ficha: {
       bottom: '50px',
+      margin: '.7em',
       position: 'relative',
       display: 'inline-block',
-      margin: '10px',
       background: 'rgb(255, 253, 235)',
       borderRadius: '0.33em'
     },
     face: {
-      padding: '10px',
-      width: '50px',
+      padding: '.62em',
       gridTemplateColumns: 'repeat(3,1 fr)',
       gridTemplateRows: 'repeat(3, 1 fr)',
-      gridColumnGap: '5px',
-      gridRowGap: '5px',
+      gap: '.32em',
       display: 'inline-grid',
       cursor: 'pointer'
     },
     dot: {
-      height: '13px',
-      width: '13px'
+      height: '.66em',
+      width: '.66em'
     },
     line: {
-      margin: '0 5px'
+      margin: '0 .33em'
     },
     backgroundImage:
       'linear-gradient(to right, rgb(173, 208, 173) , rgb(141, 179, 141), rgb(173, 208, 173))',
