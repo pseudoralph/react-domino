@@ -38,7 +38,7 @@ a {
   position: relative;
   margin: 1em;
   display: inline-block;
-  width: calc(50% - 2em);
+  /* width: calc(50% - 2em); */
   padding: 2em;
   box-sizing: border-box;
   text-align: center;
