@@ -1,48 +1,17 @@
 import React, { useState } from 'react';
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 import randomWords from 'random-words'; //eslint-disable-line no-unused-vars
 import { connect } from 'react-redux';
 import { startGame, grabFichas } from '../../actions';
 
-import { Link, Redirect } from 'react-router-dom';
-import info from '../../assets/icons/info.svg';
-// import '../../styles/selection.css';
+import { Redirect } from 'react-router-dom';
+import { styling } from './styling';
+import ConnectToDisplay from './connectDisplay';
 
-const MultiMode = ({ handleInfoVis, dispatch }) => {
+const MultiMode = ({ dispatch }) => {
   const [gameState, setGameState] = useState({});
 
-  const joinGameEntry = React.createRef();
   const gameCodeUserInput = React.createRef();
-
-  const styling = {
-    box: {
-      position: 'relative',
-      boxShadow: 'rgba(64, 78, 67, 0.55) 1px 1px 4px 0px',
-      borderRadius: '0.5em',
-      background: 'rgba(152, 179, 152, 0.9)',
-      marginBottom: '1em',
-      display: 'inline-block',
-      width: '100%',
-      padding: '2em',
-      boxSizing: 'border-box',
-      textAlign: 'center',
-      maxWidth: '30em'
-    },
-    inlineButton: {
-      display: 'inline',
-      position: 'absolute',
-      margin: '0',
-      top: '.4em',
-      right: '2em'
-    }
-  };
-
-  const handleJoinGameEntryVisibility = () => {
-    joinGameEntry.current.style.visibility =
-      joinGameEntry.current.style.visibility === 'hidden'
-        ? 'visible'
-        : 'hidden';
-  };
 
   const handleIsHosting = () => {
     const randomGameId = randomWords(2).join('-');
@@ -50,7 +19,8 @@ const MultiMode = ({ handleInfoVis, dispatch }) => {
 
     setGameState({
       gameId: randomGameId,
-      player
+      player,
+      mode: 'controller'
     });
 
     dispatch(startGame(randomGameId));
@@ -63,16 +33,36 @@ const MultiMode = ({ handleInfoVis, dispatch }) => {
       const joinCode = gameCodeUserInput.current.value;
       const player = 'p2';
 
-      setGameState({ gameId: joinCode, player });
+      setGameState({ gameId: joinCode, player, mode: 'controller' });
       dispatch(grabFichas(joinCode, player));
     }
   };
 
-  if (gameState.gameId) {
+  const handleDisplayConnect = gameCode => {
+    //eslint-disable-next-line no-extra-boolean-cast
+    if (!!gameCode.current.value) {
+      const joinCode = gameCode.current.value;
+      // const player = 'p2';
+
+      setGameState({ gameId: joinCode, mode: 'display' });
+      // dispatch(grabFichas(joinCode, player));
+    }
+  };
+
+  if (gameState.gameId && gameState.mode === 'controller') {
     return (
       <Redirect
         to={{
           pathname: '/controller',
+          state: gameState
+        }}
+      />
+    );
+  } else if (gameState.gameId && gameState.mode === 'display') {
+    return (
+      <Redirect
+        to={{
+          pathname: '/display',
           state: gameState
         }}
       />
@@ -82,24 +72,13 @@ const MultiMode = ({ handleInfoVis, dispatch }) => {
       <div className="selection-box">
         <div style={styling.box}>
           <h3>Controller</h3>
-          <button
-            style={{ display: 'inline-block', marginRight: '2em' }}
-            className="selection-button"
-            onClick={handleIsHosting}
-          >
-            Host Game
+          <button className="selection-button" onClick={handleIsHosting}>
+            Host
           </button>
-          <button
-            style={{ display: 'inline-block' }}
-            className="selection-button"
-            onClick={handleJoinGameEntryVisibility}
-          >
-            Join Game
-          </button>
-          <div
-            ref={joinGameEntry}
-            style={{ visibility: 'hidden', position: 'relative' }}
-          >
+
+          <hr />
+
+          <div style={{ position: 'relative' }}>
             <input
               className="slection-input"
               type="text"
@@ -114,18 +93,14 @@ const MultiMode = ({ handleInfoVis, dispatch }) => {
             </button>
           </div>
         </div>
-        <div style={styling.box}>
-          <p>
-            <Link to="/display">Display</Link>
-          </p>
-        </div>
+        <ConnectToDisplay handleDisplayConnect={handleDisplayConnect} />
       </div>
     );
   }
 };
 
-MultiMode.propTypes = {
-  handleInfoVis: PropTypes.func
-};
+// MultiMode.propTypes = {
+//   handleInfoVis: PropTypes.func
+// };
 
 export default connect()(MultiMode);
