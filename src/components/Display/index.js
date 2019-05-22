@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
 import { watchGame, watchBoard } from '../../actions';
 
 const Display = props => {
@@ -21,20 +20,16 @@ const Display = props => {
   }
 };
 
-Display.propTypes = {};
+const mapToStateProps = (state, props) => {
+  if (!props.location.state) {
+    return state;
+  } else {
+    return {
+      fichasInPlay: state.fichasInPlay,
+      gameStatus: state.gameStatus,
+      gameId: props.location.state.gameId
+    };
+  }
+};
 
-// const mapToStateProps = (state, props) => {
-//   if (!props.location.state) {
-//     return state;
-//   } else {
-//     return {
-//       fichasInPlay: state.fichasInPlay,
-//       fichas: state.players[props.location.state.player],
-//       gameStatus: state.gameStatus,
-//       gameId: props.location.state.gameId,
-//       player: props.location.state.player
-//     };
-//   }
-// };
-
-export default connect()(Display);
+export default connect(mapToStateProps)(Display);
