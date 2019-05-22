@@ -45,7 +45,7 @@ export const watchGame = gameId => {
   };
 };
 
-export const startGame = gameId => {
+export const startGame = (gameId, mode = 'classic') => {
   const uplayedFichas = gameStart();
   const readySet = {};
 
@@ -62,7 +62,8 @@ export const startGame = gameId => {
         gameStatus: {
           startTime: new Date(),
           activePlayer: 'p1',
-          firstMoveMade: false
+          firstMoveMade: false,
+          mode
         }
       });
   };
