@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { watchGame, watchBoard } from '../../actions';
+import DisplayBoardOnly from './DisplayBoardOnly';
 
 const Display = props => {
   useEffect(() => {
@@ -14,7 +15,9 @@ const Display = props => {
   }, []);
 
   if (props.location.state) {
-    return <div>display module</div>;
+    return (
+      <DisplayBoardOnly fichas={props.fichasInPlay} gameId={props.gameId} />
+    );
   } else {
     return <Redirect to="/" />;
   }
