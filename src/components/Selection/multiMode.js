@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-// import PropTypes from 'prop-types';
-import randomWords from 'random-words'; //eslint-disable-line no-unused-vars
+import randomWords from 'random-words';
 import { connect } from 'react-redux';
 import { startGame, grabFichas } from '../../actions';
 
@@ -23,14 +22,14 @@ const MultiMode = ({ dispatch }) => {
       mode: 'controller'
     });
 
-    dispatch(startGame(randomGameId));
+    dispatch(startGame(randomGameId, 'controller'));
     dispatch(grabFichas(randomGameId, player));
   };
 
   const handleIsJoining = () => {
     //eslint-disable-next-line no-extra-boolean-cast
     if (!!gameCodeUserInput.current.value) {
-      const joinCode = gameCodeUserInput.current.value;
+      const joinCode = gameCodeUserInput.current.value.toLowerCase();
       const player = 'p2';
 
       setGameState({ gameId: joinCode, player, mode: 'controller' });
@@ -41,11 +40,8 @@ const MultiMode = ({ dispatch }) => {
   const handleDisplayConnect = gameCode => {
     //eslint-disable-next-line no-extra-boolean-cast
     if (!!gameCode.current.value) {
-      const joinCode = gameCode.current.value;
-      // const player = 'p2';
-
+      const joinCode = gameCode.current.value.toLowerCase();
       setGameState({ gameId: joinCode, mode: 'display' });
-      // dispatch(grabFichas(joinCode, player));
     }
   };
 
@@ -98,9 +94,5 @@ const MultiMode = ({ dispatch }) => {
     );
   }
 };
-
-// MultiMode.propTypes = {
-//   handleInfoVis: PropTypes.func
-// };
 
 export default connect()(MultiMode);
