@@ -6,9 +6,9 @@
   "scripts": {
     "build": "webpack --config webpack.prod.js --env.production -p",
     "start": "webpack-dev-server --config webpack.dev.js --open",
+    "start-ext": "webpack-dev-server --config webpack.dev.js --host 0.0.0.0",
     "lint": "eslint 'src/**'; exit 0",
-    "lint-fix": "eslint 'src/**' --fix; exit 0",
-    "deploy": "mv -f ./build/* ./; rm -rf ./build; git add .; git commit -m \"prepare deploy to gh-pages\"; git push origin gh-pages"
+    "lint-fix": "eslint 'src/**' --fix; exit 0"
   },
   "author": "Ralph Perdomo",
   "license": "ISC",
@@ -18,6 +18,8 @@
     "prop-types": "15.7.1",
     "random-words": "1.1.0",
     "react": "16.8.1",
+    "react-dnd": "^7.4.5",
+    "react-dnd-touch-backend": "^0.8.1",
     "react-dom": "16.8.1",
     "react-redux": "6.0.1",
     "react-router-dom": "4.3.1",
@@ -33,6 +35,7 @@
     "babel-loader": "8.0.5",
     "babel-minify-webpack-plugin": "0.3.1",
     "clean-webpack-plugin": "1.0.1",
+    "css-loader": "^2.1.1",
     "eslint": "5.13.0",
     "eslint-config-prettier": "4.0.0",
     "eslint-loader": "2.1.2",
@@ -40,6 +43,7 @@
     "file-loader": "3.0.1",
     "html-webpack-plugin": "3.2.0",
     "react-hot-loader": "4.6.5",
+    "style-loader": "^0.23.1",
     "terser-webpack-plugin": "1.2.3",
     "url-loader": "1.1.2",
     "webpack": "4.29.3",
@@ -48,6 +52,8 @@
     "webpack-dev-server": "3.1.14"
   },
   "eslintIgnore": [
-    "*.png"
+    "*.png",
+    "*.svg",
+    "*.css"
   ]
 }
