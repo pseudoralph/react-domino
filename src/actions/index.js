@@ -40,7 +40,9 @@ export const watchGame = gameId => {
       .database()
       .ref(`${gameId}/gameStatus`)
       .on('child_changed', data => {
-        dispatch(getUpdatedGameState(data.val(), gameId));
+        typeof data.val() === 'string'
+          ? dispatch(getUpdatedGameState(data.val(), gameId))
+          : null;
       });
   };
 };
