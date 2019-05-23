@@ -4,7 +4,7 @@ import MultiMode from './multiMode';
 import '../../styles/selection.css';
 
 const isMobile = () => {
-  return /(iphone|ipad)/i.test(navigator.userAgent);
+  return /(iphone|ipad|android)/i.test(navigator.userAgent);
 };
 
 const Selection = () => {
