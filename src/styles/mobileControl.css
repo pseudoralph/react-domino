@@ -57,6 +57,16 @@
   margin: 0 auto;
 }
 
+div.stop-start-player-status {
+  display: inline-block;
+  position: fixed;
+  bottom: 1em;
+  right: 1em;
+  width: 0.8rem;
+  height: 0.8rem;
+  border-radius: 100%;
+}
+
 @keyframes spinning-ficha-icon {
   0% {
     transform: rotate(0);

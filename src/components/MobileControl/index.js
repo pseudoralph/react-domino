@@ -46,6 +46,15 @@ const MobileControl = props => {
     }
   }, []);
 
+  const red = {
+    backgroundColor: '#a27a7a',
+    boxShadow: 'inset 0px 0px 8px #752a2a'
+  };
+  const green = {
+    backgroundColor: '#7aa27a',
+    boxShadow: 'inset 0px 0px 8px #2a7541'
+  };
+
   if (props.location.state && props.fichas) {
     const {
       fichas,
@@ -57,6 +66,12 @@ const MobileControl = props => {
     } = props;
     return (
       <div className="mobile-control-wrapper">
+        <div
+          className="stop-start-player-status"
+          style={gameStatus.activePlayer === player ? green : red}
+        >
+          &nbsp;
+        </div>
         <button
           onClick={() => {
             gameStatus.activePlayer === player
