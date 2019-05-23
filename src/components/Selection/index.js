@@ -11,7 +11,7 @@ const Selection = () => {
   return (
     <div className="selection-wrapper">
       <h1>Select a game mode</h1>
-      <div className="selection-centered">
+      <div className="selection-flex">
         {!isMobile() && <ClassicMode />}
         <MultiMode />
       </div>

@@ -6,6 +6,7 @@ import { startGame, grabFichas } from '../../actions';
 import { Redirect } from 'react-router-dom';
 import { styling } from './styling';
 import ConnectToDisplay from './connectDisplay';
+import controllerImage from '../../assets/img/controller.png';
 
 const MultiMode = ({ dispatch }) => {
   const [gameState, setGameState] = useState({});
@@ -65,14 +66,17 @@ const MultiMode = ({ dispatch }) => {
     );
   } else {
     return (
-      <div className="selection-box">
-        <div style={styling.box}>
-          <h3>Controller</h3>
-          <button className="selection-button" onClick={handleIsHosting}>
+      <div className="selection-option-multi">
+        <div className="selection-option-multi-box">
+          <img src={controllerImage} alt="controller mode" className="iphone" />
+          <button className="selection-button-host" onClick={handleIsHosting}>
             Host
           </button>
-
-          <hr />
+          <p>
+            Mobile dominos game play. Play with an iPhone or Android phone. To
+            start a game, simply click host and share the game code with a
+            friend.
+          </p>
 
           <div style={{ position: 'relative' }}>
             <input

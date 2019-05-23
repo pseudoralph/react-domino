@@ -5,14 +5,10 @@ import classic from '../../assets/img/classic-mode.png';
 
 const ClassicMode = () => {
   return (
-    <div className="selection-option">
+    <div className="selection-option-classic">
       <div>
+        <img src={classic} className="imac" alt="classid gameplay mode" />
         <Link to="/classic">
-          <img
-            src={classic}
-            className="selection-img"
-            alt="classid gameplay mode"
-          />
           <button className="selection-button">Classic</button>
         </Link>
         <p className="selection-info-p">
