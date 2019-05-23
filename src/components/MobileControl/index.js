@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter, Redirect } from 'react-router-dom';
-import { watchHand, watchGame, watchBoard } from '../../actions';
+import { watchHand, watchGame, watchBoard, skipPlayer } from '../../actions';
 import { DragDropContext } from 'react-dnd';
 import FichaTouch from './FichaTouch';
 import FichaTouchDragLayer from './FichaTouchDragLayer';
@@ -10,6 +10,7 @@ import TouchBackend from 'react-dnd-touch-backend'; //eslint-disable-line no-unu
 // import HTML5Backend from 'react-dnd-html5-backend'; //eslint-disable-line no-unused-vars
 import DropZoneContainer from './dropZoneContainer';
 import '../../styles/mobileControl.css';
+import skip from '../../assets/icons/skip.svg';
 
 const FichaTouchBundler = ({ ficha, player, gameId }) => {
   return (
@@ -56,6 +57,22 @@ const MobileControl = props => {
     } = props;
     return (
       <div className="mobile-control-wrapper">
+        <button
+          onClick={() => {
+            gameStatus.activePlayer === player
+              ? dispatch(skipPlayer(player, gameId))
+              : null;
+          }}
+          style={{
+            position: 'fixed',
+            backgroundColor: 'unset',
+            border: '0',
+            padding: '0',
+            right: '1.3em'
+          }}
+        >
+          <img src={skip} alt="skip" style={{ width: '3em' }} />
+        </button>
         <DropZoneContainer
           fichasInPlay={fichasInPlay}
           dispatch={dispatch}
