@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter, Redirect } from 'react-router-dom';
@@ -11,6 +11,7 @@ import TouchBackend from 'react-dnd-touch-backend'; //eslint-disable-line no-unu
 import DropZoneContainer from './dropZoneContainer';
 import '../../styles/mobileControl.css';
 import skip from '../../assets/icons/skip.svg';
+import closeSolid from '../../assets/icons/closeSolid.svg';
 
 const FichaTouchBundler = ({ ficha, player, gameId }) => {
   return (
@@ -36,6 +37,8 @@ const FichaTouchBundler = ({ ficha, player, gameId }) => {
 };
 
 const MobileControl = props => {
+  const [showGameCode, setShowGameCode] = useState('block');
+
   useEffect(() => {
     if (props.location.state) {
       const { gameId, player } = props.location.state;
@@ -66,12 +69,22 @@ const MobileControl = props => {
     } = props;
     return (
       <div className="mobile-control-wrapper">
+        {player === 'p1' && (
+          <div
+            className="game-id-interstitial"
+            style={{ display: showGameCode }}
+          >
+            {gameId}
+            <button onClick={() => setShowGameCode('none')}>
+              <img src={closeSolid} alt="close" style={{ width: '4em' }} />
+            </button>
+          </div>
+        )}
         <div
           className="stop-start-player-status"
           style={gameStatus.activePlayer === player ? green : red}
-        >
-          &nbsp;
-        </div>
+        />
+        <div className="game-id-static">{gameId}</div>
         <button
           onClick={() => {
             gameStatus.activePlayer === player

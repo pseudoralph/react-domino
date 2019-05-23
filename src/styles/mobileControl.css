@@ -67,6 +67,41 @@ div.stop-start-player-status {
   border-radius: 100%;
 }
 
+div.game-id-interstitial {
+  z-index: 999;
+  height: 100vh;
+  left: 0;
+  margin: 0 auto;
+  width: 100%;
+  color: #e3e3e3;
+  background-color: rgba(0, 0, 0, 0.66);
+  position: fixed;
+  text-align: center;
+  font-size: 3.3em;
+  font-family: monospace;
+  top: 0;
+  padding: 2.6em 0;
+}
+
+div.game-id-interstitial button {
+  border: 0;
+  position: fixed;
+  top: 1em;
+  right: 1em;
+  background-color: unset;
+  padding: 0;
+}
+
+div.game-id-static {
+  position: fixed;
+  bottom: 1em;
+  right: 3em;
+  text-align: right;
+  font-family: monospace;
+  font-size: 0.9em;
+  color: white;
+}
+
 @keyframes spinning-ficha-icon {
   0% {
     transform: rotate(0);
