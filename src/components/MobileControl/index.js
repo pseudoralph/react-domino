@@ -7,7 +7,6 @@ import { DragDropContext } from 'react-dnd';
 import FichaTouch from './FichaTouch';
 import FichaTouchDragLayer from './FichaTouchDragLayer';
 import TouchBackend from 'react-dnd-touch-backend'; //eslint-disable-line no-unused-vars
-// import HTML5Backend from 'react-dnd-html5-backend'; //eslint-disable-line no-unused-vars
 import DropZoneContainer from './dropZoneContainer';
 import '../../styles/mobileControl.css';
 import skip from '../../assets/icons/skip.svg';
