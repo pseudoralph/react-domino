@@ -16,7 +16,11 @@ const Display = props => {
 
   if (props.location.state) {
     return (
-      <DisplayBoardOnly fichas={props.fichasInPlay} gameId={props.gameId} />
+      <DisplayBoardOnly
+        fichas={props.fichasInPlay}
+        gameId={props.gameId}
+        gameStatus={props.gameStatus}
+      />
     );
   } else {
     return <Redirect to="/" />;
