@@ -1,13 +1,14 @@
 import * as types from './actionTypes';
 import firebaseConf from '../../.env';
 import gameStart from './gameStart';
-import { fichasGrid } from './fichasGrid';
+import { fichasGrid, fichasGridDisplay } from './fichasGrid';
 
 const constants = {
   types,
   firebaseConf,
   gameStart,
-  fichasGrid
+  fichasGrid,
+  fichasGridDisplay
 };
 
 export default constants;

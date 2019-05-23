@@ -40,12 +40,14 @@ export const watchGame = gameId => {
       .database()
       .ref(`${gameId}/gameStatus`)
       .on('child_changed', data => {
-        dispatch(getUpdatedGameState(data.val(), gameId));
+        typeof data.val() === 'string'
+          ? dispatch(getUpdatedGameState(data.val(), gameId))
+          : null;
       });
   };
 };
 
-export const startGame = gameId => {
+export const startGame = (gameId, mode = 'classic') => {
   const uplayedFichas = gameStart();
   const readySet = {};
 
@@ -62,7 +64,8 @@ export const startGame = gameId => {
         gameStatus: {
           startTime: new Date(),
           activePlayer: 'p1',
-          firstMoveMade: false
+          firstMoveMade: false,
+          mode
         }
       });
   };

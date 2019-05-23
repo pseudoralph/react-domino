@@ -2,16 +2,15 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Face from '../Face';
 import { STYLES } from '../../assets/styling';
+import { STYLES as TRANSFORM } from './styling';
 import '../../styles/ficha.css';
 
-function FichaDisplay({ value, fichaStyling, transform }) {
+function FichaDisplay({ value, fichaStyling }) {
   return (
     <div
       style={{
         ...STYLES.activePlayersHand.ficha,
-        ...STYLES.fichaStyling[fichaStyling],
-        ...transform,
-        bottom: 0
+        ...TRANSFORM.fichaStyling[fichaStyling]
       }}
     >
       <Face value={value[0]} />
